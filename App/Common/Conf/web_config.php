@@ -1,0 +1,1 @@
+<?php	return array ( 'sitename' => '悦筹', 'domain' => 'http://www.happychou.net', 'logo' => '/uploads/3/20151119/happychou_1447913002444.png', 'title' => '全国首个智能化互联网私募股权融资平台', 'keywords' => '股权众筹，互联网私募融资平台，私募融资', 'desc' => '全国首个互联网私募股权融资平台', 'huancun' => '3600', 'upload_exts' => '', 'rootPath' => '', 'URL_MODEL' => '2', );?>
