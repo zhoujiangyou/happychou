@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>
+        <Zml:title/>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="__PUBLIC__/css/pintuer.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.css">
+    <script src="__PUBLIC__/js/jquery-1.8.3.min.js"></script>
+    <script src="__PUBLIC__/js/pintuer.js"></script>
+    <script src="__PUBLIC__/js/respond.js"></script>
+    <script src="__PUBLIC__/lib/layer/layer.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/lib/validform/Validform.min.js"></script>
+    <link href="__PUBLIC__/lib/validform/style.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/lib/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/lib/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/lib/ueditor/lang/zh-cn/zh-cn.js"></script>
+</head>
+<body>
+<div class="x12 border-bottom padding">
+    <ul class="bread">
+        <li><a href="javascript:history.go(-1)" class="icon-home"> 返回列表</a></li>
+    </ul>
+</div>
+<div class="x12 padding" >
+    <form class="form-x form-block" action="#" method="post" >
+        <div class="form-group x12">
+            <div class="label"><label for="content">回报封面</label></div>
+            <div class="field x12">
+                <div class="input-group padding-little-top x8">
+                    <input type="text" class="input border-sub box-shadow-none radius-none" id="picture" name="img"  placeholder="" value="{$return_img['image']}">
+                    <span class="addbtn">
+                        <a href="javascript:void(0);" class="button input-file bg-sub" onclick="upImage();">+ 上传图片</a>
+                    </span>
+                </div>
+                <div class="x4 padding-little">
+                    <img id="preview" src="{$return_img['image']}" width="34" height="34" class="radius-big" style="cursor:pointer" />
+                </div>
+                <script type="text/plain" id="upload_ue"></script>
+            </div>
+        </div>
+        <div class="form-group x12">
+            <div class="label"><label for="title">项目类型*</label></div>
+            <div class="field x5">
+                <input type="radio"  name="type" value="0" <if condition="$item['type'] eq 0">checked</if>/>产品回报
+                <input type="radio" name="type" value="1"  <if condition="$item['type'] eq 1">checked</if>/>无私奉献
+            </div>
+        </div>
+        <div class="form-group x12">
+            <div class="label"><label for="title">支持价格</label></div>
+            <div class="field x5">
+                <input type="text" class="input box-shadow-none radius-none" name="price" size="50"  placeholder="0.00" data-type="*" value="{$item['price']}"/>
+            </div>
+        </div>
+        <div class="form-group x12">
+            <div class="label"><label for="title">简介</label></div>
+            <div class="field x5">
+                <textarea class="input box-shadow-none radius-none" name="description" rows="5" cols="50" placeholder="回报简介">{$item['description']}</textarea>
+            </div>
+        </div>
+
+        <div class="form-group x12">
+            <div class="label"><label for="content">是否需要配送</label></div>
+            <div class="field x12">          
+               <select name="is_delivery">
+                   <option value="0"  <if condition="$item['is_delivery'] eq 0">selected</if>>否</option>
+                   <option value="1" <if condition="$item['is_delivery'] eq 1">selected</if>>是</option>
+               </select>
+            </div>
+        </div>
+        <if condition="$item['is_delivery'] eq 1">
+        <div class="form-group x12" >
+            <div class="label"><label for="title">运费</label></div>
+            <div class="field x5">
+                <input type="text" class="input box-shadow-none radius-none" name="delivery_fee" size="50"  placeholder="0.00" value="{$item['delivery_fee']}"/>
+            </div>
+        </div>
+            <else/>
+            <div class="form-group x12" id="delivery_fee">
+                <div class="label"><label for="title">运费</label></div>
+                <div class="field x5">
+                    <input type="text" class="input box-shadow-none radius-none" name="delivery_fee" size="50"  placeholder="0.00" />
+                </div>
+            </div>
+        </if>
+
+        <div class="form-group x12">
+            <div class="label"><label for="content">是否限购</label></div>
+            <div class="field x12">
+                <select name="is_limit_user">
+                    <option value="0" <if condition="$item['is_limit_user'] eq 0">selected</if>>否</option>
+                    <option value="1" <if condition="$item['is_limit_user'] eq 1">selected</if>>是</option>
+                </select>
+            </div>
+        </div>
+        <if condition="$item['is_limit_user'] eq 1">
+        <div class="form-group x12">
+            <div class="label"><label for="title">限购人数</label></div>
+            <div class="field x5">
+                <input type="number" class="input box-shadow-none radius-none" name="limit_user" size="50"  placeholder="限购人数" value="{$item['limit_user']}"/>
+            </div>
+        </div>
+            <else/>
+            <div class="form-group x12" id="limit_user">
+                <div class="label"><label for="title">限购人数</label></div>
+                <div class="field x5">
+                    <input type="number" class="input box-shadow-none radius-none" name="limit_user" size="50"  placeholder="限购人数" />
+                </div>
+            </div>
+            </if>
+
+        <div class="form-group x12">
+            <div class="label"><label for="content">是否分红</label></div>
+            <div class="field x12">
+                <select name="is_share">
+                    <option value="0" <if condition="$item['is_share'] eq 0">selected</if>>否</option>
+                    <option value="1" <if condition="$item['is_share'] eq 1">selected</if>>是</option>
+                </select>
+            </div>
+        </div>
+        <if condition="$item['is_share'] eq 1">
+            <div class="form-group x12">
+                <div class="label"><label for="title">分红金额</label></div>
+                <div class="field x5">
+                    <input type="text" class="input box-shadow-none radius-none" name="share_fee" size="50"  placeholder="0.00" value="{$item['share_fee']}"/>
+                </div>
+            </div>
+        <else/>
+            <div class="form-group x12" id="share_fee">
+                <div class="label"><label for="title">分红金额</label></div>
+                <div class="field x5">
+                    <input type="text" class="input box-shadow-none radius-none" name="share_fee" size="50"  placeholder="0.00"/>
+                </div>
+            </div>
+         </if>
+
+        <div class="form-group x12">
+            <div class="label"><label for="username">成功后回报天数</label></div>
+            <div class="field x1">
+                <input type="number" min="0" class="input box-shadow-none radius-none" name="repaid_day" datatype="*" value="{$item['repaid_day']}"/>
+            </div>
+        </div>
+        <div class="form-group x12">
+            <div class="label"><label for="author">虚拟购买人数</label></div>
+            <div class="field x5">
+                <input type="number" class="input box-shadow-none radius-none" name="virtual_person" size="50"  placeholder="当为0或者不填写时不启用虚拟购买人数" value="{$item['virtual_person']}"/>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="margin-big-top text-center bg padding">
+            <button class="btn button bg-sub" type="button" onclick="add_return()"> 确 定 发 布</button>
+        </div>
+    </form>
+
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+    //设置显示输入框
+    $(function () {
+        var delivery =  $("select[name='is_delivery']");
+        var limit_user = $("select[name='is_limit_user']");
+        var share = $("select[name='is_share']");
+        delivery.change(function () {
+            if(delivery.val() == 1){
+                $("#delivery_fee").css("display","block");
+            }else{
+                $("#delivery_fee").css("display","none");
+            }
+        });
+        limit_user.change(function () {
+            if(limit_user.val() == 1){
+                $("#limit_user").css("display","block");
+            }else{
+                $("#limit_user").css("display","none");
+            }
+        });
+        share.change(function () {
+            if(share.val() == 1){
+                $("#share_fee").css("display","block");
+            }else{
+                $("#share_fee").css("display","none");
+            }
+        });
+
+    });
+    //上传独立使用
+    var _editor = UE.getEditor('upload_ue',{
+        serverUrl:'{:U("Admin/Upload/index")}',
+        toolbars:[[
+            'insertimage',
+        ]]
+    });
+    _editor.ready(function () {
+        _editor.hide();
+        _editor.addListener('beforeInsertImage', function (t, arg) {     //侦听图片上传
+            $("#picture").attr("value", arg[0].src);                      //将地址赋值给相应的input
+            $("#preview").attr("src", arg[0].src);
+        })
+    });
+function upImage() {
+    var myImage = _editor.getDialog("insertimage");
+    myImage.open();
+}
+function upFiles() {
+    var myFiles = _editor.getDialog("attachment");
+    myFiles.open();
+}
+
+function add_return(){
+    var type=$("input[name='type']:checked");
+    var price=$("input[name='price']");
+    var description=$("textarea[name='description']").val();
+    var img=$("input[name='img']").val();
+    var virtual_person=$("input[name='virtual_person']").val();
+    var is_delivery =  $("select[name='is_delivery']");
+    var is_limit_user = $("select[name='is_limit_user']");
+    var is_share = $("select[name='is_share']");
+    var delivery_fee=$("input[name='delivery_fee']");
+    var limit_user=$("input[name='limit_user']");
+    var share_fee=$("input[name='share_fee']");
+    var repaid_day=$("input[name='repaid_day']").val();
+    if(price.val().length < 1){
+        layer.tips('价格不能为空', price);
+        price.focus()
+        return false
+    }
+    if(description.length < 1){
+        layer.msg('内容不能为空', {
+            offset: 200,
+            shift: 2
+        });
+        return false
+    }
+    if(repaid_day.length < 1){
+        layer.tips('回报天数不能为空',"input[name='repaid_day']");
+        cid.focus()
+        return false
+    }
+
+<if condition="$item['id']">
+    var post_type={$item['id']};
+<else />
+    var post_type="add";
+</if>
+
+    $.post("__MODULE__/Item/add_item_return",{
+        type:type.val(),
+        price:price.val(),
+        description:description,
+        img:img,
+        virtual_person:virtual_person,
+        is_delivery:is_delivery.val(),
+        is_limit_user:is_limit_user.val(),
+        is_share:is_share.val(),
+        delivery_fee:delivery_fee.val(),
+        limit_user:limit_user.val(),
+        share_fee:share_fee.val(),
+        repaid_day:repaid_day,
+        itemid:'{$itemid}',
+        post_type:post_type,
+    },function(ret){
+        if(ret.status==1){
+            layer.msg(ret.info, {
+                offset: 200,
+                shift: 2
+            });
+            window.location.href=ret.url
+        }else{
+            layer.msg(ret.info, {
+                offset: 200,
+                shift: 2
+            });
+        }
+    })
+}
+</script>
+
+
+</body>
+</html>

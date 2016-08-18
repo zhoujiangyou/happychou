@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>我的产品项目 - <Zml:title /></title>
+	<!--引入头部资源 -->
+	<include file="Public:script"/>
+	<script type="text/javascript" charset="utf-8" src="__LIB__ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="__LIB__ueditor/ueditor.all.min.js"> </script>
+	<script type="text/javascript" charset="utf-8" src="__LIB__ueditor/lang/zh-cn/zh-cn.js"></script>
+</head>
+<body style="background:#e7e8eb">
+	<include file="Home@default/Public/header_inner" />
+	<include file="Public:header" />
+
+	<div class="x12 padding border-bottom">
+		<h1>我发布的项目</h1>
+	</div>
+	<div class="x12" id="publish">
+		<div class="tab">
+			<div class="tab-head">
+				<ul class="tab-nav  padding-top">
+					<li>
+						<a href="{:U('user/item/index', array('item_type'=>1))}">股权项目</a>
+					</li>
+					<li class="active">
+						<a href="{:U('user/item/index', array('item_type'=>2))}">产品项目</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="x12 text-center padding-top padding-bottom border-bottom border-top">
+		<a href="{:U('item/index', array('item_type'=>2))}" class='x1 border-right text-red'>全部</a>
+		<a href="{:U('item/index', array('status'=>0, 'item_type'=>2))}"  class="x1  border-right ">待审核</a>
+		<a href="{:U('item/index', array('status'=>1, 'item_type'=>2))}"  class="x1  border-right ">进行中</a>
+		<a href="{:U('item/index', array('invest_status'=>0, 'item_type'=>2))}"  class="x1  border-right ">预热中</a>
+		<a href="{:U('item/index', array('invest_status'=>1, 'item_type'=>2))}"  class="x1  border-right ">已成功</a>
+		<a href="{:U('item/index', array('invest_status'=>2, 'item_type'=>2))}"  class="x1  border-right ">失败</a>
+	</div>
+	<zmllist name="list" id="zml">
+		<div class="x12 bg padding">
+			<div class="x3 padding  bg-white"><a href="{:U('home/item/info',array('id'=>$zml['id']))}" target="_blank"><img src="{$zml.cover_img}" alt="{$zml.name}" class="x12" height="94"></a></div>
+			<div class="x9 bg padding bg-white border-left height-big" style="height: 114px;">
+				<div>
+					<span class="x6">
+						<span class="text-big">{$zml.name}<a class="text-small text-gray" href="{:U('user/item/item_add',array('itemid'=>$zml['id']))}" class="text-gray"> 修改</a></span>
+						<div class="x12 text-gray">
+							<div class="x6">
+								<span class="x12 text-small">融资总额: <span class="text-red">￥{$zml.raising_money}</span></span>
+							</div>
+							<div class="x6">
+								<span class="x12 text-small"> 已融资: <span class="text-red"> ￥{$zml.count_money}</span></span>
+							</div>
+							<div class="x6">
+								<span class="x12 text-small">完成率: <span class="text-red">{$zml.success_rate}%</span></span>
+							</div>
+						</div>
+					</span>
+					<span class="x6">
+						<div class="x9">
+							<button  onClick="iframe('{:U('user/item/set_item_events',array('itemid'=>$zml['id']))}')"  class="x4 button button-small radius-none bg-yellow margin-left">大事记</button>
+							<!--<button  onClick="iframe('{:U('user/item/set_item_return',array('itemid'=>$zml['id']))}')"  class="x4 button button-small radius-none bg-yellow margin-left">回报规则</button>-->
+							<!--<button onclick="iframe('{:U('user/item/set_item_team',array('itemid'=>$zml['id']))}')" class="x4 button button-small radius-none bg-sub margin-left margin-top">创始团队</button>-->
+							<!--<button onclick="iframe('{:U('user/item/item_video',array('itemid'=>$zml['id']))}')" class="x4 button button-small radius-none bg-sub margin-left margin-top">视频管理</button>-->
+						</div>
+						<div class="x3">
+							<span class="x12 margin-top"><a href="{:U('withorder/index',array('itemid'=>$zml['id']))}" class="button button-small bg-sub radius-none">{$zml.countlead}支持列表</a></span>
+						</div>
+					</span>
+				</div>
+			</div>
+		</div>
+	</zmllist>
+	<div class="x12 text-center padding"><ul class="pagination border-red pagination-small">{$page}</ul></div>
+</div>
+</div>
+</div>
+<div class="clearfix"></div>
+
+<include file="Home@default/Public/foot" />
+<script type="text/javascript">
+function iframe(url){
+	layer.open({
+		type: 2,
+		title: '提示',
+		shadeClose: true,
+		shade: 0.8,
+		area: ['1000px', '570px'],
+		content: url
+	});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>{$iteminfo.name} -
+		<Zml:title/>
+	</title>
+	<!--引入头部资源 -->
+	<include file="Public:script"/>
+    <style type="text/css">
+        .category_name span{
+            margin-right:5px;
+            padding:1px 5px;
+            border:1px solid #eee;
+            border-radius: 15px;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body class="bg">
+<!-- 导航 -->
+<include file="Public/header_inner"/>
+<div class="" style="background-color: #2a3234;	position: relative;">
+	<div class="container">
+		<img class="detail_img" src="" style="width: 100%">
+
+	</div>
+	<div class="fix-top-area">
+		<div class="container">
+			<p class="text-large text-white margin-large-top text-gray padding-large proj-desc" style="line-height: 2em;">
+
+			</p>
+		</div>
+	</div>
+	<div class="text-white" style="position: absolute;bottom:0;width: 100%;">
+		<div class="container">
+			<div class="padding-big-bottom padding-top padding-left padding-right x12"  style="background-color: rgba(0,0,0,0.5);">
+                <div class="x12">
+                    <div class="x6">
+                        <strong class="text-largexx text-right text-bold proj-name"></strong>
+                        <span class="border-label text-large radius-rounded border margin-small-left progress_name"></span>
+                    </div>
+
+                    <div class="x6">
+                        <strong class="text-large text-right text-bold success_rate"></strong>
+                        <div class="progress-info radius-none padding-small-top padding-small-bottom" style="position:relative;">
+                            <div class="flag_rate" style="position: absolute;height: 12px;width: 2px;top:1px; background-color: #fabe00;"></div>
+                            <div class="progress progress-striped active radius-none" style="height: 4px;">
+                                <div class="progress-bar bg-yellow progress_bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="x12 margin-top">
+                    <div class="x6">
+                        <span class="x5 margin-top">项目关键字 <span class="category_name"></span></span>
+                        <span class="x4 margin-top"><span class="icon-map-marker margin-small-right"></span>项目位于 <span class="item_address"></span></span>
+                        <span class="x3 margin-top"><span class="icon-users margin-small-right"></span><span class="invest_people_num"></span>人已投资</span>
+                    </div>
+                    <div class="x6">
+                        <div class="x12">
+                            <span class="x6 margin-top">融资目标：￥<span class="raising_money"></span></span>
+                            <span class="x6 margin-top">最低出资：￥<span class="lowest_money"></span></span>
+                            <span class="x6 margin-top">已经募集：￥<span class="count_money"></span></span>
+                            <span class="x6 margin-top">剩余时间：<span class="last_time"></span></span>
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="stock_page" class="">
+	<div class="navbar navbar-big bg-inverse tab">
+		<div class="bg-yellow-light navbar-body nav-navicon tab-head">
+			<div class="container">
+				<div class="bg-yellow x12">
+					<ul class="nav nav-inline nav-menu tab-nav x6">
+						<li class="active"><a href="#tab-a" >我们的故事</a></li>
+						<li><a href="#tab-b" >公司新闻</a></li>
+						<li><a href="#tab-c" >项目交流（<span class="com_count"></span>）</a></li>
+						<li><a href="#tab-d" >投资列表（<span class="inv_count"></span>）</a></li>
+					</ul>
+					<div class="x6 text-right padding-small-top padding-big-right">
+                        <button class="plan_file button radius-rounded border-none"><span class="icon-group padding-small-right"></span>下载商业计划书</button>
+                        <button class="lingtou button radius-rounded border-none"><span class="icon-group padding-small-right"></span>领投</button>
+                        <button class="gentou button radius-rounded border-none"><span class="icon-money padding-small-right"></span>跟投</button>
+                        <button class="yuetan button radius-rounded border-none"><span class="icon-comments-o padding-small-right"></span>约谈</button>
+                        <button class="guanzhu button radius-rounded border-none"><span class="icon-heart-o padding-small-right"></span>关注</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+		<div class="container tab-body margin-big-bottom padding-top-none" >
+			<div class="bg-white line padding text-black" style="box-shadow: 0 0 3px #eee; min-height: 300px;">
+				<!-- 投资概括 -->
+				<div class="tab-panel active" id="tab-a">
+					<div class="x12">
+						<div class="x12 iteminfocontent  proj_content"></div>
+					</div>
+				</div>
+
+				<div class="tab-panel x12" id="tab-b">
+                    <div class="x12 margin-large-top">
+                        <div>
+                         <ul class="timeline">
+
+                         </ul>
+                        </div>
+                    </div>
+				</div>
+				<!-- 项目动态 -->
+				<div class="tab-panel x12" id="tab-c">
+					<div class="padding border-bottom">
+                        <if condition="session('user.uin')">
+                            <button class="button radius-rounded zl-hover-bg qustion dialogs" data-toggle="click" data-target="#question_dia" data-mask="1" data-width="400px">我要提问</button>
+                            <else/>
+                            <div class="alert alert-blue"><strong>提示：</strong>
+                                <a href="javascript:void(0)" class="text-green dialogs" style="color:#fabe00" data-toggle="click" data-target="#mydialog" data-mask="1" data-width="400px">登录</a>后可提问。
+                            </div>
+                        </if>
+					</div>
+					<div class="questionsList">
+
+					</div>
+				</div>
+				<!-- 话题问答 -->
+				<div class="tab-panel line padding-large-left padding-large-right padding-large-bottom bg-yellow-light" id="tab-d" style="width: 600px; margin: 30px auto;background-color: #fafafa;">
+					<div class="padding border-bottom x12 text-big margin-top text-black">
+						<span class="x4">投资人</span>
+						<span class="x4 text-center">金额</span>
+						<span class="x4 text-right">日期</span>
+					</div>
+					<div name="invest" id="invest_list" style="">
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script id="invest_list_temp" type="text/html">
+    <div class="x12 padding border-bottom border-red-light text-black">
+        <span class="x4">{{user_name}}</span>
+        <span class="x4 text-center">￥{{money}}</span>
+        <span class="x4 text-right">{{create_time}}</span>
+    </div>
+</script>
+<script id="question_list_temp" type="text/html">
+    <div class="margit-top border-back padding-big x12">
+        <div class="x1">
+            <img src="{{header}}" alt="{{u_name}}" width="50" height="50"
+                 class="radius-circle">
+        </div>
+        <div class="x11 height">
+            <span class="x12 text"><strong>{{u_name}}</strong></span>
+            <span class="x12 text-small">{{content}}</span>
+        </div>
+            {{each answers as item}}
+            <div class="x11 margit-top padding x1-move border-top border-bottom">
+                <div class="x10 height">
+                    <span class="x12 text"><strong>{{item.u_name}}：</strong></span>
+                    <span class="x12 text-small">{{item.content}}</span>
+                </div>
+            </div>
+            {{/each}}
+    </div>
+</script>
+
+
+<div id="question_dia">
+	<div class="dialog">
+		<div class="dialog-head">
+			<span class="dialog-close close rotate-hover"></span><strong>项目交流问题</strong>
+		</div>
+		<div class="dialog-body line">
+			<div class="x12 padding">
+				<div class="form-group">
+					<div class="field field-icon">
+						<span class="icon icon-pencil"></span>
+						<input type="text" placeholder="标题" name="question_title"
+							   class="input box-shadow-none text-small radius-none"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="field field-icon">
+						<span class="icon icon-file-text-o"></span>
+						<textarea placeholder="内容" name="question_content" style="height: 8em;" class="input box-shadow-none text-small radius-none"></textarea>
+					</div>
+				</div>
+				<div class="alert alert-red x12 margin-top qus_err hidden  margin-bottom">
+					<strong>提交失败</strong>
+					<div class="qus_err_con"></div>
+				</div>
+				<div class="dialog-foot">
+					<button  class="question_submit button x3 x3-move bg-yellow text-center padding-small text-white text-big">提交</button>
+					<button  class="button x3 margin-left text-center padding-small text-big dialog-close">取消</button>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="lingtou_dia" type="text/html" style="display: none">
+    <form class="form padding-big">
+            <div class="field field-icon-right">
+                <input type="text" class="input" id="lingtou_contact_user" name="lingtou_contact_user" placeholder="填写姓名" value="<?=$_SESSION['user']['name']?>" />
+            </div>
+            <div class="field field-icon-right margin-top">
+                <input type="text" class="input" id="lingtou_contact" name="lingtou_contact" placeholder="填写手机号" value="<?=$_SESSION['user']['phone']?>" />
+            </div>
+            <div class="field field-icon-right margin-top">
+                <textarea type="text" class="input" id="user_desc" name="user_desc" rows="5" size="90" placeholder="请填写申请理由！"></textarea>
+            </div>
+            <button class="margin-top button button-block bg-yellow padding-large-left padding-large-right btn_submit_lingtou" type="button">提交</button>
+    </form>
+</div>
+
+<script type="text/html" id="event_news">
+    <li class="x1-move x10 margin-top">
+        <div class="tl-time x2 text-right margin-top">
+            <span class="tag radius-rounded bg-yellow padding-large-right text-big">{{news_time}}</span>
+        </div>
+        <div class="x1 text-center border border-yellow" style="margin-top: 20px"></div>
+
+        <div class="tl-content x8 padding radius-big" style="box-shadow: 1px 2px 5px #ccc;background-color: #fafafa;">
+            <h2 class="tl-title">{{news_title}}</h2>
+            {{news_content}}
+        </div>
+    </li>
+</script>
+
+<div id="yuetan_dia" type="text/html" style="display: none">
+    <form class="form padding-big">
+        <div class="field field-icon-right">
+            <input type="text" class="input" id="yuetan_contact_user" name="yuetan_contact_user" placeholder="填写姓名" value="<?=$_SESSION['user']['name']?>" />
+        </div>
+        <div class="field field-icon-right margin-top">
+            <input type="text" class="input" id="yuetan_contact" name="yuetan_contact" placeholder="填写手机号" value="<?=$_SESSION['user']['phone']?>" />
+        </div>
+        <div class="field field-icon-right margin-top">
+            <input type="text" class="input" id="yuetan_location" name="yuetan_location" placeholder="填写地点" value="" />
+        </div>
+        <div class="field field-icon-right margin-top">
+            <input type="text" class="input" id="yuetan_time" name="yuetan_time" placeholder="填写时间" value="" />
+        </div>
+        <div class="field field-icon-right margin-top">
+            <textarea type="text" class="input" id="yuetan_desc" name="yuetan_desc" rows="5" size="90" placeholder="请填写约谈内容"></textarea>
+        </div>
+        <button class="margin-top button button-block bg-yellow padding-large-left padding-large-right btn_sub_interview" type="button">提交</button>
+    </form>
+</div>
+<!-- 底部 -->
+<include file="Public/foot"/>
+<script type="text/javascript">
+	$(function(){
+		var loc = location.href;
+        var lingtou_dia,yuetan_dia;
+        var planfilePath='';
+		var id = loc.substring(loc.lastIndexOf('/')+1);
+		id=parseInt(id);
+
+        var itemid =id;
+        var qustionQuery= {
+            id: id,
+            pagecount: 0,
+            pagecurrent: 0
+        };
+        var investQuery= {
+            id: id,
+            pagecount: 0,
+            pagecurrent: 0
+        };
+
+        // 关注判断
+
+
+        $('.btn_cancel_lingtou').on('click',function(){
+            layer.close(lingtou_dia);
+        });
+        $('.btn_submit_lingtou').on('click',function(){
+            sub_lead();
+        });
+
+        $('.btn_sub_interview').on('click',function(){
+            sub_interview();
+        });
+
+
+        $('.lingtou').on('click',function(){
+            if("<?=$_SESSION['user']['uin']?>"){
+                lead_check()
+            }else{
+                $('.login_btn').trigger('click');
+            }
+        });
+        $('.plan_file').on('click',function(){
+            if("<?=$_SESSION['user']['uin']?>"){
+                location.href=planfilePath;
+            }else{
+                $('.login_btn').trigger('click');
+            }
+        });
+
+
+        $('.gentou').on('click',function(){
+            if("<?=$_SESSION['user']['uin']?>"){
+                open_with_item()
+            }else{
+                $('.login_btn').trigger('click');
+            }
+        });
+
+        $('.yuetan').on('click',function(){
+            if("<?=$_SESSION['user']['uin']?>"){
+                var last_time =$('.last_time');
+                if(last_time.html() == '已结束'){
+                    swal("预约失败", "项目众筹时间已经截止！", "error")
+                    return false;
+                }
+                yuetan_dia = layer.open({
+                    type: 1,
+                    title: '申请约谈',
+                    area: ['420px', '430px'], //宽高
+                    content: $('#yuetan_dia')
+                });
+            }else{
+                $('.login_btn').trigger('click');
+            }
+        });
+        $('.guanzhu').on('click',function(){
+            if("<?=$_SESSION['user']['uin']?>"){
+                if($(this).hasClass('hasguanzhu')){
+                    swal('温馨提示','您已经关注过该项目了！','info');
+                }else{
+                    $.post("{:U('home/item/collect')}", {itemid: itemid, type: 1}, function (d) {
+                        if (d.s_ok == 1) {
+                            swal('温馨提示','关注成功！','success');
+                            $('.guanzhu').addClass('hasguanzhu');
+                            $('.guanzhu').html('<span class="icon-heart-o padding-small-right"></span>已关注')
+                        } else {
+                            swal('温馨提示', d.msg,'error');
+                        }
+                    });
+                }
+            }else{
+                returnUrl=location.href;
+                $('.login_btn').trigger('click');
+            }
+
+            $(this).blur();
+        });
+        //提交约谈数据
+        function sub_interview() {
+            var yuetan_desc = $('textarea[name="yuetan_desc"]');
+            var yuetan_contact_user = $('textarea[name="yuetan_contact_user"]');
+            var yuetan_contact = $('textarea[name="yuetan_contact"]');
+            var yuetan_location = $('textarea[name="yuetan_location"]');
+            var yuetan_time = $('textarea[name="yuetan_time"]');
+            if (yuetan_desc.val() == '') {
+                layer.tips("请填写约谈描述", yuetan_desc, {
+                    tips: 1
+                })
+                yuetan_desc.focus();
+                return false
+            }
+            if (yuetan_contact_user.val() == '') {
+                layer.tips("请填写约谈联系人", yuetan_contact_user, {
+                    tips: 1
+                })
+                yuetan_contact_user.focus();
+                return false
+            }
+            if (yuetan_contact.val() == '') {
+                layer.tips("请填写电话", yuetan_contact, {
+                    tips: 1
+                })
+                yuetan_contact.focus();
+                return false
+            }
+            $.post("__MODULE__/item/interview_user", {
+                content: yuetan_desc.val(),
+                yuetan_contact_user:yuetan_contact_user.val(),
+                yuetan_contact:yuetan_contact.val(),
+                yuetan_location:yuetan_location.val(),
+                yuetan_time:yuetan_time.val(),
+                itemid: itemid
+            }, function (d) {
+                if (d.s_ok == 1) {
+                    layer.close(yuetan_dia);
+                    swal("提交成功!", "我们会及时电话联系您，请保持电话畅通!", "success")
+
+                } else {
+                    layer.close(yuetan_dia);
+                    swal("提交失败!", d.msg, "error")
+                }
+            });
+        }
+
+
+        //验证是否可以领投
+        function lead_check() {
+            var last_time =$('.last_time');
+            if(last_time.html() == '已结束'){
+                swal("领投失败", "项目众筹时间已经截止！", "error")
+                return false;
+            }
+            $.get("__MODULE__/item/lead_check", {
+                itemid: itemid
+            }, function (d) {
+                if (d.s_ok == 1) {
+                    open_lead()
+                } else {
+                    console.log(d);
+                    layer.open({
+                        content: d.msg
+                    });
+                }
+            });
+        }
+        //操作领投
+        function open_lead() {
+            lingtou_dia =  layer.open({
+                type: 1,
+                title: '申请领投',
+                content: $('#lingtou_dia'),
+                area: ['420px', '330px']
+            });
+        }
+        //提交领投数据
+        function sub_lead() {
+            var lingtou_contact_user = $('input[name="lingtou_contact_user"]');
+            var lingtou_contact = $('input[name="lingtou_contact"]');
+            var user_desc = $('textarea[name="user_desc"]');
+            if (lingtou_contact_user.val() == '') {
+                layer.tips("请填写联系人姓名", lingtou_contact_user, {
+                    tips: 1
+                })
+                lingtou_contact_user.focus();
+                return false
+            }
+
+            if (lingtou_contact.val() == '') {
+                layer.tips("请填写联系人电话", lingtou_contact, {
+                    tips: 1
+                })
+                lingtou_contact.focus();
+                return false
+            }
+            if (!lingtou_contact.val().match(/^1\d{10}$/)) {
+                layer.tips('请输入正确的手机号', lingtou_contact);
+                lingtou_contact.focus();
+                return false
+            }
+            if (user_desc.val() == '') {
+                layer.tips("请填写简介", user_desc, {
+                    tips: 1
+                })
+                user_desc.focus();
+                return false
+            }
+            $.post("{:U('home/item/lead_user')}", {
+                user_desc: user_desc.val(),
+                itemid: itemid
+            }, function (d) {
+                if (d.s_ok == 1) {
+                    layer.close(lingtou_dia);
+                    swal("提交成功!", "我们会及时电话联系您，请保持电话畅通!", "success")
+                } else {
+                    layer.close(lingtou_dia);
+                    swal("领头失败!", d.msg, "error")
+                }
+            });
+        }
+
+
+        //跟投
+        function open_with_item() {
+            var last_time =$('.last_time');
+            if(last_time.html() == '已结束'){
+                swal("跟投失败", "项目众筹时间已经截止！", "error")
+                return false;
+            }
+            layer.open({
+                type: 2,
+                title: '投资项目',
+                shadeClose: true,
+                area: ['450px', '430px'],
+                content: ["{:U('home/item/with_item')}?id=" + itemid, 'no']
+            });
+        }
+
+        function getPageData(callback){
+			$.ajax({
+				type: "GET",
+				url: '/home/item/getinfo',
+				data: {id:id},
+				success: function (res) {
+					if (parseInt(res.s_ok) === 1) {
+						$('.proj-desc').html(res.data.desc);
+						$('.proj-name').html(res.data.name);
+						$('.raising_money').html(res.data.raising_money);
+						$('.lowest_money').html(res.data.lowest_money);
+						$('.count_money').html(res.data.count_money);
+						$('.last_time').html(res.data.last_time);
+						$('.progress_name').html(res.data.progress_name);
+						$('.proj_content').html(res.data.content);
+						//$('.plan_file').attr('href',res.data.plan_file);
+                        planfilePath=res.data.plan_file;
+                        $('.detail_img').attr('src',res.data.detail_img);
+                        $('.success_rate').html(res.data.success_rate+'%');
+                        $('.item_address').html(res.data.item_address);
+                        var tags = '';
+                        for (var inde=0;inde<res.data.item_tags.length;inde++){
+                            tags+='<span>'+res.data.item_tags[inde].tag_name+'</span>';
+                        }
+                        $('.category_name').html(tags);
+                        $('.invest_people_num').html(res.data.invest_people_num);
+                        $('.flag_rate').css('left',res.data.success_rate+'%');
+                        $('.progress_bar').css('width',res.data.success_rate+'%');
+                        $('.inv_count').html();
+                        //关注判断
+                        if(res.data.is_collect==1){
+                            $('.guanzhu').addClass('hasguanzhu');
+                            $('.guanzhu').html('<span class="icon-heart-o padding-small-right"></span>已关注')
+                        }else{
+                        }
+						console.log(res.data);
+					} else {
+					}
+				},
+				error: function () {},
+				complete: function () { },
+				dataType: 'JSON'
+			});
+		}
+        function getInvestList(){
+            var temp = $('#invest_list_temp').html();
+            $.ajax({
+                type: "GET",
+                url: '/home/item/getinfo_invest',
+                data:investQuery,
+                success: function (res) {
+                    if (parseInt(res.s_ok) === 1) {
+                        var html = '';
+                        var render = template.compile(temp);
+                        for (var i = 0; i < res.data.length; i++) {
+                            html += render(res.data[i]);
+                        }
+                        console.log(res);
+                        $('#invest_list').html(html);
+                        $('.inv_count').html(res.data.length);
+                    } else {
+                    }
+                },
+                error: function () {},
+                complete: function () { },
+                dataType: 'JSON'
+            });
+        }
+        getInvestList();
+
+        function getQuestionList(){
+            var temp = $('#question_list_temp').html();
+            $.ajax({
+                type: "GET",
+                url: '/home/item/getinfo_question.html',
+                data: qustionQuery,
+                success: function (res) {
+                    if (parseInt(res.s_ok) === 1) {
+                        var html = '';
+                        var render = template.compile(temp);
+
+                        for (var i = 0; i < res.data.length; i++) {
+                            html += render(res.data[i]);
+                        }
+                        console.log(res);
+                        $('.questionsList').html(html);
+
+                        $('.com_count').html(res.data.length);
+                    } else {
+
+                    }
+                },
+                error: function () {},
+                complete: function () { },
+                dataType: 'JSON'
+            });
+
+        }
+        getQuestionList();
+
+        function getNewsList(){
+            var temp = $('#event_news').html();
+            $.ajax({
+                type: "GET",
+                url: '/home/item/getinfo_news.html',
+                data: {id:itemid,pagecount:0,pagecurrent:0},
+                success: function (res) {
+                    if (parseInt(res.s_ok) === 1) {
+                        var html = '';
+                        var render = template.compile(temp);
+
+                        for (var i = 0; i < res.data.length; i++) {
+                            html += render(res.data[i]);
+                        }
+                        console.log(res);
+                        $('.timeline').html(html);
+                    } else {
+                    }
+                },
+                error: function () {},
+                complete: function () { },
+                dataType: 'JSON'
+            });
+        }
+        getNewsList();
+
+
+		getPageData();
+		$('body').on('click','.question_submit',function(){
+			var question_title = $(this).parent().parent().find('input[name=question_title]');
+			var question_content = $(this).parent().parent().find('textarea[name=question_content]');
+			if (question_title.val() == '') {
+				layer.tips('标题不能为空', question_title);
+				question_title.focus();
+				return false
+			}
+			if (question_content.val()=='') {
+				layer.tips('内容不能为空', question_content);
+				question_content.focus();
+				return false
+			}
+			$.ajax({
+				type: "POST",
+				url: '/home/qa/questions_in.html',
+				data: {
+					title: question_title.val(),
+					content: question_content.val(),
+					itemid: {$_GET['id']}
+				},
+				success: function (res) {
+					if (res.s_ok == 1) {
+                        getQuestionList();
+                        $('.qus_err').addClass('hidden');
+                        $('.qus_err_con').html('');
+                        $('.dialog-close').click();
+                        swal("提交成功!", "问题已经提交成功!", "success")
+					} else {
+                        $('.qus_err_con').html(res.msg);
+                        $('.qus_err').removeClass('hidden');
+					}
+				},
+				error: function () {
+                    $('.qus_err_con').html('登陆失败请检查您的网络！');
+                    $('.qus_err').removeClass('hidden');
+
+                },
+				complete: function () { },
+				dataType: 'JSON'
+			});
+		});
+	})
+
+</script>
+</body>
+
+</html>

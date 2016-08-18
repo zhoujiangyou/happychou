@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>我的项目 - 会员中心<Zml:title /></title>
+	<!--引入头部资源 -->
+	<include file="Public:script"/>
+	<script type="text/javascript" charset="utf-8" src="__LIB__ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="__LIB__ueditor/ueditor.all.min.js"> </script>
+	<script type="text/javascript" charset="utf-8" src="__LIB__ueditor/lang/zh-cn/zh-cn.js"></script>
+</head>
+<body style="background:#e7e8eb">
+<include file="Home@default/Public/header_inner" />
+<include file="Public:header" />
+<div class="x12 padding border-bottom">
+	<h1>推荐给我的项目</h1>
+</div>
+<if condition="$list eq null">
+	<div id="nodata" style="line-height: 100px;" class=" x12 text-center bg-white padding-large margin-big-bottom text-large text-gray">
+	<i class="icon-frown-o"></i>  哦哦~还没有项目推荐给你哦~
+	</div>
+</if>
+<zmllist name="list" id="zml">
+	<div class="x12 bg padding" style="background-color: white">
+		<div class="x3 padding  bg-white"><a href="{:U('Home/Item/info',array('id'=>$zml['id']))}" target="_blank"><img src="{$zml.cover_img}" alt="{$zml.name}" class="x12" height="94"></a></div>
+		<div class="x9 bg padding bg-white border-left height-big" style="height: 114px;background-color: white">
+			<div>
+				<span class="x6">
+						<span class="text-big "><h2 class="text-main">{$zml.name}</h2></span>
+						<div class="x12 text-gray">
+							<div class="x6">
+								<span class="x12 text-small">融资总额: <span class="text-red">￥{$zml.raising_money}</span></span>
+							</div>
+							<div class="x6">
+								<span class="x12 text-small">投资方占比: <span class="text-red">{$zml.investment_rate}%</span></span>
+							</div>
+							<div class="x6">
+								<span class="x12 text-small"> 已融资: <span class="text-red"> ￥{$zml.count_money}</span></span>
+							</div>
+							<div class="x6">
+								<span class="x12 text-small">完成率: <span class="text-red">{$zml.success_rate}%</span></span>
+							</div>;
+						</div>
+					</span>
+				<span class="x6 " style="margin-top: 22px">
+						<div><span class="text-small"><h5>此项目已被推荐</h5></span></div>
+						<div class="x12  bg radius-circle" style="margin-left: 10px;width: 80px;">
+							<div class="x6" style="margin-left: 30px">
+								<span class="x12 text-big"><h1 class="text-red float-left" >{$zml.tuijiannum}</h1>次</span>
+							</div>
+						</div>
+					</span>
+			</div>
+		</div>
+	</div>
+	<hr class="bg-gray" />
+</zmllist>
+<div class="x12 text-center padding"><ul class="pagination border-red pagination-small">{$page}</ul></div>
+</div>
+</div>
+</div>
+<div class="clearfix"></div>
+
+<include file="Home@default/Public/foot" />
+<script type="text/javascript">
+
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>项目列表 - <Zml:title /></title>
+    <!--引入头部资源 -->
+    <include file="Public:script"/>
+
+</head>
+<body class="bg-white" style="background-color: #fff !important;" id="page-stock">
+<!-- 导航 -->
+<include file="Public/header_inner" />
+<div class="placeholder text-center margin-large-top padding-large-top">
+    <img src="__PUBLIC__/img/front-end/coming.gif" />
+</div>
+
+<!-- 底部 -->
+<include file="Public/foot" />
+<script>
+    $(function(){
+        $('.art-border-bottom').addClass('border-top border border-gray');
+        $('.art-border-bottom').removeClass('art-border-bottom');
+    });
+</script>
+</body>
+</html>

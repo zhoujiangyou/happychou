@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>添加创始团队成员 - <Zml:title/></title>
+    <!--引入头部资源 -->
+    <include file="Public:script"/>
+</head>
+<body>
+<div class="x12 border-bottom padding">
+    <ul class="bread">
+        <li><a href="javascript:history.go(-1)" class="icon-home"> 返回列表</a></li>
+    </ul>
+</div>
+<div class="x12 padding" >
+    <form class="form-x form-block" action="#" method="post" >
+        <div class="form-group x12">
+            <div class="label"><label for="title">成员手机号</label></div>
+            <div class="field x5">
+                <input type="text" class="input box-shadow-none radius-none" name="phone" size="50"  placeholder="156777******" data-type="*" value="{$team['phone']}"/>
+            </div>
+        </div>
+        <div class="form-group x12">
+            <div class="label"><label for="username">成员职位</label></div>
+            <div class="field x1">
+                <input type="text" min="0" class="input box-shadow-none radius-none" name="title" datatype="*" value="{$team['title']}" placeholder="CEO, CTO, COO..."/>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="margin-big-top text-center bg padding">
+            <button class="btn button bg-sub" type="button" onclick="add_team()"> 确 定 发 布</button>
+        </div>
+    </form>
+
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+function add_team(){
+    var phone=$("input[name='phone']");
+    var title=$("input[name='title']");
+    if(phone.val().length < 1){
+        layer.tips('手机号不能为空', phone);
+        phone.focus()
+        return false
+    }
+    if(title.val().length < 1){
+        layer.tips('职位不能为空',title);
+        title.focus()
+        return false
+    }
+
+<if condition="$team['id']">
+    var post_type={$team['id']};
+<else />
+    var post_type="add";
+</if>
+
+    $.post("{:U('user/item/add_item_team')}",{
+        phone:phone.val(),
+        title:title.val(),
+        itemid:'{$itemid}',
+        post_type:post_type,
+    },function(ret){
+        if(ret.status==1){
+            layer.msg(ret.info, {
+                offset: 200,
+                shift: 2
+            });
+            window.location.href=ret.url
+        }else{
+            layer.msg(ret.info, {
+                offset: 200,
+                shift: 2
+            });
+        }
+    })
+}
+</script>
+
+
+</body>
+</html>

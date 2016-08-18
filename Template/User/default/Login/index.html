@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>用户登录-<Zml:title /></title>
+	<!--引入头部资源 -->
+	<include file="Public:script"/>
+</head>
+<body onkeydown="BindEnter(event)">
+	<script type="text/javascript">
+	function BindEnter(obj)
+	{
+		if(obj.keyCode == 13)
+		{
+			login()
+		}
+	}
+	</script>
+	<include file="Home@default/Public/header_inner" />
+	<div class="x12 padding-large-top" style="background:url('__PUBLIC__/img/front-end/bg-img.jpg') center;height:600px; background-size: cover"  >
+		<div style="margin-top: 50px;margin-bottom: 100px;" class="container  margin-large-bottom padding-large-bottom padding-large-top padding-large-top">
+			<div class="x4 float-right bg-white padding-large">
+				<h2 class="padding-bottom">用户登录</h2>
+				<div class="form-group">
+					<div class="field field-icon">	
+						<span class="padding-small-top icon icon-user"></span>					
+						<input type="text"  placeholder="手机号" name="phone1" class="input box-shadow-none text-small input-big radius-none" />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="field field-icon">	
+						<span class="padding-small-top icon icon-key"></span>						
+						<input type="password" name="pwd1" placeholder="密码" class="input box-shadow-none text-small input-big radius-none" />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="field field-icon">	
+						<span class="padding-small-top icon icon-check-square-o"></span>
+						<input type="text " size="10" class="input radius-none input-big box-shadow-none text-small input-auto" name="verify1"   placeholder="验证码" />
+						<span class="addbtn padding-left"><img src="{:U('home/verify/index')}" id="code1" height="45"/></span>
+						<a href="javascript:void(0)"  onclick="verifys1('code1')" class="text-blue">换一张</a>
+					</div>
+				</div>
+				<a href="javascript:void(0)"  class="x12 bg-yellow text-center padding text-white text-large" onclick="login1(this)">登 录</a>
+				<div class="x12 margin-top">
+					<span>还没有账号 ? 【<a href="{:U('user/login/reg')}" class="text-blue">注册账号</a>】</span>
+					<span><a href="{:U('user/login/forgotpwd')}" class="text-blue">忘记密码 ? </a></span>
+				</div>
+			</div> 
+		</div>
+		<include file="Home@default/Public/foot" />
+	</div>
+	<script>
+	function verifys1(id){
+		var  random = Math.random();
+		document.getElementById(id).src="{:U('home/verify/index/"+random+"')}";
+	}
+
+	function login1(d){
+		var phone=$("input[name='phone1']")
+		var pwd=$("input[name='pwd1']")
+		var verify=$("input[name='verify1']")
+		if(phone.val()==''){
+			layer.tips('手机号不能为空', phone);
+			phone.focus();
+			return false
+		}
+		if(pwd.val()==''){
+			layer.tips('密码不能为空', pwd);
+			pwd.focus();
+			return false
+		}
+		if(verify.val()==''){
+			layer.tips('验证码不能为空', verify,{
+				tips:4,
+			});
+			verify.focus();
+			return false
+		}
+		$(d).text('登录中...');
+		$.post("{:U('user/login/index')}", {phone:phone.val(), pwd:pwd.val(), verify:verify.val(),},function (data){
+				if (data.status == 1) {
+					window.location.href=data.url
+				}else{
+					layer.msg(data.info);
+					$(d).text('登 录');
+				}
+			})
+	}
+	</script>
+
+</body>
+</html>

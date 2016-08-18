@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>设置产品项目回报 - <Zml:title/></title>
+    <!--引入头部资源 -->
+    <include file="Public:script"/>
+</head>
+<body>
+<div class="x12 padding-top padding border-bottom">
+    <h3 class="x3">回报管理</h3>
+    <a href="{:U('/user/item/add_item_return', array('itemid'=>$itemid))}" class="float-right bg-sub button icon-plus" type="button"> 添加回报</a>
+</div>
+<div class="x12 padding">
+    <table class="table table-bordered table-hover">
+        <tbody>
+        <tr>
+            <th>编号</th>
+            <th>价格</th>
+            <th>回报类型</th>
+            <th>是否配送</th>
+            <th>是否分红</th>
+            <th>支持人数</th>
+            <th>虚拟购买人数</th>
+            <th>已筹金额</th>
+            <th>限购人数</th>
+            <th>成功后回报天数</th>
+            <th>操作</th>
+        </tr>
+        <volist name="invest" id="vo">
+            <tr id="tr{$vo.id}" class="height">
+
+                <td>{$vo.id}</td>
+                <td>￥{$vo.price}</td>
+                <td><if condition="$vo['type'] eq 0">产品回报<else/>无私奉献</if></td>
+                <td><if condition="$vo['is_delivery'] eq 0">否<else/>是</if></td>
+                <td><if condition="$vo['is_share'] eq 0">否<else/>是</if></td>
+                <td>{$vo.support_count}</td>
+                <td>{$vo.virtual_person}</td>
+                <td>￥{$vo.support_amount}</td>
+                <td>{$vo.limit_user}</td>
+                <td>{$vo.repaid_day}</td>
+                <td>
+                    <button class="del button button-small bg-sub" sid="{$vo.id}">删除</button>
+                    <a href="__MODULE__/item/add_item_return/id/{$vo.id}/itemid/{$itemid}" class=" button button-small bg-sub" >编辑</a>
+                </td>
+            </tr>
+
+        </volist>
+        </tbody>
+    </table>
+    <div class="margin-big-top">
+        <ul class="pagination pagination-group">
+            {$page}
+        </ul>
+    </div>
+</div>
+
+
+</div>
+</div>
+<!-- 底部 -->
+</div>
+<script type="text/javascript">
+    $(function(){
+        //删除
+        $('.del').click(function(){
+            var sid = $(this).attr('sid');
+            layer.confirm('确定要删除此项产品回报吗？', {icon: 3},function(){
+                $.ajax({
+                    type: 'POST',
+                    url: '{:U('/user/item/product_item_del')}',
+                    data:{
+                        id:sid
+                    },
+                    dataType: "json",
+                    beforeSend: function() {
+                        layer.closeAll();
+                        layer.load(2,{shade: [0.1,'#000']});
+                    },
+                    success: function(data){
+                        layer.closeAll();
+                        if (data.status == 1) {
+
+                            layer.msg(data.info, {
+                                shift: 2,
+                                time: 1000,
+                                shade: [0.1,'#000'],
+                                end: function(){
+                                    $("#tr"+sid).remove();
+                                }
+                            });
+                        }else{
+                            layer.alert(data.info,{icon: 5});
+                        }
+                    }
+                });
+            });
+        });
+
+    });
+</script>
+</body>
+</html>

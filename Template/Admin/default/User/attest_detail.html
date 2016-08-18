@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>投资人认证详细资料</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="__PUBLIC__/css/pintuer.css">
+	<script src="__PUBLIC__/js/jquery-1.8.3.min.js"></script>
+	<script src="__PUBLIC__/js/pintuer.js"></script>
+	<script src="__PUBLIC__/js/respond.js"></script>
+	<script src="__PUBLIC__/lib/layer/layer.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/lib/validform/Validform.min.js"></script>
+	<link href="__PUBLIC__/lib/validform/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<div class="container">
+	<div class="x12 padding ">
+		<table class="table table-bordered table-hover text-small">
+			<tbody>
+			<tr>
+				<th>UID</th>
+				<th>头像</th>
+				<th>真实姓名</th>
+				<th>公司</th>
+				<th>职位</th>
+				<th>邮箱</th>
+				<th>微信</th>
+				<th>认证类型</th>
+			</tr>
+			<tr class="height">
+				<td>{$info.uin}</td>
+				<td>
+					<if condition="$info['true_header']">
+						<img src="{$info.true_header}" width="50"/>
+					</if>
+				</td>
+				<td>{$info.true_name}</td>
+				<td>{$info.company}</td>
+				<td>{$info.job}</td>
+				<td>{$info.email}</td>
+				<td>{$info.weixin}</td>
+				<td>
+					<if condition="$info.attest_type eq 1">机构投资人<elseif condition="$info.attest_type eq 2"/>经验投资人<else/>一般投资人</if>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+	<if condition="$info.attest_type eq 1">
+		<!-- 如果是机构投资人 -->
+		<div class="x12 padding">
+			<div class="x6">
+				名片：<img src="{$info.business_card}" width="300" class="img-border radius-small padding-little">
+			</div>
+			<div class="x6">
+				投资案例证明：
+				<if condition="$info.touzianli_pic neq null">
+					<img src="{$info.touzianli_pic}" width="300" class="img-border radius-small padding-little">
+					<else/>
+					暂无
+				</if>
+			</div>
+		</div>
+		<div class="x12 padding">
+			<div class="x6">
+				实缴资本证明：
+				<if condition="$info.shijiao_pic neq null">
+					<img src="{$info.shijiao_pic}" width="300" class="img-border radius-small padding-little">
+					<else/>
+					暂无
+				</if>
+			</div>
+			<div class="x6">
+				机构资产证明：
+				<if condition="$info.jigou_pic neq null">
+					<img src="{$info.jigou_pic}" width="300" class="img-border radius-small padding-little">
+					<else/>
+					暂无
+				</if>
+			</div>
+		</div>
+		<div class="x12 padding">
+			<div class="x6">
+				机构利润证明：
+				<if condition="$info.jlr_pic neq null">
+					<img src="{$info.jlr_pic}" width="300" class="img-border radius-small padding-little">
+					<else/>
+					暂无
+				</if>
+			</div>
+		</div>
+
+		<!-- 如果是经验投资人 -->
+		<elseif condition="$info.attest_type eq 2"/>
+			<div class="x12 padding">
+				<div class="x6">
+					名片：<img src="{$info.business_card}" width="300" class="img-border radius-small padding-little">
+				</div>
+				<div class="x6">
+					投资案例证明：
+					<if condition="$info.touzianli_pic neq null">
+						<img src="{$info.touzianli_pic}" width="300" class="img-border radius-small padding-little">
+						<else/>
+						暂无
+					</if>
+				</div>
+			</div>
+
+		<!-- 如果是一般投资人 -->
+		<else/>
+		<div class="x12 padding">
+			<div class="x6">
+				名片：<img src="{$info.business_card}" width="300" class="img-border radius-small padding-little">
+			</div>
+			<div class="x6">
+				收入证明：
+				<if condition="$info.shouru_pic neq null">
+					<img src="{$info.shouru_pic}" width="300" class="img-border radius-small padding-little">
+					<else/>
+					暂无
+				</if>
+			</div>
+		</div>
+		<div class="x12 padding">
+			<div class="x6">
+				金融资产证明：
+				<if condition="$info.jinrong_pic neq null">
+					<img src="{$info.jinrong_pic}" width="300" class="img-border radius-small padding-little">
+					<else/>
+					暂无
+				</if>
+			</div>
+			<div class="x6">
+				固定资产证明：
+				<if condition="$info.gudingzc_pic neq null">
+					<img src="{$info.gudingzc_pic}" width="300" class="img-border radius-small padding-little">
+					<else/>
+					暂无
+				</if>
+			</div>
+		</div>
+
+	</if>
+
+</div>
+</div>
+</body>
+</html>

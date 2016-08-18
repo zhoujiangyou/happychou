@@ -1,0 +1,312 @@
+ <include file="Public/header" />
+
+<div class="padding border-bottom">
+	<div class="step">
+		<if condition="$item['item_type'] eq 2">
+			<div class="step-bar active x4" ><span class="step-point icon-check"></span><span class="step-text">基本资料</span></span></div>
+			<div class="step-bar x4" ><span class="step-point">2</span><span class="step-text">项目详情</span></div>
+		<else/>
+			<div class="step-bar active x4" ><span class="step-point icon-check"></span><span class="step-text">基本资料</span></span></div>
+			<div class="step-bar x4"><span class="step-point">2</span><span class="step-text">股权设置</span></div>
+			<div class="step-bar x4" ><span class="step-point">3</span><span class="step-text">项目详情</span></div>
+		</if>
+	</div>
+</div>
+<div class="clearfix"></div>
+<div class="padding  x12">
+	<div class="border x12">
+		<div class="bg padding "><strong>发起项目</strong></div>
+		<div class="height-large padding border-bottom x12">
+			<span class="text-gray x2"><span class="text-red">*</span> 项目类别</span>
+			<span class="x9">
+				<select name="item_type" class="input input-auto box-shadow-none radius-none">
+					<option value="1" <if condition="$item['item_type'] eq 1">selected</if>>股权项目</option>
+					<option value="2" <if condition="$item['item_type'] eq 2">selected</if>>产品项目</option>
+				</select>
+			</span>
+		</div>
+		<div class="height-large padding border-bottom x12">
+			<span class="text-gray x2"><span class="text-red">*</span> 行业类别</span>
+			<span class="x9">
+				<select name="cid[]" class="input input-auto box-shadow-none radius-none"  id="first" onchange="loadRegion('first',2,'second','__MODULE__/Item/get_category');">
+					<option value="" >选择栏目</option>
+					<volist name="cate" id="vo">
+						<option value="{$vo.id}" <if condition="$vo['id'] eq $nowcate[0]['id']">selected</if>  >{$vo.name}</option>
+					</volist>
+				</select>
+				<select name="cid[]" class="input input-auto box-shadow-none radius-none" id="second"  onchange="loadRegion('second',3,'third','__MODULE__/Item/get_category');">
+					<if condition="$nowcate[1]['id']">
+						<option value="{$nowcate[1]['id']}">{$nowcate[1]['name']}</option>
+						<else />
+						<option value="0">无</option>
+					</if>
+				</select>
+			</span>
+
+		</div>
+		<div class="height-large padding border-bottom x12">
+			<span class="text-gray x2"><span class="text-red">*</span> 所在地区</span>
+			<span class="x9">
+				<select name="province" class="input input-auto box-shadow-none radius-none"  id="province" onchange="loadRegion('province',2,'city','__MODULE__/Item/get_region');">
+					<option value="" >选择省份</option>
+					<volist name="province" id="vo">
+						<option value="{$vo.id}" <if condition="$vo['id'] eq $item['province']">selected</if>  >{$vo.name}</option>
+					</volist>
+				</select>
+				<select name="city" class="input input-auto box-shadow-none radius-none" id="city"  onchange="loadRegion('city',3,'third','__MODULE__/Item/get_region');">
+					<if condition="$item['city']">
+							<volist name="nowcity" id="vo">
+								<option value="{$vo['id']}" <if condition="$vo['id'] eq $item['city']">selected</if>>{$vo['name']}</option>
+							</volist>
+						<else />
+						<option value="0">选择城市</option>
+					</if>
+				</select>
+			</span>
+
+		</div>
+
+		<div class="height-large padding border-bottom x12">
+			<span class="text-gray x2"><span class="text-red">*</span> 标签</span>
+			<span class="x9" >
+				<div class="field">
+					<div class="button-group checkbox">
+						<volist name="tags" id="vo">
+							<label class="button radius-none margin-small <if condition="in_array($vo['id'],$tagsid)">active</if>" onclick="choosetags(this)">
+								<input name="tags[]" value="{$vo.id}" <if condition="in_array($vo['id'],$tagsid)">checked="checked"</if> type="checkbox" /><span class="icon icon-check text-red"></span> {$vo.name}
+							</label>
+						</volist> 
+					</div>
+				</div>
+			</span>
+
+		</div>
+		<div class="height-large padding border-bottom x12">
+			<span class="text-gray x2"><span class="text-red">*</span> 项目名称</span>
+			<span class="x9">
+				<input type="text" name="name" value="{$item.name}" class="input box-shadow-none radius-none" />
+			</span>
+		</div>
+
+		<div class="height-large padding border-bottom x12">
+			<span class="text-gray x2"><span class="text-red">*</span> 项目权重</span>
+			<span class="x9">
+				<select name="weight" class="input input-auto box-shadow-none radius-none">
+					<option value="1" <if condition="$item['weight'] eq 1">selected</if>>1</option>
+					<option value="2" <if condition="$item['weight'] eq 2">selected</if>>2</option>
+					<option value="3" <if condition="$item['weight'] eq 3">selected</if>>3</option>
+					<option value="4" <if condition="$item['weight'] eq 4">selected</if>>4</option>
+					<option value="5" <if condition="$item['weight'] eq 5">selected</if>>5</option>
+				</select>
+			</span>
+		</div>
+
+		<div class="height-large padding border-bottom x12">
+			<span class="text-gray x2"><span class="text-red">*</span> 用户UIN</span>
+			<span class="x9">
+				<input type="text" name="uin" value="{$item.uin}" class="input input-auto box-shadow-none radius-none" />
+				<button class="button bg-sub radius-none" type="button" onclick="getuser()">获取用户列表</button>
+				<div class="input-note">帮用户发布项目请填写用户的UIN，平台方自己发布可以普通用户的方式注册一个账号获得UIN</div>
+			</span>
+		</div>
+		<div class="height-large padding border-bottom x12">
+			<span class="text-gray x2"><span class="text-red">*</span> 项目简介</span>
+			<span class="x9">
+				<textarea name="desc"  class="input box-shadow-none radius-none" >{$item.desc}</textarea>
+			</span>
+		</div>
+		<div class="height-large padding border-bottom x12">
+			<span class="text-gray x2"><span class="text-red">*</span>  筹资金额</span>
+			<span class="x9">
+				<input type="text" name="raising_money" value="{$item.raising_money}" placeholder="如：100000" class="text-small input input-auto box-shadow-none radius-none" size="20" /> 元
+			</span>
+		</div>
+		<div class="height-large padding border-bottom x12">
+			<span class="text-gray x2"><span class="text-red">*</span>  佣金比例</span>
+			<span class="x9">
+				<input type="text" name="brokerage" value="{$item.brokerage}" placeholder="如：5" class="text-small input input-auto box-shadow-none radius-none" size="20" /> %
+				<div class="input-note"> 佣金比例为0的话，按系统的佣金比例0.1来算，不是0的话按这里的佣金比例来算</div>
+			</span>
+		</div>
+
+		<div class="height-large padding border-bottom x12">
+			<span class="text-gray x2"><span class="text-red">*</span>  筹资开始时间</span>
+			<span class="x9">
+				<input type="text" name="start_time" placeholder="请选择" value="<if condition="$item['start_time']">{:date('Y-m-d H:i:s',$item['start_time'])}</if>"  onclick="laydate({istime: true, min: laydate.now(), format: 'YYYY-MM-DD hh:mm:ss'})" class="text-small input input-auto box-shadow-none radius-none" size="20" />
+			</span>
+		</div>
+
+		<div class="height-large padding border-bottom x12 hidden">
+			<span class="text-gray x2"><span class="text-red">*</span>  筹资结束时间</span>
+			<span class="x9">
+				<input type="text" name="end_time" placeholder="请选择" value="<if condition="$item['end_time']">{:date('Y-m-d H:i:s',$item['end_time'])}</if>"  onclick="laydate({istime: true, min: laydate.now(), format: 'YYYY-MM-DD hh:mm:ss'})" class="text-small input input-auto box-shadow-none radius-none" size="20" />
+			</span>
+		</div>
+
+		<div class="x12 padding text-center">
+			<a href="javascript:void(0)" class="button button-big bg-red" onclick="add_item(this)">下一步</a>
+		</div>
+
+	</div>
+</div>
+</div>
+</div>
+</div>
+<div class="clearfix"></div>
+
+<script type="text/javascript">
+
+//动态改变头部效果
+$(function(){
+	var item_type=$("select[name='item_type']");
+	var step = $(".step");
+	item_type.change(function(){
+		var html = '';
+		if(item_type.val()==2){
+			html=html+'<div class="step-bar active x4" ><span class="step-point icon-check"></span><span class="step-text">基本资料</span></span></div><div class="step-bar x4" ><span class="step-point">2</span><span class="step-text">项目详情</span></div>';
+			step.html(html);
+		}else{
+			html = html+'<div class="step-bar active x4" ><span class="step-point icon-check"></span><span class="step-text">基本资料</span></span></div> <div class="step-bar x4"><span class="step-point">2</span><span class="step-text">股权设置</span></div> <div class="step-bar x4" ><span class="step-point">3</span><span class="step-text">项目详情</span></div>';
+			step.html(html);
+		}
+	});
+});
+
+
+function getuser(){
+	
+	layer.open({
+		type: 2,
+		title: '选择用户',
+		shadeClose: true,
+		shade: 0.8,
+		area: ['1000px', '570px'],
+		content: '{:U('/Admin/User/index/getuser/ok')}'
+
+	});
+}
+function choosetags(d){
+	var c=$("input[name='tags[]']:checked");
+	if(c.length > 3){
+		$(d).find('input[name="tags[]"]').attr('checked',false);
+		layer.msg('最多可以选择3个标签');
+	}
+}
+function add_item(d){
+	var cids=$("select[name='cid[]']");
+	var province=$("select[name='province']");
+	var city=$("select[name='city']");
+	var tags=$("input[name='tags[]']:checked");
+	var name=$("input[name='name']");
+	var raising_money=$("input[name='raising_money']");
+	var brokerage=$("input[name='brokerage']");
+	var desc=$("textarea[name='desc']");
+	var uin=$("input[name='uin']");
+	var start_time=$("input[name='start_time']");
+//	var end_time=$("input[name='end_time']");
+	var item_type=$("select[name='item_type']");
+	var weight=$("select[name='weight']");
+	var cid=new Array();
+	var tag=new Array();
+	cids.each(function(){
+		cid.push($(this).val());	
+		
+	})
+	if(cids.val()==''){
+		layer.tips('选择一个行业类别',cids);
+		cids.focus();
+		return false
+	}
+	if(province.val()==''){
+		layer.tips('选择一个省份',cids);
+		province.focus();
+		return false
+	}
+	if(city.val()==''){
+		layer.tips('选择一个城市',cids);
+		city.focus();
+		return false
+	}
+
+	if(uin.val()==''){
+		layer.tips('请先选择一个用户',uin);
+		uin.focus()
+		return false
+	}
+	if(desc.val()==''){
+		layer.tips('简介还是要一个吧',desc);
+		desc.focus();
+		return false
+	}
+	if(brokerage.val()==''){
+		layer.tips('请填写佣金比例',brokerage);
+		brokerage.focus();
+		return false
+	}
+//取CID最后一个不为0的id值
+var last = cid[cid.length - 1];
+if(last=='0'){
+	last = cid[cid.length - 2];
+	if(last=='0'){
+		last = cid[cid.length - 3];
+	}
+}
+tags.each(function(){
+	tag.push($(this).val());
+})
+if(name.val()==''){
+	layer.tips('项目名不能为空',name);
+	name.focus()
+	return false
+}
+if(raising_money.val()==''){
+	layer.tips('筹资金额是一个数字喔',raising_money);
+	raising_money.focus()
+	return false
+}
+	if(start_time.val()==''){
+		layer.tips(' 筹资开始时间不能为空',end_time);
+		start_time.focus()
+		return false
+	}
+//if(end_time.val()==''){
+//	layer.tips(' 筹资结束时间不能为空',end_time);
+//	end_time.focus()
+//	return false
+//}
+<if condition="$itemid">
+var type={$itemid};
+<else />
+var type="add";
+</if>
+
+$.post('__MODULE__/Item/item_in',{
+	name:name.val(),
+	cid:last,
+	province:province.val(),
+	city:city.val(),
+	tag:tag.join(','),
+	raising_money:raising_money.val(),
+	brokerage:brokerage.val(),
+	start_time:start_time.val(),
+	uin:uin.val(),
+	type:type,
+	desc:desc.val(),
+	item_type:item_type.val(),
+	weight:weight.val(),
+},function(data){
+	if(data.status==1){
+		window.location.href=data.url	
+	}else{
+		console.log(data)
+		layer.msg(data.info)
+	}
+})
+}
+</script>
+
+<script src="__PUBLIC__/lib/laydate/laydate.js"></script>
+<script src="__PUBLIC__/lib/region.js"></script>
+
+</body>
+</html>

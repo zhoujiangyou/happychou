@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>
+        <Zml:title/>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="__PUBLIC__/css/pintuer.css">
+    <script src="__PUBLIC__/js/jquery-1.8.3.min.js"></script>
+    <script src="__PUBLIC__/js/pintuer.js"></script>
+    <script src="__PUBLIC__/js/respond.js"></script>
+    <script src="__PUBLIC__/lib/layer/layer.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/lib/validform/Validform.min.js"></script>
+    <link href="__PUBLIC__/lib/validform/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="x12 padding border-bottom">
+    <h1>投资列表</h1>
+</div>
+<div class="x12 padding">
+        <!-- 投资列表 -->
+        <div class="tab-panel" id="tab-b">
+            <div class="x12 text-center padding bg">
+                <span class="x4">投资人</span>
+                <span class="x4">金额</span>
+                <span class="x4">日期</span>
+            </div>
+            <zmllist name="invest" id="zml">
+                <div class="x12 text-center padding border-bottom border-red-light">
+                    <span class="x4">{$zml.user_name}</span>
+                    <span class="x4">￥{$zml.money}</span>
+                    <span class="x4">{$zml.create_time|date="Y-m-d",###}</span>
+                </div>
+            </zmllist>
+        </div>
+    <div class="x12 text-center padding">
+        <ul class="pagination border-red pagination-small">{$page}</ul>
+    </div>
+</div>
+</div>
+</div>
+<div class="clearfix"></div>
+
+<script>
+    function lead(id, username, itemid, itemname) {
+        layer.confirm('您确定要设置<' + username + '>为《' + itemname + '》领投人吗?', {
+            btn: ['是', '否'] //按钮
+        }, function () {
+            $.post("__MODULE__/Lead/lead_user_define", {
+                id: id,
+                itemid: itemid
+            }, function (d) {
+                if (d.status == 1) {
+                    layer.open({
+                        content: d.info,
+                        yes: function (index) {
+                            window.location.reload()
+                        }
+                    });
+                } else {
+                    alert(d.info);
+                }
+            });
+        }, function () {
+            layer.msg('您选择了取消', {shift: 2});
+        });
+    }
+</script>
+</body>
+</html>

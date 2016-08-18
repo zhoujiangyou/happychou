@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>我的认证 - 会员中心<Zml:title /></title>
+    <!--引入头部资源 -->
+    <include file="Public:script"/>
+    <script type="text/javascript" charset="utf-8" src="/Public/lib/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/Public/lib/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="/Public/lib/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <link rel="stylesheet" href="/Public/semantic.min.css">
+    <script src="/Public/semantic.min.js"></script>
+</head>
+<body id="angel_apply" style="background:#e7e8eb">
+<include file="Home@default/Public/header_inner" />
+<include file="Public:header" />
+
+<div class="padding-big">
+    <h3 class="text-normal">
+        申请成为悦筹认证投资人
+        <span class="radius-rounded border border-yellow text-yellow text-small">未申请</span>
+    </h3>
+    <p class="padding-top padding-big-bottom">
+        根据天使汇<a class="#">合格投资人规则</a>，投资人需进行身份和投资资质认证，请您提交真实完备的信息，以便快速通过审核。
+    </p>
+    <hr />
+
+    <div class="ui ordered three small steps">
+        <div class="active step ss1" data-step="1">
+            <div class="content">
+                <div class="title">个人信息</div>
+                <div class="description">填写个人信息</div>
+            </div>
+        </div>
+        <div class="step ss2" data-step="2">
+            <div class="content">
+                <div class="title">身份证明</div>
+                <div class="description">填写身份证明</div>
+            </div>
+        </div>
+        <div class="step ss3" data-step="3">
+            <div class="content">
+                <div class="title">资质证明</div>
+                <div class="description">上传资质证明</div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="step1">
+        <h3 class="text-normal margin-top padding-top padding-bottom">请填写基本信息和联系方式：</h3>
+        <hr />
+        <form class="form-x">
+            <div class="form-group">
+                <div class="label">
+                    <label for="touxiang">*真实头像</label>
+                </div>
+                <div class="floated-left">
+                    <input size="100" type="file" id='true_header' name='true_header' value="{$attest['true_header']}"/>
+                    <span class=""><img src="<if condition="$attest['true_header']">{:cut_image($attest['true_header'],'120','120')}<else />__IMG__user-logo.jpg</if>" class="true_header" height="120" /></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="label">
+                    <label>*真实姓名</label><img src="" />
+                </div>
+                <input class="input" name="true_name" type="text" placeholder="真实姓名" value="{$user['name']}"/>
+            </div>
+
+            <div class="form-group">
+                <div class="label">
+                    <label>*公司职位</label><img src="" />
+                </div>
+                <input class="input float-left margin-right" name="company" type="text" placeholder="公司名称" value="{$attest['company']}"/>
+                <input class="input float-left" name="job" type="text" placeholder="职位名称" value="{$attest['job']}"/>
+            </div>
+            <div class="form-group">
+                <div class="label">
+                    <label>*电子邮箱</label>
+                </div>
+                <input class="input" name="email" type="text" placeholder="电子邮箱" value="{$attest['email']}"/>
+            </div>
+
+            <div class="form-group">
+                <div class="label">
+                    <label>微信号码</label><img src="" />
+                </div>
+                <input class="input" name="weixin" type="text" placeholder="微信号码" value="{$attest['weixin']}"/>
+            </div>
+            <hr />
+            <a href="javascript:void(0)" class="button step1 bg-main">保存并进入下一步</a>
+        </form>
+    </div>
+
+    <div id="step2" class="hidden">
+        <h3 class="text-normal margin-top padding-top padding-bottom">
+            请上传身份证和名片，帮助我们快速核实您的身份(两种证件必须同时上传)
+        </h3>
+        <hr />
+        <div class="form-group">
+            <div class="label">
+                <label>上传身份证明</label>
+            </div>
+            <div class="floated-left">
+                <input type="hidden" id="card-shadow" value="{$attest['card_positive']}"/>
+                <input size="100" type="file" id='card_positive' name='card_positive' value="{$attest['card_positive']}"/>
+                <span class=""><img class="card_positive_img" src="<if condition="$attest['card_positive']">{:cut_image($attest['card_positive'],'120','120')}<else />__IMG__user-logo.jpg</if>" class="card_positive" height="120" /></span>
+            </div>  </div>
+        <div class="form-group margin-large-top">
+            <div class="label">
+                <label>上传名片</label>
+            </div>
+            <div class="floated-left">
+                <input type="hidden" id="business_card-shadow" value="{$attest['business_card']}"/>
+                <input size="100" type="file" id='business_card' name='business_card' value="{$attest['business_card']}"/>
+                <span class=""><img src="<if condition="$attest['business_card']">{:cut_image($attest['business_card'],'120','120')}<else />__IMG__user-logo.jpg</if>" class="business_card" height="120" /></span>
+            </div>
+        </div>
+        <hr />
+        <a href="javascript:void(0)" class="button step2 bg-main">保存并进入下一步</a>
+
+    </div>
+
+    <div id="step3" class="hidden padding-big">
+        <div class="ui three column grid">
+            <div class="row text-center">
+                <div class="column normal button bg-main radius-none padding-big inver-type" data-type="3">
+                    <h4 class="">一般投资人</h4>
+                    <p>
+                        无tmt投资领域经历，或有tmt投资领域经验，但单笔投额小于10万元。
+                    </p>
+                </div>
+                <div  class="column jingyan  button radius-none padding-big inver-type" data-type="2">
+                    <h4>经验投资人</h4>
+                    <p>
+                        有tmt投资领域经历，单笔投额大于10万元。
+                    </p>
+                </div>
+                <div class="column jigou  button radius-none padding-big inver-type" data-type="1">
+                    <h4>机构投资人</h4>
+                    <p>
+                        代表投资机构或者公司进行天使投资，并且能较快的进行投资策略。
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="ui segument margin-big-top">
+            <div class="sections sec1">
+                <h3 class="text-red">
+                    请上传证明文件，至少选择下列其中一种
+                </h3>
+                <h4>
+                    收入证明
+                </h4>
+
+                <ul>
+                    <li class="padding-bottom text-small">满足条件：最近三年个人年均收入不低于30万元人民币，或家庭（个人及其配偶）年均收入不低于60万元人民币。</li>
+                    <li class="padding-bottom text-small">证明材料：加盖公司公章的收入证明的扫描件或高清拍照。</li>
+                </ul>
+                <div class="floated-left">
+                    <input size="100" type="file" id='shouru_pic' name='shouru_pic' value="{$attest['shouru_pic']}"/>
+                    <span class=""><img src="<if condition="$attest['shouru_pic']">{:cut_image($attest['shouru_pic'],'120','120')}<else />__IMG__user-logo.jpg</if>" class="shouru_pic" height="120" /></span>
+                </div>
+                <hr />
+                <h4>
+                    金融资产证明
+                </h4>
+
+                <ul>
+                    <li class="padding-bottom text-small">满足条件：个人名下货币资产或证券类资产市值不低于100万元人民币。</li>
+                    <li class="padding-bottom text-small">证明材料：1、银行账户六个月的流水账单的扫描件或高清图片； 2、股票、基金等其他金融资产的前一交易日账户额度证明的扫描件或高清图片。</li>
+                </ul>
+                <div class="floated-left">
+                    <input size="100" type="file" id='jinrong_pic' name='jinrong_pic' value="{$attest['jinrong_pic']}"/>
+                    <span class=""><img src="<if condition="$attest['jinrong_pic']">{:cut_image($attest['jinrong_pic'],'120','120')}<else />__IMG__user-logo.jpg</if>" class="jinrong_pic" height="120" /></span>
+                </div>
+                <hr />
+                <h4>
+                    固定资产证明
+                </h4>
+                <ul>
+                    <li class="padding-bottom text-small">满足条件：个人名下固定资产（除主要居所）市值500万元人民币以上的相关证明。</li>
+                    <li class="padding-bottom text-small">证明材料：固定资产证明的扫描件或高清拍照。</li>
+                </ul>
+                <div class="floated-left">
+                    <input size="100" type="file" id='gudingzc_pic' name='gudingzc_pic' value="{$attest['gudingzc_pic']}"/>
+                    <span class=""><img src="<if condition="$attest['gudingzc_pic']">{:cut_image($attest['gudingzc_pic'],'120','120')}<else />__IMG__user-logo.jpg</if>" class="gudingzc_pic" height="120" /></span>
+                </div>
+                <hr />
+            </div>
+            <div class="sections sec2 hidden">
+                <h4>
+                    投资案例证明
+                </h4>
+                <ul>
+                    <li class="padding-bottom text-small">满足条件：有TMT领域天使投资经验，并且单笔投资额大于10万元人民币。</li>
+                    <li class="padding-bottom text-small">证明材料：1.披露本人真实信息的投资案例新闻报道的网址、扫描件或高清拍照；2.加盖公章的投资协议、公司章程等文件的扫描件或高清拍照。</li>
+                </ul>
+                <div class="floated-left">
+                    <input size="100" type="file" id='touzianli_pic' name='touzianli_pic' value="{$attest['touzianli_pic']}"/>
+                    <span class=""><img src="<if condition="$attest['touzianli_pic']">{:cut_image($attest['touzianli_pic'],'120','120')}<else />__IMG__user-logo.jpg</if>" class="touzianli_pic" height="120" /></span>
+                </div>
+                <hr />
+            </div>
+            <div class="sections sec3 hidden">
+                <h4>仅需任意上传一种证明即可  </h4>
+                <h4>
+                    投资案例证明
+                </h4>
+                <ul>
+                    <li class="padding-bottom text-small">满足条件：有TMT领域天使投资经验，并且单笔投资额大于30万元人民币。</li>
+                    <li class="padding-bottom text-small">证明材料：1.披露机构或公司真实信息的投资案例新闻报道的网址、扫描件或高清拍照；2.加盖公章的投资协议、公司章程等文件的扫描件或高清拍照。。</li>
+                </ul>
+                <div class="floated-left">
+                    <input size="100" type="file" id='touzianli_pic1' name='touzianli_pic1' value="{$attest['touzianli_pic']}"/>
+                    <span class=""><img src="<if condition="$attest['touzianli_pic']">{:cut_image($attest['touzianli_pic'],'120','120')}<else />__IMG__user-logo.jpg</if>" class="touzianli_pic" height="120" /></span>
+                </div>
+                <hr />
+                <h4>
+                    实缴注册资本证明
+                </h4>
+                <ul>
+                    <li class="padding-bottom text-small">满足条件：实缴注册资本在1000万元人民币以上。</li>
+                    <li class="padding-bottom text-small">证明材料：实缴注册资本证明的扫描件或高清拍照。</li>
+                </ul>
+                <div class="floated-left">
+                    <input size="100" type="file" id='shijiao_pic' name='shijiao_pic' value="{$attest['shijiao_pic']}"/>
+                    <span class=""><img src="<if condition="$attest['shijiao_pic']">{:cut_image($attest['shijiao_pic'],'120','120')}<else />__IMG__user-logo.jpg</if>" class="shijiao_pic" height="120" /></span>
+                </div>
+                <hr />
+
+                <h4>
+                    机构资产证明
+                </h4>
+                <ul>
+                    <li class="padding-bottom text-small">满足条件：总资产或管理资产不低于3000万元人民币。</li>
+                    <li class="padding-bottom text-small">证明材料：机构资产证明的扫描件或高清拍照。</li>
+                </ul>
+                <div class="floated-left">
+                    <input size="100" type="file" id='jigou_pic' name='jigou_pic' value="{$attest['jigou_pic']}"/>
+                    <span class=""><img src="<if condition="$attest['jigou_pic']">{:cut_image($attest['jigou_pic'],'120','120')}<else />__IMG__user-logo.jpg</if>" class="jigou_pic" height="120" /></span>
+                </div>
+                <hr />
+                <h4>
+                    机构净利润证明
+                </h4>
+                <ul>
+                    <li class="padding-bottom text-small">满足条件：最近三年每年净利润不低于500万元人民币。</li>
+                    <li class="padding-bottom text-small">证明材料：机构净利润证明的扫描件或高清拍照。</li>
+                </ul>
+                <div class="floated-left">
+                    <input size="100" type="file" id='jlr_pic' name='jlr_pic' value="{$attest['jlr_pic']}"/>
+                    <span class=""><img src="<if condition="$attest['jlr_pic']">{:cut_image($attest['jlr_pic'],'120','120')}<else />__IMG__user-logo.jpg</if>" class="jlr_pic" height="120" /></span>
+                </div>
+                <hr />
+            </div>
+
+        </div>
+        <a class="button bg-main step3" href="javascript:void(0)">提交申请</a>
+    </div>
+
+</div>
+</div>
+</div>
+</div>
+<div class="clearfix"></div>
+<include file="Home@default/Public/foot" />
+<script src="__PUBLIC__/js/form.js"></script>
+<script src="__PUBLIC__/lib/region.js"></script>
+<script type="text/javascript">
+    var invertype = 3;
+    $('.inver-type').on('click',function(){
+        invertype = parseInt($(this).attr('data-type'));
+
+    });
+
+    //实缴注册资本
+    $("#shijiao_pic").wrap("<form id='shijiao_pic_up' action='__ROOT__/user/upload' method='post' enctype='multipart/form-data' class='img-from'></form>");
+    $("#shijiao_pic").change(function () {
+        $("#shijiao_pic_up").ajaxSubmit({
+            dataType: 'json',
+            beforeSend: function () {
+                var index = layer.load(1, {
+                    shade: [0.1, '#fff'] //0.1透明度的白色背景
+                });
+            },
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.open({
+                        content: data.info,
+                        btn: ['好的'],
+                        yes: function () {
+                            layer.closeAll();
+                        }
+                    })
+                } else {
+                    var img = data.url;
+                    $(".shijiao_pic").attr('src', img);
+                    save('shijiao_pic', img);
+                    layer.closeAll();
+                }
+            }
+        });
+    });
+
+    //机构净利润
+    $("#jlr_pic").wrap("<form id='jlr_pic_up' action='__ROOT__/user/upload' method='post' enctype='multipart/form-data' class='img-from'></form>");
+    $("#jlr_pic").change(function () {
+        $("#jlr_pic_up").ajaxSubmit({
+            dataType: 'json',
+            beforeSend: function () {
+                var index = layer.load(1, {
+                    shade: [0.1, '#fff'] //0.1透明度的白色背景
+                });
+            },
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.open({
+                        content: data.info,
+                        btn: ['好的'],
+                        yes: function () {
+                            layer.closeAll();
+                        }
+                    })
+                } else {
+                    var img = data.url;
+                    $(".jlr_pic").attr('src', img);
+                    save('jlr_pic', img);
+                    layer.closeAll();
+                }
+            }
+        });
+    });
+
+    //机构资产
+    $("#jigou_pic").wrap("<form id='jigou_pic_up' action='__ROOT__/user/upload' method='post' enctype='multipart/form-data' class='img-from'></form>");
+    $("#jigou_pic").change(function () {
+        $("#jigou_pic_up").ajaxSubmit({
+            dataType: 'json',
+            beforeSend: function () {
+                var index = layer.load(1, {
+                    shade: [0.1, '#fff'] //0.1透明度的白色背景
+                });
+            },
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.open({
+                        content: data.info,
+                        btn: ['好的'],
+                        yes: function () {
+                            layer.closeAll();
+                        }
+                    })
+                } else {
+                    var img = data.url;
+                    $(".jigou_pic").attr('src', img);
+                    save('jigou_pic', img);
+                    layer.closeAll();
+                }
+            }
+        });
+    });1
+    //投资案例
+    $("#touzianli_pic1").wrap("<form id='touzianli_pic1_up' action='__ROOT__/user/upload' method='post' enctype='multipart/form-data' class='img-from'></form>");
+    $("#touzianli_pic1").change(function () {
+        $("#touzianli_pic1").ajaxSubmit({
+            dataType: 'json',
+            beforeSend: function () {
+                var index = layer.load(1, {
+                    shade: [0.1, '#fff'] //0.1透明度的白色背景
+                });
+            },
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.open({
+                        content: data.info,
+                        btn: ['好的'],
+                        yes: function () {
+                            layer.closeAll();
+                        }
+                    })
+                } else {
+                    var img = data.url;
+                    $(".touzianli_pic1").attr('src', img);
+                    save('touzianli_pic', img);
+                    layer.closeAll();
+                }
+            }
+        });
+    });
+    //投资案例
+    $("#touzianli_pic").wrap("<form id='touzianli_pic_up' action='__ROOT__/user/upload' method='post' enctype='multipart/form-data' class='img-from'></form>");
+    $("#touzianli_pic").change(function () {
+        $("#touzianli_pic_up").ajaxSubmit({
+            dataType: 'json',
+            beforeSend: function () {
+                var index = layer.load(1, {
+                    shade: [0.1, '#fff'] //0.1透明度的白色背景
+                });
+            },
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.open({
+                        content: data.info,
+                        btn: ['好的'],
+                        yes: function () {
+                            layer.closeAll();
+                        }
+                    })
+                } else {
+                    var img = data.url;
+                    $(".touzianli_pic").attr('src', img);
+                    save('touzianli_pic', img);
+                    layer.closeAll();
+                }
+            }
+        });
+    });
+
+    //金融资产
+    $("#jinrong_pic").wrap("<form id='jinrong_pic_up' action='__ROOT__/user/upload' method='post' enctype='multipart/form-data' class='img-from'></form>");
+    $("#jinrong_pic").change(function () {
+        $("#jinrong_pic_up").ajaxSubmit({
+            dataType: 'json',
+            beforeSend: function () {
+                var index = layer.load(1, {
+                    shade: [0.1, '#fff'] //0.1透明度的白色背景
+                });
+            },
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.open({
+                        content: data.info,
+                        btn: ['好的'],
+                        yes: function () {
+                            layer.closeAll();
+                        }
+                    })
+                } else {
+                    var img = data.url;
+                    $(".jinrong_pic").attr('src', img);
+                    save('jinrong_pic', img);
+                    layer.closeAll();
+                }
+            }
+        });
+    });
+
+    //固定资产
+    $("#gudingzc_pic").wrap("<form id='gudingzc_pic_up' action='__ROOT__/user/upload' method='post' enctype='multipart/form-data' class='img-from'></form>");
+    $("#gudingzc_pic").change(function () {
+        $("#gudingzc_pic_up").ajaxSubmit({
+            dataType: 'json',
+            beforeSend: function () {
+                var index = layer.load(1, {
+                    shade: [0.1, '#fff'] //0.1透明度的白色背景
+                });
+            },
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.open({
+                        content: data.info,
+                        btn: ['好的'],
+                        yes: function () {
+                            layer.closeAll();
+                        }
+                    })
+                } else {
+                    var img = data.url;
+                    $(".gudingzc_pic").attr('src', img);
+                    save('gudingzc_pic', img);
+                    layer.closeAll();
+                }
+            }
+        });
+    });
+    //收入证明
+    $("#shouru_pic").wrap("<form id='shouru_pic_up' action='__ROOT__/user/upload' method='post' enctype='multipart/form-data' class='img-from'></form>");
+    $("#shouru_pic").change(function () {
+        $("#shouru_pic_up").ajaxSubmit({
+            dataType: 'json',
+            beforeSend: function () {
+                var index = layer.load(1, {
+                    shade: [0.1, '#fff'] //0.1透明度的白色背景
+                });
+            },
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.open({
+                        content: data.info,
+                        btn: ['好的'],
+                        yes: function () {
+                            layer.closeAll();
+                        }
+                    })
+                } else {
+                    var img = data.url;
+                    $(".shouru_pic").attr('src', img);
+                    save('shouru_pic', img);
+                    layer.closeAll();
+                }
+            }
+        });
+    });
+
+    // 上传头像
+    $("#true_header").wrap("<form id='myupload' action='__ROOT__/user/upload' method='post' enctype='multipart/form-data' class='img-from'></form>");
+    $("#true_header").change(function () {
+        $("#myupload").ajaxSubmit({
+            dataType: 'json',
+            beforeSend: function () {
+                var index = layer.load(1, {
+                    shade: [0.1, '#fff'] //0.1透明度的白色背景
+                });
+            },
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.open({
+                        content: data.info,
+                        btn: ['好的'],
+                        yes: function () {
+                            layer.closeAll();
+                        }
+                    })
+                } else {
+                    var img = data.url;
+                    $(".true_header").attr('src', img);
+                    save('true_header', img);
+                    layer.closeAll();
+                }
+            }
+        });
+    });
+
+    // 上传封面图片
+    $("#card_positive").wrap("<form id='card_positive_up' action='__ROOT__/user/upload' method='post' enctype='multipart/form-data' class='img-from'></form>");
+    $("#card_positive").change(function () {
+        $('#card-shadow').val('hasfile');
+        $("#card_positive_up").ajaxSubmit({
+            dataType: 'json',
+            beforeSend: function () {
+                var index = layer.load(1, {
+                    shade: [0.1, '#fff'] //0.1透明度的白色背景
+                });
+            },
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.open({
+                        content: data.info,
+                        btn: ['好的'],
+                        yes: function () {
+                            layer.closeAll()
+                        }
+                    })
+                } else {
+                    var img = data.url;
+                    $(".card_positive").attr('src', img);
+                    save('card_positive', img);
+                    layer.closeAll();
+                }
+            }
+        });
+    });
+
+    //上传身份证明 上传名片
+    $("#business_card").wrap("<form id='business_card_up' action='__ROOT__/user/upload' method='post' enctype='multipart/form-data' class='img-from'></form>");
+    $("#business_card").change(function () {
+
+        $('#business_card-shadow').val('hasfile');
+
+        $("#business_card_up").ajaxSubmit({
+            dataType: 'json',
+            beforeSend: function () {
+                var index = layer.load(1, {
+                    shade: [0.1, '#fff'] //0.1透明度的白色背景
+                });
+            },
+            success: function (data) {
+                if (data.status == 0) {
+                    layer.open({
+                        content: data.info,
+                        btn: ['好的'],
+                        yes: function () {
+                            layer.closeAll()
+                        }
+                    })
+                } else {
+                    var img = data.url;
+                    $(".business_card").attr('src', img);
+                    save('business_card', img);
+                    layer.closeAll()
+                }
+            }
+        });
+    });
+
+
+    function save(name, value) {
+        if (name == 'true_header') {
+            $.post('__MODULE__/attest/edit', {true_header: value}, function (e) {
+                if (e.status = 1) {
+                    layer.msg('更新成功', {shift: 2});
+                } else {
+                    layer.msg('更新失败', {shift: 2});
+                }
+            })
+        }else if(name=='card_positive'){
+            $.post('__MODULE__/attest/edit', {card_positive: value}, function (e) {
+                if (e.status = 1) {
+                    layer.msg('更新成功', {shift: 2});
+                } else {
+                    layer.msg('更新失败', {shift: 2});
+                }
+            })
+        }else if(name=='business_card'){
+            $.post('__MODULE__/attest/edit', {business_card: value}, function (e) {
+                if (e.status = 1) {
+                    layer.msg('更新成功', {shift: 2});
+                } else {
+                    layer.msg('更新失败', {shift: 2});
+                }
+            })
+        }else if(name=='shouru_pic'){
+            $.post('__MODULE__/attest/edit', {shouru_pic: value}, function (e) {
+                if (e.status = 1) {
+                    layer.msg('更新成功', {shift: 2});
+                } else {
+                    layer.msg('更新失败', {shift: 2});
+                }
+            })
+        }else if(name=='gudingzc_pic'){
+            $.post('__MODULE__/attest/edit', {gudingzc_pic: value}, function (e) {
+                if (e.status = 1) {
+                    layer.msg('更新成功', {shift: 2});
+                } else {
+                    layer.msg('更新失败', {shift: 2});
+                }
+            })
+        } else if(name=='jinrong_pic'){
+            $.post('__MODULE__/attest/edit', {jinrong_pic: value}, function (e) {
+                if (e.status = 1) {
+                    layer.msg('更新成功', {shift: 2});
+                } else {
+                    layer.msg('更新失败', {shift: 2});
+                }
+            })
+        } else if(name=='touzianli_pic'){
+            $.post('__MODULE__/attest/edit', {touzianli_pic: value}, function (e) {
+                if (e.status = 1) {
+                    layer.msg('更新成功', {shift: 2});
+                } else {
+                    layer.msg('更新失败', {shift: 2});
+                }
+            })
+        }else if(name=='jigou_pic'){
+            $.post('__MODULE__/attest/edit', {jigou_pic: value}, function (e) {
+                if (e.status = 1) {
+                    layer.msg('更新成功', {shift: 2});
+                } else {
+                    layer.msg('更新失败', {shift: 2});
+                }
+            })
+        }else if(name=='jlr_pic'){
+            $.post('__MODULE__/attest/edit', {jlr_pic: value}, function (e) {
+                if (e.status = 1) {
+                    layer.msg('更新成功', {shift: 2});
+                } else {
+                    layer.msg('更新失败', {shift: 2});
+                }
+            })
+        }else if(name=='shijiao_pic'){
+            $.post('__MODULE__/attest/edit', {shijiao_pic: value}, function (e) {
+                if (e.status = 1) {
+                    layer.msg('更新成功', {shift: 2});
+                } else {
+                    layer.msg('更新失败', {shift: 2});
+                }
+            })
+        }
+    }
+
+    $(function(){
+        $('.img-from').on('click',function(event){
+
+        });
+
+        $('#step3 .row .button').on('click',function(){
+            $('#step3 .row .button').removeClass('bg-main');
+            $(this).addClass('bg-main');
+        });
+
+        $('.normal').on('click',function(){
+            $('.sections').addClass('hidden');
+            $('.sec1').removeClass('hidden')
+        });
+
+        $('.jingyan').on('click',function(){
+            $('.sections').addClass('hidden');
+            $('.sec2').removeClass('hidden')
+        });
+
+        $('.jigou').on('click',function(){
+            $('.sections').addClass('hidden');
+            $('.sec3').removeClass('hidden')
+        });
+
+        $('.step').on('click',function(){
+            var step = $(this).attr('data-step');
+            $('.step').removeClass('completed');
+            $('.step').removeClass('active');
+
+            $('#step1').addClass('hidden');
+            $('#step2').addClass('hidden');
+            $('#step3').addClass('hidden');
+
+
+
+            if(step==1){
+                $('.ss1').addClass('active');
+                $('#step1').removeClass('hidden');
+            }else if(step==2){
+                $('#step2').removeClass('hidden');
+                $('.ss1').addClass('completed');
+                $('.ss2').addClass('active');
+            }else{
+                $('#step3').removeClass('hidden');
+                $('.ss1').addClass('completed');
+                $('.ss2').addClass('completed');
+                $('.ss3').addClass('active');
+            }
+        });
+
+        $('.step1').on('click',function(){
+            var true_header=$("input[name='true_header']");
+            var true_name=$("input[name='true_name']");
+            var company=$("input[name='company']");
+            var job=$("input[name='job']");
+            var email=$("input[name='email']");
+            var weixin=$("input[name='weixin']");
+
+            if(true_name.val()==''){
+                layer.tips('真实姓名不能为空',true_name);
+                true_name.focus()
+                return false
+            }
+            if(company.val()==''){
+                layer.tips('公司名称不能为空',company);
+                company.focus()
+                return false
+            }
+            if(job.val()==''){
+                layer.tips('职位不能为空',job);
+                job.focus()
+                return false
+            }
+            if(email.val()==''){
+                layer.tips('邮件不能为空',email);
+                email.focus()
+                return false
+            }
+
+
+
+            $('#step1').addClass('hidden');
+            $('#step2').removeClass('hidden');
+            $('.ss1').addClass('completed');
+            $('.ss1').removeClass('active');
+            $('.ss2').addClass('active');
+        });
+        // step2
+        $('.step2').on('click',function(){
+            var card_positive=$("#card-shadow");
+            var real_card= $("input[name=card_positive]");
+            if(!card_positive.val()){
+                layer.tips('身份证不能为空',real_card);
+                real_card.focus();
+                return false;
+            }
+
+            var business_card=$("#business_card-shadow");
+            var buscard = $('#business_card');
+            if(!business_card.val()){
+                layer.tips('名片不能为空',buscard);
+                business_card.focus()
+                return false
+            }
+
+            $('#step2').addClass('hidden');
+            $('#step3').removeClass('hidden');
+            $('.ss2').addClass('completed');
+            $('.ss2').removeClass('active');
+            $('.ss3').addClass('active');
+        });
+        $('.step3').on('click',function(){
+            $('.ss3').removeClass('active');
+            $('.ss3').addClass('completed');
+
+            var true_header=$("input[name='true_header']");
+            var true_name=$("input[name='true_name']");
+            var company=$("input[name='company']");
+            var job=$("input[name='job']");
+            var email=$("input[name='email']");
+            var weixin=$("input[name='weixin']");
+
+            $.post('__MODULE__/attest/attest_in',{
+                true_name:true_name.val(),
+                type:2,
+                company:company.val(),
+                job:job.val(),
+                email:email.val(),
+                weixin:weixin.val(),
+                attest_type:invertype
+            },function(data){
+                if(data.status!=1){
+                    console.log(data);
+                    layer.msg(data.info);
+                    window.location.href=data.url;
+                    return false;
+                }
+            });
+            layer.msg("提交成功");
+
+
+        });
+        // image upload
+
+    })
+</script>
+</body>
+</html>

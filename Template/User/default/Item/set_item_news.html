@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>设置产品项目新闻 - <Zml:title/></title>
+	<!--引入头部资源 -->
+	<include file="Public:script"/>
+</head>
+<body>
+<div class="x12 padding-top padding border-bottom">
+	<h3 class="x3">项目新闻</h3>
+	<a href="{:U('/user/item/add_item_news', array('itemid'=>$itemid))}" class="float-right bg-sub button icon-plus" type="button"> 添加新闻</a>
+</div>
+<div class="x12 padding">
+	<table class="table table-bordered table-hover">
+		<tbody>
+		<tr>
+			<th>编号</th>
+			<th>标题</th>
+			<th>内容</th>
+			<th>时间</th>
+			<th>操作</th>
+		</tr>
+		<volist name="events" id="vo">
+			<tr id="tr{$vo.id}" class="height">
+				<td>{$vo.id}</td>
+				<td>{$vo.news_title}</td>
+				<td>{$vo.news_content}</td>
+				<td>{$vo.news_time|date="Y-m-d",###}</td>
+				<td>
+					<button class="del button button-small bg-sub" sid="{$vo.id}">删除</button>
+					<a href="__MODULE__/item/add_item_news/id/{$vo.id}/itemid/{$itemid}" class=" button button-small bg-sub" >编辑</a>
+				</td>
+			</tr>
+
+		</volist>
+		</tbody>
+	</table>
+	<div class="margin-big-top">
+		<ul class="pagination pagination-group">
+			{$page}
+		</ul>
+	</div>
+</div>
+
+
+</div>
+</div>
+<!-- 底部 -->
+</div>
+<script type="text/javascript">
+	$(function(){
+		//删除
+		$('.del').click(function(){
+			var sid = $(this).attr('sid');
+			layer.confirm('确定要删除此项产品新闻吗？', {icon: 3},function(){
+				$.ajax({
+					type: 'POST',
+					url: '{:U('/user/item/del_news')}',
+					data:{
+						id:sid
+					},
+					dataType: "json",
+					beforeSend: function() {
+						layer.closeAll();
+						layer.load(2,{shade: [0.1,'#000']});
+					},
+					success: function(data){
+						layer.closeAll();
+						if (data.status == 1) {
+
+							layer.msg(data.info, {
+								shift: 2,
+								time: 1000,
+								shade: [0.1,'#000'],
+								end: function(){
+									$("#tr"+sid).remove();
+								}
+							});
+						}else{
+							layer.alert(data.info,{icon: 5});
+						}
+					}
+				});
+			});
+		});
+
+	});
+</script>
+</body>
+</html>

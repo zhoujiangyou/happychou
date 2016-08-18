@@ -1,0 +1,317 @@
+<section id="top" class="z-header inv">
+    <div class="z-mask">
+        <div class="z-navbar">
+            <div class="container">
+                <div class="line-middle">
+                    <a href="/" class="logo x4">
+                        <img class="" src="{:C('logo')}"/>
+                    </a>
+                    <ul class="z-menu x6 text-right">
+                        <li <if condition="$Think.const.CONTROLLER_NAME eq 'Index'">class="active"</if> ><a href="/">首页</a></li>
+                        <li <if condition="$Think.const.CONTROLLER_NAME eq 'Item'">class="active"</if> ><a href="{:U('home/item/index')}">股权项目</a></li>
+                        <!--<li <if condition="$Think.const.CONTROLLER_NAME eq 'Product'">class="active"</if> ><a href="{:U('home/product/index')}">产品项目</a></li>-->
+                        <li <if condition="$Think.const.CONTROLLER_NAME eq 'Investor'">class="active"</if> ><a href="{:U('home/investor/index')}">投资人</a></li>
+                        <!--<li <if condition="$Think.const.CONTROLLER_NAME eq 'haizhi'">class="active"</if> ><a href="{:U('home/haizhi/index')}">海智计划</a></li>-->
+                        <li <if condition="$Think.const.CONTROLLER_NAME eq 'news'">class="active"</if> ><a href="{:U('home/news/index')}">帮助中心</a></li>
+                    </ul>
+                    <div class="x2 text-right text-gray login-area">
+                        <if condition="session('user.uin')"><a href="{:U('user/index/index')}" class="text-gray">用户中心</a> | <a href="{:U('/user/login/logout')}" class="text-gray">安全退出</a>
+                            <else/>
+                            </a>
+                            <a href="javascript:void(0)" class="text-gray dialogs login_btn" data-toggle="click" data-target="#mydialog"
+                               data-mask="1" data-width="400px">登录</a> |
+                            <a href="javascript:void(0)" class="text-gray dialogs" data-toggle="click" data-target="#regist_dia"
+                               data-mask="1" data-width="400px">注册</a>
+                        </if>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<if condition="session('?user.uin') eq false">
+ <!-- 如果没登录才显示登录弹窗代码 -->
+    <div id="mydialog">
+        <div class="dialog">
+            <div class="dialog-head">
+                <span class="dialog-close close rotate-hover"></span><strong>用户登陆</strong>
+            </div>
+            <div class="dialog-body line">
+                <div class="x12 padding">
+                    <div class="form-group">
+                        <div class="field field-icon">
+                            <span class="icon icon-user"></span>
+                            <input type="text" placeholder="手机号" name="phone"
+                                   class="input box-shadow-none text-small radius-none"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="field field-icon">
+                            <span class="icon icon-key"></span>
+                            <input type="password" name="pwd" placeholder="密码" class="input box-shadow-none text-small radius-none"/>
+                            <div class="margin-top"><a href="{:U('user/login/forgotpwd')}" class="text-green">忘记密码 ? </a></div>
+                        </div>
+                    </div>
+                    <div class="form-group margin-bottom verify_area hidden">
+                        <div class="field field-icon">
+                            <span class="icon icon-check-square-o"></span>
+                            <input type="text " size="10"
+                                   class="input radius-none box-shadow-none text-small input-auto"
+                                   name="verify" placeholder="验证码"/>
+                            <span class="addbtn padding-left">
+                                <img src="{:U('home/verify/index')}" id="code" height="33" style="margin-top: -1px"/></span>
+                            <a href="javascript:void(0)" onclick="verifys('code',this)" class="text-green">换一张</a>
+                        </div>
+                    </div>
+                    <div class="alert alert-red x12 margin-top login_err hidden margin-bottom">
+                        <strong>登陆失败</strong>
+                        <div class="login_err_con"></div>
+                    </div>
+                    <div class="dialog-foot">
+                        <button href="javascript:void(0)" class="button x3 x3-move bg-yellow text-center padding-small text-white text-big"
+                                onclick="login(this)">登录</button>
+                        <button href="javascript:void(0)" class="button x3 margin-left text-center padding-small text-big dialog-close">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="regist_dia">
+        <div class="dialog">
+            <div class="dialog-head">
+                <span class="dialog-close close rotate-hover"></span><strong>用户注册</strong>
+            </div>
+            <div class="dialog-body line">
+                <div class="x12 padding">
+                    <div class="form-group">
+                        <div class="field field-icon">
+                            <span class="icon icon-user"></span>
+                            <input type="text" placeholder="手机号" name="phone"
+                                   class="input box-shadow-none text-small radius-none"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="field field-icon">
+                            <span class="icon icon-key"></span>
+                            <input type="password" name="pwd" placeholder="密码" class="input box-shadow-none text-small radius-none"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="field field-icon">
+                            <span class="icon icon-key"></span>
+                            <input type="password" name="pwd_confirm" placeholder="确认密码" class="input box-shadow-none text-small radius-none"/>
+                        </div>
+                    </div>
+                    <div class="form-group margin-bottom">
+                        <div class="field field-icon">
+                            <span class="icon icon-check-square-o"></span>
+                            <input type="text " size="10"
+                                   class="input radius-none box-shadow-none text-small input-auto"
+                                   name="verify" placeholder="验证码"/>
+                            <span class="addbtn padding-left">
+                                <img src="{:U('home/verify/index')}" id="code_reg" height="33" style="margin-top: -1px"/></span>
+                            <a href="javascript:void(0)" onclick="verifys('code_reg',this)" class="text-green">换一张</a>
+                        </div>
+                    </div>
+                    <div class="alert alert-red x12 margin-top reg_err hidden margin-bottom">
+                        <strong>注册失败</strong>
+                        <div class="reg_err_con"></div>
+                    </div>
+                    <div class="dialog-foot">
+                        <button href="javascript:void(0)" class="button x3 x3-move bg-yellow text-center padding-small text-white text-big"
+                                onclick="reg(this)">注册</button>
+                        <button href="javascript:void(0)" class="button x3 margin-left text-center padding-small text-big dialog-close">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    var need_code = false;
+    function verifys(id, context) {
+        var container = $(context).parent();
+        var random = Math.random();
+        var img = $(container).find('img');
+        img.attr('src', "{:U('home/verify/index/" + random + "')}");
+    }
+
+    function reg(d){
+        var container = $(d).parent().parent();
+        var phone = container.find("input[name='phone']");
+        var pwd = container.find("input[name='pwd']")
+        var pwd_c = container.find("input[name='pwd_confirm']")
+        var verify = container.find("input[name='verify']")
+        if (phone.val() == '') {
+            layer.tips('请输入手机号', phone);
+            phone.focus();
+            return false
+        }
+        if (!phone.val().match(/^1\d{10}$/)) {
+            layer.tips('请输入正确的手机号', phone);
+            phone.focus();
+            return false
+        }
+        if (pwd.val().length < 6) {
+            layer.tips('不少于6位字母或数字', pwd);
+            pwd.focus();
+            return false
+        }
+
+        if (pwd.val() == '') {
+            layer.tips('请输入密码', pwd);
+            pwd.focus();
+            return false
+        }
+        if (pwd_c.val() == '') {
+            layer.tips('请输入密码确认密码', pwd_c);
+            pwd_c.focus();
+            return false
+        }
+
+        if (pwd_c.val() != pwd.val()) {
+            layer.tips('2次输入密码不一致', pwd);
+            pwd.focus();
+            return false
+        }
+
+        if (verify.val() == '') {
+            layer.tips('请输入验证码', verify, {
+                tips: 4,
+            });
+            verify.focus();
+            return false
+        }
+
+        $(d).html('<div class="loader-inner ball-scale-multiple"><div></div><div></div><div></div></div>注册中');
+        $(d).attr('disabled','disabled');
+
+        $.ajax({
+            type: "POST",
+            url: '/User/Login/InterFacereg.html',
+            data: {
+                phone: $.trim(phone.val()),
+                pwd:$.trim(pwd.val()),
+                pwd_confirm:$.trim(pwd_c.val()),
+                verify:$.trim(verify.val())
+            },
+            success: function(res){
+                if(parseInt(res.s_ok) === 0){
+                    $('.reg_err_con').html(res.msg);
+                    $('.reg_err').removeClass('hidden');
+                }else{
+                    $('.dialog-close').click();
+
+                    swal({
+                                title: "注册成功",
+                                text: "您的账号已经成功注册，您可以到用户中心修改更详细的个人信息!",
+                                type: "success",
+                                showCancelButton: true,
+                                confirmButtonColor: "#FF9900",
+                                confirmButtonText: "确定",
+                                cancelButtonText: "关闭",
+                                closeOnConfirm: true,
+                                closeOnCancel: true
+                            },
+                            function(isConfirm){
+                                if (isConfirm) {
+                                    window.location.href='/Home/Index/index';
+                                }
+                            }
+
+                    );
+
+                    //swal("注册成功!", "您的账号已经成功注册，您可以到用户中心修改更详细的个人信息!", "success")
+//                  location.reload();
+//                  $('.reg_err').addClass('hidden');
+//                  $('.reg_err_con').html('');
+                }
+            },
+            error:function(){
+                $('.reg_err_con').html('注册失败请检查您的网络！');
+                $('.reg_err').removeClass('hidden');
+            },
+            complete:function(){
+                $(d).text('注册');
+                $(d).removeAttr('disabled');
+            },
+            dataType: 'JSON'
+        });
+    }
+
+
+    function login(d,ret) {
+        var container = $(d).parent().parent();
+        var phone = container.find("input[name='phone']");
+        var pwd = container.find("input[name='pwd']")
+        var verify = container.find("input[name='verify']")
+        if (phone.val() == '') {
+            layer.tips('请输入手机号', phone);
+            phone.focus();
+            return false
+        }
+        if (!phone.val().match(/^1\d{10}$/)) {
+            layer.tips('请输入正确的手机号', phone);
+            phone.focus();
+            return false
+        }
+        if (pwd.val() == '') {
+            layer.tips('请输入密码', pwd);
+            pwd.focus();
+            return false
+        }
+        if (pwd.val().length < 6) {
+            layer.tips('不少于6位字母或数字', pwd);
+            pwd.focus();
+            return false
+        }
+
+        if (need_code && verify.val() == '') {
+            layer.tips('请输入验证码', verify, {
+                tips: 4,
+            });
+            verify.focus();
+            return false
+        }
+        $(d).html('<div class="loader-inner ball-scale-multiple"><div></div><div></div><div></div></div>登陆中');
+        $(d).attr('disabled','disabled');
+
+        $.ajax({
+            type: "POST",
+            url: '/User/Login/InterFaceUserLogin.html',
+            data: {
+                phone:phone.val(),
+                pwd:pwd.val(),
+                verify:verify.val()
+            },
+            success: function(res){
+                // 多次失败
+                if(res.data.need_code==1){
+                    need_code = true;
+                    $('.verify_area').removeClass('hidden');
+                    return;
+                }
+
+                if(parseInt(res.s_ok) === 0){
+                    $('.login_err_con').html(res.msg);
+                    $('.login_err').removeClass('hidden');
+                }else{
+                    location.reload();
+//                    $('.login_err').addClass('hidden');
+//                    $('.login_err_con').html('');
+
+                }
+            },
+            error:function(){
+                $('.login_err_con').html('登陆失败请检查您的网络！');
+                $('.login_err').removeClass('hidden');
+            },
+            complete:function(){
+                $(d).text('登 录');
+                $(d).removeAttr('disabled');
+            },
+            dataType: 'JSON'
+        });
+    }
+</script>
+</if>

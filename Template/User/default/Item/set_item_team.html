@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>设置团队成员 - <Zml:title/></title>
+    <!--引入头部资源 -->
+    <include file="Public:script"/>
+</head>
+<body>
+<div class="x12 padding-top padding border-bottom">
+    <h3 class="x3">团队成员管理</h3>
+    <a href="{:U('/user/item/add_item_team', array('itemid'=>$itemid))}" class="float-right bg-sub button icon-plus" type="button"> 添加团队成员</a>
+</div>
+<div class="x12 padding">
+    <table class="table table-bordered table-hover">
+        <tbody>
+        <tr>
+            <th>编号</th>
+            <th>名称</th>
+            <th>职位</th>
+            <th>头像</th>
+            <th>简介</th>
+            <th>操作</th>
+        </tr>
+        <volist name="team" id="vo">
+            <tr id="tr{$vo.id}" class="height">
+                <td>{$vo.id}</td>
+                <td>{$vo.name}</td>
+                <td>{$vo.title}</td>
+                <td><img src="{$vo.header}" width="50"/></td>
+                <td>{$vo.description}</td>
+                <td>
+                    <button class="del button button-small bg-sub" sid="{$vo.id}">删除</button>
+                    <a href="__MODULE__/item/add_item_team/id/{$vo.id}/itemid/{$itemid}" class=" button button-small bg-sub" >编辑</a>
+                </td>
+            </tr>
+
+        </volist>
+        </tbody>
+    </table>
+    <div class="margin-big-top">
+        <ul class="pagination pagination-group">
+            {$page}
+        </ul>
+    </div>
+</div>
+
+
+</div>
+</div>
+<!-- 底部 -->
+</div>
+<script type="text/javascript">
+    $(function(){
+        //删除
+        $('.del').click(function(){
+            var sid = $(this).attr('sid');
+            layer.confirm('确定要删除此成员吗？', {icon: 3},function(){
+                $.ajax({
+                    type: 'POST',
+                    url: '{:U('/user/item/del_team')}',
+                    data:{
+                        id:sid
+                    },
+                    dataType: "json",
+                    beforeSend: function() {
+                        layer.closeAll();
+                        layer.load(2,{shade: [0.1,'#000']});
+                    },
+                    success: function(data){
+                        layer.closeAll();
+                        if (data.status == 1) {
+
+                            layer.msg(data.info, {
+                                shift: 2,
+                                time: 1000,
+                                shade: [0.1,'#000'],
+                                end: function(){
+                                    $("#tr"+sid).remove();
+                                }
+                            });
+                        }else{
+                            layer.alert(data.info,{icon: 5});
+                        }
+                    }
+                });
+            });
+        });
+
+    });
+</script>
+</body>
+</html>

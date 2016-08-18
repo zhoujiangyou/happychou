@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>支持列表管理 - 会员中心<Zml:title /></title>
+    <!--引入头部资源 -->
+    <include file="Public:script"/>
+    <script type="text/javascript" charset="utf-8" src="__LIB__ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__LIB__ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="__LIB__ueditor/lang/zh-cn/zh-cn.js"></script>
+    <style>
+        .myspan{
+            width:150px;
+        }
+    </style>
+</head>
+<body style="background:#e7e8eb">
+<include file="Home@default/Public/header_inner" />
+<include file="Public:header" />
+<div class="x12 padding border-bottom">
+    <h1>投资列表管理</h1>
+</div>
+<div class="x12 padding bg">
+    <if condition="$list eq null">
+        <div id="nodata" style="line-height: 100px;" class=" x12 text-center bg-white padding-large margin-big-bottom text-large text-gray">
+            <i class="icon-frown-o"></i>  哦哦~客官 你还没有投资任何项目哦~
+        </div>
+    </if>
+    <zmllist name="list" id="zml">
+        <div class="x12  padding-small-top">
+            <div class="x12 bg-white padding-small height-big">
+                <span class="float-left  padding-big-right text-small border-right myspan">投资人：{$zml.user_name}</span>
+                <span class="float-left  padding-big-right text-small border-right myspan">金额：￥{$zml.money}</span>
+                <span class="float-left  padding-big-right text-small border-right myspan">项目名称：{$zml.item_name}</span>
+                <span class="float-left  padding-big-right text-small border-right myspan">类型：<if condition="$zml.type eq 0">股权项目<else/>产品项目</if></span>
+                <span class="float-right  padding-big-right text-small border-right myspan"><a href="javascript:void(0)" class="button border-main " onclick="add_bankfeedback({$zml.id})" >添加银行回执</a></span>
+                <span class="float-right  padding-big-right  text-small myspan">时间：{$zml.create_time|date="Y-m-d",###}</span>
+            </div>
+        </div>
+    </zmllist>
+</div>
+<div class="x12 text-center padding"><ul class="pagination border-red pagination-small">{$page}</ul></div>
+</div>
+</div>
+</div>
+<div class="clearfix"></div>
+<include file="Home@default/Public/foot" />
+
+</body>
+</html>
+<script type="text/javascript">
+    //添加问题回复
+    function add_bankfeedback(id){
+        layer.open({
+            type: 2,
+            area: ['920px', '300px'],
+            fix: true, //不固定
+            maxmin: true,
+            title:'添加银行回执信息',
+            content: '/user/withorder/add_orderback/id/'+id
+        });
+    }
+
+</script>

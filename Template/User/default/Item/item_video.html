@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>设置项目视频 - <Zml:title /></title>
+    <!--引入头部资源 -->
+    <include file="Public:script"/>
+</head>
+<body>
+  
+  <div class="container">
+    <div class="x12 padding">
+        <form class="form-inline" action="#" method="post"  autocomplete="off">
+            <zmllist name="video" id="vo">
+               <div class="field padding">
+                 <span>{$vo.pname}视频 : </span>
+                 
+                 <input type="text" class="input radius-none box-shadow-none" size="100" value="{$vo.url}"  placeholder="视频地址" />
+                 <button class="button button-small bg-sub radius-none" type="button" onclick="save({$vo.pid},{$itemid},this)">保存</button>
+             </div>
+         </zmllist>
+     </form>
+     
+ </div>
+</div>
+<script type="text/javascript">
+function save(type,itemid,d){
+ var url=$(d).prev('input');
+ if(url.val().length < 1){
+   layer.tips('视频地址不能为空', url, {
+       tips: [4, '#78BA32']
+   });
+   url.focus()
+   return false
+}
+
+$.ajax({
+    type: 'POST',
+    url: '__MODULE__/item/item_video',
+    data: {
+        type:type,
+        itemid:itemid,
+        url:url.val()
+    },
+    dataType: "json",
+    beforeSend: function() {
+        layer.load(2, {
+            shade: [0.1, '#fff']
+        })
+    },
+    success: function(data) {
+        layer.closeAll();
+        if (data.status == 1) {
+            parent.layer.msg(data.info, {
+                shift: 2,
+                time: 1000,
+                shade: [0.1, '#000'],
+            })
+        } else {
+            parent.layer.alert(data.info, {
+                icon: 5
+            })
+        }
+    }
+});
+}
+</script>
+</body>
+</html>

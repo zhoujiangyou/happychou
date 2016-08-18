@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>找回密码-<Zml:title /></title>
+	<!--引入头部资源 -->
+	<include file="Public:script"/>
+</head>
+<body> 
+	<include file="Home@default/Public/header_inner" />
+	<div class="container">
+		<div class="x12 padding-large-top" style=""  >
+			<div style="margin-top: 80px;margin-bottom: 120px;" class="x4 x4-move bg-white padding-large">
+				<h2 class="padding-bottom">找回密码</h2>
+				<div class="form-group">
+					<div class="field field-icon">	
+						<span class="padding-small-top icon icon-user"></span>					
+						<input type="text"  placeholder="手机号" name="phone1" class="input input-big box-shadow-none text-small radius-none" />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="field field-icon">	
+						<span class="padding-small-top icon icon-check-square-o"></span>
+						<input type="text " size="30" class="input radius-none input-big box-shadow-none text-small input-auto" name="verify1" placeholder="短信验证码" />
+						<input type="button" class="button button-big border text-small" onclick="getyzm(this)" value="获取验证码" />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="field field-icon">	
+						<span class="padding-small-top icon icon-key"></span>						
+						<input type="password" name="pwd1" placeholder="设置新的登录密码" class="input box-shadow-none text-small input-big radius-none" />
+					</div>
+				</div>		
+				<a href="javascript:void(0)"  class="x12 bg-red text-center padding text-white text-large" onclick="login(this)">确 认</a>
+
+			</div>
+		</div>
+	</div>
+	<script>
+	var wait=60; 
+	function time(o) { 
+		if (wait == 0) { 
+			o.removeAttribute("disabled");	
+			o.value="获取验证码"; 
+			wait = 30; 
+		} else { 
+			o.setAttribute("disabled", true); 
+			o.value="重新发送(" + wait + ")"; 
+			wait--; 
+			setTimeout(function() { 
+				time(o) 
+			}, 
+			1000) 
+		} 
+	} 
+	function getyzm(d){			
+		var phone=$("input[name='phone1']");
+		if(phone.val()==''){
+			layer.tips('手机号不能为空', phone);
+			phone.focus();
+			return false
+		}
+		var telReg = !!phone.val().match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
+		if(telReg == false){
+			layer.tips('手机号格式不对', phone);
+			phone.focus();
+			return false
+		}
+		$.post('__MODULE__/login/forgotpwd_sendsms.html',{phone:phone.val()},function(e){
+			if(e.status==1){
+				layer.msg(e.info);
+				time(d)
+				$(d).text('验证已发送');
+			}else{
+				layer.msg(e.info,{shift: 6})
+			}
+		})	
+	}
+	
+	function verify1(id){
+		$("#"+id).attr('src',"{:U('home/verify/index')}");
+	}
+
+	function login(d){
+		var phone=$("input[name='phone1']")
+		var pwd=$("input[name='pwd1']")
+		var verify=$("input[name='verify1']")
+		if(phone.val()==''){
+			layer.tips('手机号不能为空', phone);
+			phone.focus();
+			return false
+		}
+		if(pwd.val()==''){
+			layer.tips('密码不能为空', pwd);
+			pwd.focus();
+			return false			
+		}
+		if(verify.val()==''){
+			layer.tips('验证码不能为空', verify,{
+				tips:4,
+			});
+			verify.focus();
+			return false			
+		}
+		$.post("{:U('user/login/forgotpwd')}", {phone:phone.val(), pwd:pwd.val(), verify:verify.val(),},function (data){
+				if (data.status == 1) {
+					layer.msg(data.info,{shift: 2})
+				}else{
+					layer.msg(data.info,{shift: 6})
+					
+				}
+			}
+			)
+	}
+	</script>
+	<include file="Home@default/Public/foot" />
+</body>
+</html>

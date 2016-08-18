@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>投资人详情页 -
+        <Zml:title/>
+    </title>
+    <!--引入头部资源 -->
+    <include file="Public:script"/>
+</head>
+
+<body class="bg" id="page-stock">
+<!-- 导航 -->
+<include file="Public/header_inner"/>
+<div class="text-center" style="background-color: #2a3234;	position: relative; padding-top: 17px;">
+    <div class="container" >
+        <div class="x12">
+            <div class="" style="background-image: url('__PUBLIC__/img/front-end/inv2.jpg');background-size: cover;height: 400px;padding-top:50px">
+                <div class="inv-header">
+                    <img style="box-shadow:1px 1px 5px #ccc" src="{$userinfo.true_header}"/>
+                </div>
+                <div class="text-white margin-bottom ">
+                    <h2 class="text-large margin-top text-black">{$userinfo.true_name}</h2>
+                    <div class="margin-top text-big text-black">
+                        <span class="">{$userinfo.company}·{$userinfo.job}</span>
+                    </div>
+                    <div class="margin-top text-black">
+                    <?php if($userinfo['attest_status']==1){?>
+                        <span class="tag bg-main">认证投资人</span>
+                        <?php if($userinfo['attest_type']==1){?>
+                            <span class="tag bg-sub">机构投资人</span>
+                        <?php }else if($userinfo['attest_type']==2){ ?>
+                            <span class="tag bg-sub">经验投资人</span>
+                        <?php }else{ ?>
+                            <span class="tag bg-sub">一般投资人</span>
+                        <?php } ?>
+                    <?php } ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="touziren-detail">
+    <div class="line-big">
+        <div class="navbar navbar-big bg-inverse tab">
+            <div class="bg-yellow-light navbar-body nav-navicon tab-head">
+                <div class="container">
+                    <div class="bg-yellow x12">
+                        <ul class="nav nav-inline nav-menu tab-nav x6">
+                            <li class="active"><a href="#tab-a">个人信息</a></li>
+                            <li><a href="#tab-b">教育记录</a></li>
+                            <li><a href="#tab-c">投资理念</a></li>
+                            <li><a href="#tab-d">关注信息</a></li>
+                        </ul>
+                        <div class="x6 text-right padding-small-top padding-big-right">
+                            <button class="sub_proj button radius-rounded border-none" onclick="submit_item({$uin})"><span class="icon-group padding-small-right"></span>提交项目给我</button>
+
+                            <?php if(session('user.uin')){
+                                if(check_follow($uin, session('user.uin'))){
+                            ?>
+                            <div class="button-group">
+                                <button class="ui green icon dropdown-toggle button radius-rounded border-none" >
+                                    <i class="icon icon-heart"></i>
+                                    已关注
+                                </button>
+                                <ul class="drop-menu">
+                                    <li><a style="cursor: pointer;color:#333;" onclick="unfollow({$uin})">取消关注</a> </li>
+                                </ul>
+                            </div>
+                            <?php }else{ ?>
+                            <button class="ui yellow compact labeled icon toggle button radius-rounded border-none" onclick="follow({$uin})">
+                                <span class="icon-heart-o padding-small-right"></span>
+                                关注我
+                            </button>
+                            <?php  } }else{?>
+                            <button class="ui yellow compact labeled icon toggle button radius-rounded border-none" onclick="follow(<?php echo $uin; ?>)">
+                                <span class="icon-heart-o padding-small-right"></span>
+                                关注我
+                            </button>
+                            <?php } ?>
+                            <!--<button class="guanzhu button radius-rounded border-none"><span class="icon-heart-o padding-small-right"></span>关注</button>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container tab-body margin-big-bottom padding-top-none">
+                <div class="bg-white line padding text-black" style="box-shadow: 0 0 3px #eee;min-height: 300px">
+                    <div class="tab-panel active" id="tab-a">
+                        <h2 class="x12 header">个人简介</h2>
+                        <p class="x12">{$userinfo.description}</p>
+                        <h2 class="x12 header margin-large-top margin-bottom">过往投资案例及个人经历</h2>
+                        <div class="x12">
+                            <volist name="investment_case" id="vo" empty="该投资人还没有填写个人经历">
+                                <div class="line  margin-bottom">
+                                    <div class="x1">
+                                        <img src="{$vo.img}"/>
+                                    </div>
+                                    <div class="x11">
+                                        <h5 class="">{$vo.name}</h5>
+                                        <div class="">{$vo.time|date="Y-m-d",###}</div>
+                                        <div class="">{$vo.role}</div>
+                                    </div>
+                                </div>
+                            </volist>
+                        </div>
+                        <h2 class="x12 margin-large-top">投资计划</h2>
+                        <div class="x6 margin-top margin-big-bottom">
+                            <div class="border line padding " style="background-color: #fafafa;">
+                                <div class="x12">
+                                    <div class="x12 text-big">
+                                        关注领域
+                                    </div>
+                                    <div class="x12">
+                                        <volist name="plan.concern_area" empty="未知" id="vo">
+                                    <span class="tag bg-green margin-right">
+                                        {$vo.name}
+                                    </span>
+                                        </volist>
+                                    </div>
+                                </div>
+                                <div class="x12 margin-top">
+                                    <div class="x12 text-big">
+                                            关注城市
+                                    </div>
+                                    <div class="x12">
+                                        <volist name="plan.concern_city" empty="未知"  id="vo">
+                                        <span class="tag bg-green margin-right">
+                                            {$vo.city}
+                                        </span>
+                                        </volist>
+                                    </div>
+                                </div>
+                                <div class="x12 margin-top">
+                                    <div class="x6">
+                                        <div class="text-large">{$plan.min_limit}万 - {$plan.max_limit}万</div>
+                                        <div class="">单个项目投资额度范围</div>
+                                    </div>
+                                    <div class="x6">
+                                        <div class="text-large">{$plan.num}个</div>
+                                        <div class="">一年计划投资项目</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-panel" id="tab-b">
+                        <h2 class="x12 header">教育经历</h2>
+                        <div class="x12">
+                            <volist name="education" id="vo" empty="暂无记录">
+                                <div class="x7 margin-top border padding">
+                                    <div class="x12 text-big">{$vo.school}</div>
+                                    <div class="x4">{$vo.year}届</div>
+                                    <div class="x4">{$vo.degree}</div>
+                                    <div class="x4">{$vo.major}</div>
+                                </div>
+                            </volist>
+                        </div>
+                    </div>
+                    <div class="tab-panel" id="tab-c">
+                        <h2 class="x12">投资理念</h2>
+                        <div class="x12">{$investment_ideas.content}</div>
+
+                        <if condition="$investment_ideas.siklled_in neq NULL">
+                            <h2 class="x12 margin-top">擅长投资领域</h2>
+                            <div class="x12">
+                                {$investment_ideas.siklled_in}
+                            </div>
+                        </if>
+
+                        <if condition="$investment_ideas.added_value neq NULL">
+                            <h2 class="x12 margin-top">可以提供的附加价值</h2>
+                            <div class="x12">
+                                {$investment_ideas.added_value}
+                            </div>
+                        </if>
+                    </div>
+                    <div class="tab-panel margin-bottom" id="tab-d">
+                        <div class="x12">
+                            <div class="x6 margin-bottom">
+                                <h2 class="x12 padding-bottom">我关注的项目</h2>
+                                <div class="x12">
+                                <volist name="collect" id="vo" empty="暂无记录">
+                                    <div class="border-bottom padding-bottom margin-top line">
+                                        <div class="x2">
+                                            <a href="{:U('home/item/info', array('id'=>$vo['itemid']))}" target="_blank"> <img src="{$vo.cover_img}"/></a>
+                                        </div>
+                                        <div class="x10">
+                                            <h5 class="text-big text-black">{$vo.item_name}</h5>
+                                            <div class="text-small margin-top">{$vo.desc}</div>
+                                        </div>
+                                    </div>
+                                </volist>
+                                </div>
+                            </div>
+
+
+                            <div class="x6 line-small">
+                                <!--<div class="ui pointing secondary menu side-menu">-->
+                                    <!--<a class="item active" data-tab="side-first">关注数（{$follow_count}）</a>-->
+                                    <!--<a class="item" data-tab="side-second">粉丝（{$be_follow_count}）</a>-->
+                                <!--</div>-->
+                                <div class="x12 padding-bottom">
+                                    <h2 class="x12 padding-bottom">我的关注</h2>
+                                    <volist name="follow" id="vo">
+                                        <a class="x1" href="/investor/detail/id/{$vo.uin}.html" target="_blank">
+                                            <img src="{$vo.header}">
+                                        </a>
+
+                                    </volist>
+                                    <!--<a class="more" href="">更多..</a>-->
+                                </div>
+                                <div class="x12 padding-bottom">
+                                    <h2 class="x12 padding-bottom">我的粉丝</h2>
+                                    <volist name="be_follow" id="vo">
+                                        <a class="x1" href="/investor/detail/id/{$vo.uin}.html" target="_blank">
+                                            <img src="{$vo.header}">
+                                        </a>
+                                    </volist>
+                                    <!--<a class="more" href="">更多..</a>-->
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 底部 -->
+<include file="Public/foot"/>
+<script type="text/javascript">
+    $('.lingtou').on('click',function(){
+        if("<?=$_SESSION['user']['uin']?>"){
+            lead_check()
+        }else{
+            $('.login_btn').trigger('click');
+        }
+    });
+    //我要提交项目
+    function submit_item(uin) {
+        if("<?=$_SESSION['user']['uin']?>"){
+            layer.open({
+                type: 2,
+                title: '提交项目给投资人',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['750px', '500px'],
+                content: ["/user/item/submit_item/id/" + uin]
+            });
+        }else{
+            $('.login_btn').trigger('click');
+        }
+    }
+
+    //关注投资人
+    function follow(uin) {
+        $.get("/user/login/check_login", {bakurl: "{:base64_encode('__SELF__')}"}, function (d) {
+            if (d.status == 1) {
+                //如果检测有登录状态
+                $.post("{:U('user/follow/follow')}", {uin: uin}, function (d) {
+                    if (d.s_ok == 1) {
+                        //layer.open({content: d.msg});
+                        location.reload();
+                    } else {
+                        layer.open({content: d.msg});
+                    }
+                });
+            } else {
+                $('.login_btn').trigger('click');
+            }
+        });
+    }
+
+    //取消关注
+    function unfollow(uin) {
+        $.get("/user/login/check_login", {bakurl: "{:base64_encode('__SELF__')}"}, function (d) {
+            if (d.status == 1) {
+                //如果检测有登录状态
+                $.post("{:U('user/follow/unfollow')}", {uin: uin}, function (d) {
+                    if (d.s_ok == 1) {
+                        //layer.open({content: d.info});
+                        location.reload();
+                    } else {
+                        layer.open({content: d.msg});
+                    }
+                });
+            } else {
+                $('.login_btn').trigger('click');
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

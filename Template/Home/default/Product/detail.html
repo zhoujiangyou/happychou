@@ -1,0 +1,362 @@
+<head>
+    <title>产品项目详情 - <Zml:title/>
+    </title>
+    <!--引入头部资源 -->
+    <include file="Public:script"/>
+</head>
+
+<body class="bg" id="page-product">
+<div id="doc" class="ui">
+    <include file="Public/header_inner"/>
+    <section id="product-detail">
+        <div class="ui sub-header">
+            <div class="ui container items">
+                <div class="ui item">
+                    <div class="ui small image logo">
+                        <img src="{$info.cover_img}"/>
+                    </div>
+                    <div class="content">
+                        <div class="header">{$info.name}</div>
+                        <div class="meta">
+                            <div class="ui mini label"><i class="icon fa fa-user"></i> {$leftRate}% <span
+                                    class="detail">剩余</span></div>
+                            <div class="ui mini label"><i class="icon fa fa-user"></i> {$info.user_name} <span class="detail">发起人</span>
+                            </div>
+                            <div class="ui mini label"><i class="icon fa fa-user"></i> {$collect_num} <span
+                                    class="detail">关注数</span></div>
+                        </div>
+                        <div class="description">
+                            <p>{$info.desc}</p>
+                        </div>
+                        <div class="extra">
+                            <?php if(session('user.uin')){
+                                if(check_collect($itemid, session('user.uin'))){
+                            ?>
+                            <div class="button-group">
+                                <button class="ui green  icon dropdown-toggle button" >
+                                    <i class="icon icon-check"></i>
+                                    已收藏<span class="downward"></span>
+                                </button>
+                                <ul class="drop-menu">
+                                    <li><a  onclick="uncollect({$itemid})">取消关注</a> </li>
+                                </ul>
+                            </div>
+                            <?php }else{ ?>
+                            <button class="ui yellow compact labeled icon toggle button" onclick="collect({$itemid})">
+                                <i class="icon icon-plus"></i>
+                                收藏项目
+                            </button>
+                            <?php  } }else{?>
+                            <button class="ui yellow compact labeled icon toggle button" onclick="collect(<?php echo $itemid; ?>)">
+                                <i class="icon icon-plus"></i>
+                                收藏项目
+                            </button>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui container margin-top">
+            <div class="ui grid">
+                <div class="eleven wide column">
+                    <div class="section-content">
+                        <div class="section-title">
+                            <h5 class="left floaded header">项目介绍</h5>
+                        </div>
+                        <div class="ui basic segment">
+                           {$info.content|htmlspecialchars_decode}
+                        </div>
+
+                        <div class="section-title">
+                            <h5 class="left floaded header">团队成员</h5>
+                        </div>
+
+                        <div class="ui basic segment person">
+                            <div class="ui divided items">
+                                <volist name="team" id="vo">
+                                    <div class="ui tiny item">
+                                        <div class="ui tiny image">
+                                            <img src="{$vo.header}"/>
+                                        </div>
+                                        <div class="content">
+                                            <div class="header">{$vo.name} {$vo.title}</div>
+                                            <div class="description">
+                                             {$vo.description}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </volist>
+                            </div>
+                        </div>
+
+                        <div class="section-title">
+                            <h5 class="left floaded header">项目大记事</h5>
+                        </div>
+                        <div class="ui basic segment">
+                            <div class="ui threaded comments">
+                                <volist name="events" id="vo">
+                                    <div class="comment">
+                                        <a class="avatar">
+                                            <img src="__PUBLIC__/img/front-end/time.png">
+                                        </a>
+
+                                        <div class="content">
+                                            <div class="metadata">
+                                                <span class="date">{$vo.time|date="Y-m-d",###}</span>
+                                            </div>
+                                            <div class="text">
+                                                <p>{$vo.content}</p>
+                                            </div>
+                                        </div>
+                                        <div class="comments">
+                                        </div>
+                                    </div>
+                                </volist>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="five wide column">
+
+                    <div class="aside-content">
+                        <div class="ui basic vertical segment">
+                            <div class="ui items">
+                                <div class="item">
+                                    <a class="ui tiny image">
+                                        <img src="{$info.user_header}"/>
+                                    </a>
+                                    <div class="middle aligned content">
+                                    <span class="mrm">
+                                        {$info.user_name}
+                                    </span>
+                                        <span class="ui mini label"> 发起人</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui vertical segment">
+                            <div class="ui two column grid">
+                                <div class="column">
+                                    <div class="date">{$info.start_time|date="Y-m-d",###}</div>
+                                    <div class="">发起时间</div>
+                                </div>
+                                <div class="column">
+                                    <div class="date">{$info.end_time|date="Y-m-d",###}</div>
+                                    <div class="">截止时间</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui vertical segment money-seg">
+                            <div class="">筹集目标</div>
+                            <div class="money">{$info.raising_money}</div>
+                        </div>
+                        <div class="ui vertical segment static-seg">
+                            <div class="ui three column grid">
+                                <div class="column">
+                                    <div>
+                                        <span class="big-number"><?php echo gettime($info["end_time"]-time()); ?></span>
+                                    </div>
+                                    <div>剩余</div>
+                                </div>
+                                <div class="column">
+                                    <div>
+                                        <span class="big-number">{$countMoney}</span>元
+                                    </div>
+                                    <div>已筹集</div>
+                                </div>
+                                <div class="column">
+                                    <div>
+                                        <span class="big-number">{$leftRate}</span>%
+                                    </div>
+                                    <div>剩余</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="aside-content">
+                        <div class="ui basic vertical segment">
+                            <div>
+                                已有<span class="hightlight">{$support}</span>位支持者
+                            </div>
+                        </div>
+                        <div class="ui basic vertical segment">
+                            <div class="ui form error">
+                                <div class="field">
+                                    <label>不超过{$info.raising_money}元</label>
+                                    <input type="number" name="money" placeholder="请输入金额">
+                                </div>
+                                <div class="full-with-btn" onclick="support(this)">支持</div>
+                            </div>
+                        </div>
+                    </div>
+                    <volist name="return" id="vo">
+                        <div class="aside-content surport">
+                            <div class="ui basic vertical segment oh">
+                                <div class="floated-left">
+                                    <span class="hightlight-big">{$vo.price}</span>元/份
+                                </div>
+                                <if condition="$vo['is_limit_user'] eq 1">
+                                    <div class="floated-right mlm meta">
+                                        限购<span class="hightlight">{$vo.limit_user}</span>份
+                                    </div>
+                                </if>
+                                <div class="floated-right meta">
+                                    已支持<span class="hightlight">{$vo.support_count}</span>份
+                                </div>
+                            </div>
+                            <div class="ui basic vertical segment mtm">
+                              {$vo.description}
+                                <hr/>
+                                配送费用：<if condition="$vo['is_delivery'] eq 1">{$vo.delivery_fee}<else/>免运费</if> <br/>
+                                预计回报发送时间:{$vo.repaid_day} 天
+                                <?php
+                                    if (($vo['is_limit_user'] == 1) && ($vo['limit_user'] <= $vo['support_count'])){
+                                ?>
+                                    <div class="full-with-btn">已满额</div>
+                                <?php }else{ ?>
+                                    <div class="full-with-btn" onclick="add_support({$vo.id}, {$vo.price})">支持</div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </volist>
+
+                    <div class="aside-content surport">
+                        <div class="ui vertical segment">
+                            <div class="ui two column grid">
+                                <div class="column date">
+                                    关注人列表
+                                </div>
+                                <div class="column right aligned">
+                                    <div class="meta-tip">
+                                        更多
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui mini images">
+                                <volist name="collect" id="vo">
+                                    <a class="ui image" href="{:U('home/investor/detail', array('id'=>$vo['uin']))}">
+                                        <img src="{$vo.header}">
+                                    </a>
+                                </volist>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- 底部 -->
+    <include file="Public/foot"/>
+</div>
+<script type="text/javascript">
+    function support(d){
+        var raising_money = {$info.raising_money};
+        var money=$("input[name='money']");
+        if(money.val()==''){
+            layer.tips('选输入一个金额',money);
+            money.focus();
+            return false
+        }
+        if(money.val()> raising_money){
+            layer.tips('您输入的金额过大，请重新输入!', money);
+            money.focus();
+            return false
+        }
+        if(money.val()< 0){
+            layer.tips('您输入的金额错误，请重新输入!', money);
+            money.focus();
+            return false
+        }
+
+        $.post("{:U('user/item/with_product')}",{
+            itemid:{$itemid},
+            item_return_id:0,
+            money:money.val(),
+        },function(data){
+            if(data.status==1){
+                window.location.href=data.url
+            }else{
+                console.log(data)
+                layer.msg(data.info)
+            }
+        })
+    }
+
+    //添加支持
+    function add_support(id, price){
+        $.post("{:U('user/item/with_product')}",{
+            itemid:{$itemid},
+            item_return_id:id,
+            money:price,
+        },function(data){
+            if(data.status==1){
+                window.location.href=data.url
+            }else{
+                console.log(data)
+                layer.msg(data.info)
+            }
+        })
+    }
+
+    //收藏
+    function collect(itemid) {
+        $.get("/user/login/check_login", {bakurl: "{:base64_encode('__SELF__')}"}, function (d) {
+            if (d.status == 1) {
+                //如果检测有登录状态
+                $.post("{:U('home/item/collect')}", {
+                    itemid: itemid,
+                    type:2
+                }, function (d) {
+                    if (d.status == 1) {
+                        layer.open({content: d.info});
+                        parent.location.reload();
+                    } else {
+                        layer.open({content: d.info});
+                    }
+                });
+            } else {
+                layer.open({
+                    content: d.info,
+                    yes: function (index) {
+                        window.location.href = d.url;
+                    }
+                });
+            }
+        });
+    }
+
+
+    //取消关注
+    function uncollect(itemid){
+        $.get("/user/login/check_login", {bakurl: "{:base64_encode('__SELF__')}"}, function (d) {
+            if (d.status == 1) {
+                //如果检测有登录状态
+                $.post("{:U('home/item/uncollect')}", {
+                    itemid:itemid
+                }, function (d) {
+                    if (d.status == 1) {
+                        layer.open({content: d.info});
+                        parent.location.reload();
+                    } else {
+                        layer.open({content: d.info});
+                    }
+                });
+            } else {
+                layer.open({
+                    content: d.info,
+                    yes: function (index) {
+                        window.location.href = d.url;
+                    }
+                });
+            }
+        });
+    }
+
+</script>
+
+</body>
+</html>

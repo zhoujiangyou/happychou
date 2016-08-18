@@ -1,0 +1,107 @@
+<link rel="stylesheet" href="__PUBLIC__/css/pintuer.css">
+<script src="__PUBLIC__/js/jquery-1.8.3.min.js"></script>
+<script src="__PUBLIC__/lib/layer/layer.js"></script>
+<div class="x12 padding-large">
+	<form method="post" class="form-x">
+		<div class="form-group x12">
+			<div class="label padding-left">银行回执信息: </div>
+			<div class="field">
+				<input type="text" class="input box-shadow-none radius-none"  name="content" value="{$bankfeedback}"/>
+			</div>
+		</div>
+		<div class="form-group x12">
+			<div class="label padding-left">银行回执信息校验: </div>
+			<div class="field">
+				<input type="text" class="input box-shadow-none radius-none"  name="content_confirm" value="{$bankfeedback}"/>
+			</div>
+		</div>
+		<div class="form-button x12 text-center margin-top">
+			<if condition="$isoffer eq '0'"><button class="button bg-blue icon-plus" style="margin-left: -220px" onclick="add_bankfeedback()" type="button">提交信息</button></if>
+			<if condition="$isoffer eq '1'"><button class="button bg-blue icon-plus" style="margin-left: -220px" onclick="save_bankfeedback()" type="button">修改信息</button></if>
+		</div>
+	</form>
+</div>
+<script>
+
+	//提交用户银行回执
+	function add_bankfeedback(){
+		var content=$("input[name='content']");
+		var content_confirm=$("input[name='content_confirm']");
+		var id = {$id};
+		if(content.val()==''){
+			layer.tips('信息不能为空', content);
+			content.focus();
+			return false
+		}
+		if(content_confirm.val()==''){
+			layer.tips('信息不能为空', content_confirm);
+			content_confirm.focus();
+			return false
+		}
+		if(content.val()!=content_confirm.val()){
+			layer.tips('信息不一致，请确认', content_confirm);
+			content_confirm.focus();
+			return false
+		}
+
+		$.post("/user/withorder/add_orderback.html",{
+			content:content.val(),
+			id:id,
+		},function(ret){
+			if(ret.s_ok==1){
+				parent.layer.msg(ret.msg, {
+					offset: 200,
+					shift: 2
+				});
+				parent.window.location.reload();
+			}else{
+				parent.layer.msg(ret.msg, {
+					offset: 200,
+					shift: 2
+				});
+			}
+		});
+	}
+
+	//修改用户银行回执
+	function save_bankfeedback(){
+		var content=$("input[name='content']");
+		var content_confirm=$("input[name='content_confirm']");
+		var id = {$id};
+		if(content.val()==''){
+			layer.tips('信息不能为空', content);
+			content.focus();
+			return false
+		}
+		if(content_confirm.val()==''){
+			layer.tips('信息不能为空', content_confirm);
+			content_confirm.focus();
+			return false
+		}
+		if(content.val()!=content_confirm.val()){
+			layer.tips('信息不一致，请确认', content_confirm);
+			content_confirm.focus();
+			return false
+		}
+
+		$.post("/user/withorder/save_orderback.html",{
+			content:content.val(),
+			id:id,
+		},function(ret){
+			if(ret.s_ok==1){
+				parent.layer.msg(ret.msg, {
+					offset: 200,
+					shift: 2
+				});
+				parent.window.location.reload();
+			}else{
+				parent.layer.msg(ret.msg, {
+					offset: 200,
+					shift: 2
+				});
+			}
+		});
+	}
+
+
+</script>

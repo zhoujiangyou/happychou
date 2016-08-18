@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>产品项目列表 - <Zml:title/></title>
+    <!--引入头部资源 -->
+    <include file="Public:script"/>
+</head>
+<body class="bg" id="page-stock">
+<!-- 导航 -->
+<include file="Public/header_inner"/>
+
+<div class="ui sub-header">
+    <div class="ui divided items label-wapper container padding-big-top padding-big-bottom">
+        <ul class="z-lable-list hangye item">
+            <li class="title">投资类型</li>
+            <li class="" data-type="0"><a href="{:U('home/product/index')}"><span class="">全部</span></a></li>
+            <zmllist name="categorylist" id="zml">
+                <li class="" data-type="0"><a href="{$zml.url}"><span class="">{$zml.name}</span></a></li>
+            </zmllist>
+        </ul>
+        <include file="Public:area"/>
+    </div>
+</div>
+
+<!-- 内容 -->
+<div class="container margin-big-top margin-bottom">
+    <div class="filter bg-white">
+        <div class="line">
+            <ul class="x6 z-filter-label list-inline items">
+                <li class="item text-small border-right" data-filter-type="0" data-director="0"><a href="#">融资金额</a><i
+                        class="icon-arrow-down"></i>
+                </li>
+                <li class="item text-small border-right" data-filter-type="1" data-director="0"><a href="#">关注数</a><i
+                        class="icon-arrow-down"></i>
+                </li>
+                <li class="item text-small border-right" data-filter-type="2" data-director="0"><a href="#">剩余时间</a><i
+                        class="icon-arrow-down"></i>
+                </li>
+                <li class="item text-small" data-filter-type="3" data-director="0"><a href="#">完成比例</a></a><i
+                        class="icon-arrow-down"></i></li>
+            </ul>
+            <ul class="x6 z-filter-label list-inline items text-right">
+                <li class="item text-small border-left" data-filter-type="1"><a href="#">所有项目</a>
+                </li>
+                <li class="item text-small border-left" data-filter-type="1"><a href="#">筹资成功</a>
+                </li>
+                <li class="item text-small border-left" data-filter-type="2"><a href="#">筹资失败</a>
+                </li>
+                <div class="button-group margin-large-right">
+                    <button type="button" class="button button-little dropdown-toggle text-small">
+                        请选择 <span class="downward"></span>
+                    </button>
+                    <ul class="drop-menu text-small">
+                        <li class="item">
+                            <a href="#">推荐项目</a>
+                        </li>
+                        <li class="item">
+                            <a href="#">正在预热</a>
+                        </li>
+                        <li class="item">
+                            <a href="#">最新上线</a>
+                        </li>
+                        <li class="item">
+                            <a href="#">即将结束</a>
+                        </li>
+                    </ul>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container margin-bottom">
+
+    <div class="line-big margin-big-top">
+        <zmllist name="productlist" id="zml">
+            <div class="x6 margin-big-bottom">
+                <a href="{$zml.url}" class="item block-forlist line bg-white">
+                    <img class="x6 titleimg nopadding" src="{$zml.cover_img}" alt="{$zml.name}">
+
+                    <div class="content x6 ">
+                        <div class="meta person-info border-bottom padding-bottom">
+                            <span class="anintext text-gray"><i class="icon-user text-large margin-right text-gray"></i>发起人</span>
+                            <span class="anintext text-gray">{$zml.user_name}</span>
+                        </div>
+                        <div class="header anintext padding-top">{$zml.name}</div>
+                        <div class="meta stock-info">
+                            <span class="text-small text-gray">新三板挂牌</span>
+                            <span class="text-small text-gray">预计2016年4月前</span>
+                        </div>
+                        <div class="meta progress-info">
+                            <div class="progress progress-striped active">
+                                <div class="progress-bar bg-red" style="width:{$zml.success_rate}%;"></div>
+                            </div>
+                        </div>
+                        <div class="description word-clip text-small" data-length="30">
+                            {$zml.desc}
+                        </div>
+                        <div class="extra detail-info">
+                            <div class="line money-info text-small text-center text-gray">
+
+                                <div class="x4 anintext border-right">
+                                    <div><span class="money-list">{$zml.last_time}</span></div>
+                                    <div>剩余</div>
+                                </div>
+                                <div class="x4 anintext border-right">
+                                    <div><span class="money-list">￥{$zml.lowest_money}</span></div>
+                                    <div>起投</div>
+                                </div>
+                                <div class="x4 anintext">
+                                    <div><span class="money-list">{$zml.last_time}</span>%</div>
+                                    <div>剩余</div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </zmllist>
+    </div>
+
+    <div class="x12 text-center padding">
+        <ul class="pagination bg-white border-main-yellow pagination-small">{$page}</ul>
+    </div>
+</div>
+<!-- 底部 -->
+<include file="Public/foot"/>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>添加项目新闻 -
+		<Zml:title/>
+	</title>
+	<!--引入头部资源 -->
+	<include file="Public:script"/>
+</head>
+<body>
+<div class="x12 border-bottom padding">
+	<ul class="bread">
+		<li><a href="javascript:history.go(-1)" class="icon-home"> 返回列表</a></li>
+	</ul>
+</div>
+<div class="x12 padding">
+	<form class="form-x form-block" action="#" method="post">
+		<div class="form-group x12">
+			<div class="label"><label for="title">新闻标题</label></div>
+			<div class="field x5">
+				<input class="input box-shadow-none radius-none" type="text" name="title"
+						  placeholder="新闻标题" value="{$events['news_title']}"></input>
+			</div>
+		</div>
+		<div class="form-group x12">
+			<div class="label"><label for="title">新闻内容</label></div>
+			<div class="field x5">
+				<textarea class="input box-shadow-none radius-none" name="content" rows="5" cols="50"
+						  placeholder="新闻内容">{$events['news_content']}</textarea>
+			</div>
+		</div>
+		<div class="form-group x12">
+			<div class="label"><label for="title">发布时间</label></div>
+			<div class="field x5">
+				<input type="text" name="time" placeholder="请选择" value="<if condition="$events['news_time']">{:date('Y-m-d H:i:s',$events['news_time'])}</if>" onclick="laydate({istime: true, min: laydate.now(), format: 'YYYY-MM-DD hh:mm:ss'})" class="text-small input input-auto box-shadow-none radius-none" size="20" />
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="margin-big-top text-center bg padding">
+			<button class="btn button bg-sub" type="button" onclick="add_events()"> 确 定 发 布</button>
+		</div>
+	</form>
+
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+	//添加大事件
+	function add_events() {
+		var title=$("input[name='title']");
+		var content = $("textarea[name='content']");
+		var time = $("input[name='time']");
+		if (title.val().length < 1) {
+			layer.tips('标题不能为空', title);
+			title.focus()
+			return false
+		}
+		if (content.val().length < 1) {
+			layer.tips('内容不能为空', content);
+			content.focus()
+			return false
+		}
+
+	<if condition = "$events['id']">
+			var post_type = {$events['id']};
+	<else/>
+		var post_type = "add";
+	</if>
+
+		$.post("/user/item/add_item_news", {
+			news_content: content.val(),
+			news_time: time.val(),
+			news_title:title.val(),
+			itemid: '{$itemid}',
+			post_type: post_type,
+		}, function (ret) {
+			if (ret.status == 1) {
+				layer.msg(ret.info, {
+					offset: 200,
+					shift: 2
+				});
+				window.location.href = ret.url
+			} else {
+				layer.msg(ret.info, {
+					offset: 200,
+					shift: 2
+				});
+			}
+		})
+	}
+</script>
+</body>
+</html>

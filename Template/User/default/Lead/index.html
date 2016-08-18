@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>领投管理 - 会员中心<Zml:title /></title>
+	<!--引入头部资源 -->
+	<include file="Public:script"/>
+	<script type="text/javascript" charset="utf-8" src="__LIB__ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="__LIB__ueditor/ueditor.all.min.js"> </script>
+	<script type="text/javascript" charset="utf-8" src="__LIB__ueditor/lang/zh-cn/zh-cn.js"></script>
+</head>
+<body style="background:#e7e8eb">
+	<include file="Home@default/Public/header_inner" />
+	<include file="Public:header" />
+	<div class="x12 padding border-bottom">
+		<h1>领投管理</h1>
+	</div>
+	<div class="x12 padding">
+		<div class="x12 text-center padding-top padding-bottom border-bottom border-top margin-top">
+			<a href="{:U('lead/index')}" class='x1 border-right <if condition="!$_GET['itemid'] && !$_GET['status']"> text-red</if>'>全部</a>
+			<a href="{:U('lead/index',array('status'=>1))}" class='x1 border-right <if condition="$_GET['status']">text-red</if>'>已审核</a>
+		</div>
+	</div>
+	<if condition="$lead eq null">
+		<div id="nodata" style="line-height: 100px;" class=" x12 text-center bg-white padding-large margin-big-bottom text-large text-gray">
+			<i class="icon-frown-o"></i>  哦哦~客官 你还没有领投任何项目哦~
+		</div>
+	</if>
+	<zmllist name="lead" id="zml">
+		<div class="x12 bg padding" style="background-color: white">
+			<div class="x3 padding  bg-white"><img src="{$zml.cover_img}" alt="{$zml.item_name}" class="x12" height="94"></div>
+			<div class="x9 bg padding bg-white border-left height-big" style="background-color: white">
+				<div>
+					<span class="x8 text-big">{$zml.item_name} <span class="text-small text-gray">现有{$zml.count}位领投人</span><span class="text-small float-right text-gray padding-left">已认投<span class="text-red">￥: {$zml.countmoney}</span></span><span class="text-small float-right text-gray padding-big-right">申请人：<span class="text-red">{$zml.user_name}</span></span></span>
+					<span class="x4 text-right">
+						<if condition="$zml['status'] eq '0'">
+							<button onClick="lead('{$zml.id}','{$zml.user_name}','{$zml.itemid}','{$zml.item_name}')" class="button radius-none bg-yellow margin-left">设置为领投</button>
+							<else />
+							<span class="text-red">已审核</span>
+						</if>
+					</span>
+				</div>
+				<div class="x12 text-gray text-small  border-top" style="height: 60px;">
+					{$zml.user_desc}
+				</div>
+			</div>
+		</div>
+		<hr class="bg-gray" />
+	</zmllist>
+	<div class="x12 text-center padding"><ul class="pagination border-red pagination-small">{$page}</ul></div>
+</div>
+</div>
+</div>
+<div class="clearfix"></div>
+<include file="Home@default/Public/foot" />
+<script>
+function lead(id,username,itemid,itemname){
+	layer.confirm('您确定要设置<'+username+'>为《'+itemname+'》领投人吗?', {
+					    btn: ['是','否'] //按钮
+					}, function(){
+						$.post("__MODULE__/lead/lead_user_define", {
+							id: id,
+							itemid: itemid
+						},function(d){
+							if (d.status == 1) {
+								layer.open({
+									content: d.info,
+									yes: function(index){
+										window.location.reload();
+									}
+								});  
+							}else{
+								layer.msg(d.info, {shift: 2});
+							}
+						});
+					}, function(){
+						layer.msg('您选择了取消', {shift: 2});
+					});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>我的认证 - 会员中心 - <Zml:title/></title>
+	<!--引入头部资源 -->
+	<include file="Public:script"/>
+	<link rel="stylesheet" href="/Public/semantic.min.css">
+	<script src="/Public/semantic.min.js"></script>
+</head>
+<body>
+<include file="Home@default/Public/header_inner"/>
+<include file="Public:header"/>
+<div class="padding-big">
+	<h3 class="text-normal">
+		申请成为悦筹认证投资人
+		<span class="radius-rounded border border-yellow text-yellow text-small">{$status}</span>
+	</h3>
+
+	<p class="padding-top padding-big-bottom">
+		根据悦筹<a class="#">合格投资人规则</a>，投资人需进行身份和投资资质认证，请您提交真实完备的信息，以便快速通过审核。
+	</p>
+
+	<hr/>
+
+
+	<h3><i class="icon icon-user"></i>成为悦筹认证投资人，立即解锁四大权限</h3>
+	<ol class="padding-large-left margin-left margin-big-top">
+		<li>与中国最顶级的投资人一起投资优质项目</li>
+		<li>查看项目商业计划书和详细信息</li>
+		<li>参加悦筹线下闪投，有优质项目面对面</li>
+		<li>不定期推送悦筹精选项目，绝不错过投资机会</li>
+	</ol>
+
+	<h3><i class="icon icon-user"></i>申请悦筹认证投资人，您需要准备以下材料：</h3>
+	<ol class="padding-large-left margin-left margin-big-top margin-large-bottom">
+		<li>您的基本信息和联系方式</li>
+		<li>身份证和名片正面高清照片或扫描件</li>
+		<li>资产证明、收入证明或投资案例证明文件高清照片或扫描件</li>
+	</ol>
+
+	<hr/>
+	<input id="hascheck" name="hascheck" type="checkbox"/>
+	<label for="hascheck" class="text-big">我已认真阅读并同意 <a class="text-sub" href="{:U('user/attest/protocol')}" target="_blank">《悦筹在线投资服务协议》</a>及其附件<a
+			class="text-sub" href="{:U('user/attest/risk')}" target="_blank">《风险揭示书》</a>
+	</label>
+	<if condition="$attest['attest_status'] eq 1">
+		<div><a href="{:U('user/attest/angel_apply')}" disabled="disabled"
+				class="button bg-main margin-big-top readybtn">已通过审核，如果变更将重新审核</a></div>
+		<else/>
+		<div><a href="{:U('user/attest/angel_apply')}" disabled="disabled"
+				class="button bg-main margin-big-top readybtn">准备好了，现在申请</a></div>
+	</if>
+
+
+</div>
+</div>
+</div>
+</div>
+<div class="clearfix"></div>
+
+<include file="Home@default/Public/foot"/>
+<script>
+	var ischeck = false;
+	$(function () {
+		$('#hascheck').on('click', function () {
+			ischeck = !ischeck;
+			if (!ischeck) {
+				$('.readybtn').attr('disabled', 'disabled');
+			} else {
+				$('.readybtn').removeAttr('disabled');
+			}
+		});
+	});
+</script>
+</body>
+</html>

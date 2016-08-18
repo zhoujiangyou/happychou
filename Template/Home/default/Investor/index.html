@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>投资人列表 -
+        <Zml:title/>
+    </title>
+    <!--引入头部资源 -->
+    <include file="Public:script"/>
+</head>
+<body class="bg" id="page-stock">
+<!-- 导航 -->
+<include file="Public/header_inner"/>
+<div class="ui sub-header">
+    <div class="label-wapper container padding-large-top margin-top padding-bottom">
+        <div class="x12">
+            <span class="title x1" style="line-height: 23px;">投资类型</span>
+            <ul class="x11 z-lable-list hangye">
+
+            </ul>
+        </div>
+        <div class="x12 margin-top margin-bottom">
+            <span class="x1 title" style="line-height: 23px;">所属地区</span>
+            <ul class="x11 z-lable-list diqu">
+
+            </ul>
+        </div>
+    </div>
+</div>
+<!--内容列表-->
+<div class="container margin-large-bottom" style="min-height: 500px">
+    <div id="nodata" style="line-height: 100px;" class="hidden x12 text-center bg-white padding-large margin-big-top text-large text-gray">
+       <i class="icon-frown-o"></i>  该地区，该行业暂无无投资人数据，请选择其他筛选条件
+    </div>
+    <!--赛选-->
+    <div id="invester_place" class="line-big">
+    </div>
+    <div class="loadding-area margin-big-top">
+        <button class="button button-block bg load-more"><span
+                class="icon-spinner rotate loadding-icon hidden"></span><span class="padding-small-left loadding-text">加载更多</span>
+        </button>
+    </div>
+</div>
+
+</div>
+<include file="Public/foot"/>
+<script id="hangye_tmp" type="text/html">
+    <li class="item" data-id="{{id}}"><a class="text-small" href="javascript:void(0)"><span class="">{{name}}</span></a>
+    </li>
+</script>
+
+<script id="diqu_tmp" type="text/html">
+    <li class="item" data-id="{{id}}"><a class="text-small" href="javascript:void(0)"><span class="">{{name}}</span></a>
+    </li>
+</script>
+
+<script id="invester_tmp" type="text/html">
+    <div class="x6 margin-big-top">
+        <a class="item block-forlist line bg-white" href="/investor/detail/id/{{uin}}.html" class="item">
+            <img class="x4 nopadding" height="200px" src="{{true_header}}"/>
+            <div class="x8">
+                <div class="padding-top">
+                    <div class="text-large x12">
+                        <span>{{true_name}}</span><br>
+                        {{if attest_status==1}}
+                        <span style="position: relative;bottom:3px" class="margin-small-left tag bg-yellow text-default radius-rounded">认证投资人</span>
+                        {{else}}
+                        {{/if}}
+
+                        {{if attest_type==1}}
+                        <span style="position: relative;bottom:3px" class="margin-small-left tag bg-main text-default radius-rounded">机构投资人</span>
+                        {{else if attest_type==2}}
+                        <span style="position: relative;bottom:3px" class="margin-small-left tag bg-main text-default radius-rounded">经验投资人</span>
+                        {{else}}
+                        <span style="position: relative;bottom:3px" class="margin-small-left tag bg-main text-default radius-rounded">一般投资人</span>
+                        {{/if}}
+
+
+                    </div>
+                    <div class="line">
+                        <span class="x7  margin-top"><i class="icon-tag margin-small-right"></i>{{company}}-{{job}}</span>
+                        <span class="x5 text-right margin-top "><i class="icon-map-marker margin-small-right"></i>{{area}}</span>
+                    </div>
+                    <div class="description word-clip text-small text-gray padding-bottom x12 padding-top" style="min-height: 3em;" data-length="50">
+                        {{description}}
+                    </div>
+
+                    <div class="line-small x12">
+                        <hr />
+                        <div class="x6">
+                            <div class="">
+                                已投 {{itemInvest}} 个
+                            </div>
+                        </div>
+                        <div class="x6">
+                            <div class="">
+                                关注 {{itemCollect}}个
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </a>
+
+    </div>
+</script>
+<!-- 底部 -->
+
+<script type="text/javascript">
+    $(function () {
+        var totalLoader = 2;
+        var areaItemTpl = $('#diqu_tmp').html();
+        var hangyeItemTmp = $('#hangye_tmp').html();
+        var queryInvesterData = {
+            area: 0,
+            category: 0,
+            pagecount: 10,
+            pagecurrent: 1
+        };
+
+        function checkLoader() {
+            totalLoader--;
+            if (!totalLoader) {
+                layer.close(loadlayer)
+            }
+        }
+
+        function getInvesterList(callback) {
+            totalLoader++;
+            loadlayer = layer.load(1, {
+                shade: [0.2, '#fff']
+            });
+            $('#nodata').addClass('hidden');
+            $.ajax({
+                type: "GET",
+                url: '/Home/investor/getUserInfo.html',
+                data: queryInvesterData,
+                success: function (res) {
+                    if (parseInt(res.s_ok) === 1) {
+                        callback(res.data);
+                        if(queryInvesterData.pagecurrent==1&&res.data.length==0){
+                            $('#nodata').removeClass('hidden');
+                        }
+                    } else {
+                    }
+                },
+                error: function () {
+
+                },
+                complete: function () {
+                    checkLoader();
+                },
+                dataType: 'JSON'
+            });
+        }
+
+
+        function renderInvesterList(data, more) {
+            var tmp = $('#invester_tmp').html();
+            var html = '';
+            var render = template.compile(tmp);
+            for (var i = 0; i < data.length; i++) {
+                html += render(data[i]);
+            }
+            if (more) {
+                $('#invester_place').append(html);
+            } else {
+                $('#invester_place').html(html);
+            }
+        }
+
+
+        function resetMore() {
+            queryInvesterData.pagecurrent = 1;
+            $('.loadding-text').text('加载更多');
+            $('.loadding-icon').addClass('hidden');
+            $('.load-more').removeAttr('disabled');
+
+        }
+
+        function disMore() {
+            $('.loadding-text').text('已无更多数据');
+            $('.loadding-icon').addClass('hidden');
+            $('.load-more').attr('disabled', 'disabled');
+        }
+
+        function loadMore() {
+            queryInvesterData.pagecurrent++;
+            getInvesterList(function (data) {
+                renderInvesterList(data, 1);
+                if (data.length < queryInvesterData.pagecount) {
+                    disMore();
+                } else {
+                    $('.loadding-text').text('加载更多');
+                    $('.loadding-icon').addClass('hidden');
+                }
+                clipWord();
+            });
+        }
+
+        var loadlayer = layer.load(1, {
+            shade: [0.2, '#fff']
+        });
+
+        $('.load-more').on('click', function () {
+            $(this).find('.loadding-text').text('加载中，请稍等...');
+            $(this).find('.loadding-icon').removeClass('hidden');
+            loadMore();
+        });
+
+
+        $('.hangye').on('click', 'li.item', function () {
+            resetMore();
+            $('.hangye').find('li.active').removeClass('active');
+            $(this).addClass('active');
+
+            var id = $(this).attr('data-id');
+            queryInvesterData.category = id;
+            getInvesterList(function (data) {
+                if (data.length < queryInvesterData.pagecount) {
+                    disMore();
+                } else {
+                    $('.loadding-text').text('加载更多');
+                    $('.loadding-icon').addClass('hidden');
+                }
+
+                renderInvesterList(data);
+                clipWord();
+            });
+        });
+
+        $('.diqu').on('click', 'li.item', function () {
+            resetMore();
+            $('.diqu').find('li.active').removeClass('active');
+            $(this).addClass('active');
+
+            var id = $(this).attr('data-id');
+            queryInvesterData.area = id;
+            getInvesterList(function (data) {
+                if (data.length < queryInvesterData.pagecount) {
+                    disMore();
+                } else {
+                    $('.loadding-text').text('加载更多');
+                    $('.loadding-icon').addClass('hidden');
+                }
+                renderInvesterList(data);
+                clipWord();
+            });
+        });
+
+
+        // get hangye data
+        $.ajax({
+            type: "GET",
+            url: '/Home/investor/getusercategory.html',
+            data: {},
+            success: function (res) {
+                if (parseInt(res.s_ok) === 1) {
+                    res.data.unshift({
+                        id: 0,
+                        name: '全部'
+                    });
+
+                    var html = '';
+                    var render = template.compile(hangyeItemTmp);
+
+                    for (var i = 0; i < res.data.length; i++) {
+
+                        html += render(res.data[i]);
+                    }
+                    $('.hangye').html(html);
+
+                } else {
+                }
+            },
+            error: function () {
+
+            },
+            complete: function () {
+                checkLoader();
+            },
+            dataType: 'JSON'
+        });
+
+
+        // get hangye data
+        $.ajax({
+            type: "GET",
+            url: '/Home/investor/getuserarea.html',
+            data: {},
+            success: function (res) {
+                if (parseInt(res.s_ok) === 1) {
+                    res.data.unshift({
+                        id: 0,
+                        name: '全部'
+                    });
+
+                    var html = '';
+                    var render = template.compile(areaItemTpl);
+
+                    for (var i = 0; i < res.data.length; i++) {
+                        html += render(res.data[i]);
+                    }
+                    $('.diqu').html(html);
+                } else {
+
+                }
+            },
+            error: function () {
+
+            },
+            complete: function () {
+                checkLoader();
+            },
+            dataType: 'JSON'
+        });
+
+        getInvesterList(function (data) {
+            if (data.length < queryInvesterData.pagecount) {
+                disMore();
+            } else {
+                $('.loadding-text').text('加载更多');
+                $('.loadding-icon').addClass('hidden');
+            }
+            renderInvesterList(data);
+            clipWord();
+        });
+    });
+</script>
+</body>
+</html>

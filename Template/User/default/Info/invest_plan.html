@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>投资计划 --
+		<Zml:title/>
+	</title>
+	<!--引入头部资源 -->
+	<include file="Public:script"/>
+</head>
+<body>
+
+<h2 class="text-large" style="padding-left: 15px">投资计划</h2>
+<p class="text-gray" ><h4 style="padding-left: 15px">请写下您的投资计划吧！ </h4></p>
+<div class="height-large padding border-bottom x12">
+	<span class="text-gray x2" name="goodat"><span class="text-red">*</span> 擅长的领域</span>
+<span class="x9">
+	<div class="field" >
+		<div class="button-group checkbox">
+				<label class="button radius-none margin-small " onclick="choosetags(this)" >
+				<input name="tags[]" value="互联网金融"  type="checkbox" /><span class="icon icon-check text-red"></span> 互联网金融
+				</label>
+			<label class="button radius-none margin-small " onclick="choosetags(this)" >
+				<input name="tags[]" value="O2O"  type="checkbox" /><span class="icon icon-check text-red"></span> O2O
+			</label>
+			<label class="button radius-none margin-small " onclick="choosetags(this)" >
+				<input name="tags[]" value="电商"  type="checkbox" /><span class="icon icon-check text-red"></span> 电商
+			</label>
+			<label class="button radius-none margin-small " onclick="choosetags(this)" >
+				<input name="tags[]" value="P2P"  type="checkbox" /><span class="icon icon-check text-red"></span> P2P
+			</label>
+			<label class="button radius-none margin-small " onclick="choosetags(this)" >
+				<input name="tags[]" value="风险投资"  type="checkbox" /><span class="icon icon-check text-red"></span> 风险投资
+			</label>
+		</div>
+	</div>
+	</span>
+</div>
+
+<div class="height-large padding border-bottom x12">
+	<span class="text-gray x2"><span class="text-red">*</span> 关注的城市</span>
+			<span class="x9">
+				<select name="province" class="input input-auto box-shadow-none radius-none"  id="province" onchange="loadRegion('province',2,'city','__MODULE__/Item/get_region');">
+					<option value="" >选择省份</option>
+					<volist name="province" id="vo">
+						<option value="{$vo.id}" <if condition="$vo['id'] eq $item['province']">selected</if>  >{$vo.name}</option>
+					</volist>
+				</select>
+				<select name="city" class="input input-auto box-shadow-none radius-none" id="city"  onchange="loadRegion('city',3,'third','__MODULE__/Item/get_region');">
+					<if condition="$item['city']">
+						<volist name="nowcity" id="vo">
+							<option value="{$vo['id']}" <if condition="$vo['id'] eq $item['city']">selected</if>>{$vo['name']}</option>
+						</volist>
+						<else />
+						<option value="0">选择城市</option>
+					</if>
+				</select>
+			</span>
+</div>
+
+<div class="height-large padding border-bottom x12">
+	<span class="text-gray x2"><span class="text-red">*</span> 计划投资项目数量</span>
+    <span class="x9">
+	<input type="text" name = "inv_project_num" placeholder="请填写数字"/>
+	</span>
+</div>
+<div class="height-large padding border-bottom x12">
+	<span class="text-gray x2"><span class="text-red">*</span> 单个项目投资上限</span>
+    <span class="x9">
+	<input type="text" name = "inv_project_max" placeholder="请填写数字" />
+	</span>
+</div>
+<div class="height-large padding border-bottom x12">
+	<span class="text-gray x2"><span class="text-red">*</span> 单个项目投资下限</span>
+    <span class="x9">
+	<input type="text" name = "inv_project_min" placeholder="请填写数字" />
+	</span>
+</div>
+<div class="x12 padding text-center">
+	<a href="javascript:void(0)" class="button button-big bg-yellow" onclick="add_invest_plan()">保存</a>
+</div>
+
+
+<script src="__PUBLIC__/lib/region.js"></script>
+<script type="text/javascript">
+	function choosetags(d){
+		var c=$("input[name='tags[]']:checked");
+		if(c.length > 3){
+			$(d).find('input[name="tags[]"]').attr('checked',false);
+			layer.msg('最多可以选择3个标签');
+		}
+	}
+
+
+	//新增
+	function add_invest_plan(d){
+
+		var goodat=$("input[name='tags[]']:checked");
+        var province = $("select[name='province']");
+		var city =$("select[name='city']");
+        var inv_project_num =$("input[name='inv_project_num']");
+		var inv_project_max=$("input[name='inv_project_max']");
+		var inv_project_min=$("input[name='inv_project_min']");
+		var tempgood='';
+		if(goodat.length==0){
+			layer.msg('擅长领域至少选择一个标签');
+			return false
+		}
+
+		if(province.val()==''||city.val()==''){
+			layer.msg('关注地区不可为空');
+			return false
+		}
+
+		if(inv_project_num.val()==''){
+			layer.tips('计划投资数量不可为空', inv_project_num);
+			inv_project_num.focus();
+			return false
+		}
+
+		if(inv_project_max.val()==''){
+			layer.tips('单个项目投资上限不可为空', inv_project_max);
+			inv_project_max.focus();
+			return false
+		}
+
+		if(inv_project_min.val()==''){
+			layer.tips('单个项目投资下限不可为空', inv_project_min);
+			inv_project_min.focus();
+			return false
+		}
+		if(parseInt(inv_project_min.val())>parseInt(inv_project_max.val())){
+			layer.tips('单个项目投资下限不可大于上线', inv_project_min);
+			inv_project_min.focus();
+			return false
+		}
+       for(var j=0 ;j<goodat.length;j++){
+		   tempgood +=goodat[j].value +';';
+	   }
+
+
+		$.post("/user/info/edit_invest_plan.html",{
+			concern_city:city.val(),
+			concern_area:tempgood,
+			num:inv_project_num.val(),
+			max_limit:parseInt(inv_project_max.val()),
+			min_limit:parseInt(inv_project_min.val()),
+			id:'{$id}'
+		},function(ret){
+			if(ret.s_ok==1){
+				parent.layer.msg(ret.msg, {
+					offset: 200,
+					shift: 2
+				});
+				parent.window.location.reload();
+			}else{
+				parent.layer.msg(ret.msg, {
+					offset: 200,
+					shift: 2
+				});
+			}
+		});
+	}
+</script>
+</body>
+</html>

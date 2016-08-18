@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>会员中心<Zml:title /></title>
+	<!--引入头部资源 -->
+	<include file="Public:script"/>
+	<script type="text/javascript" charset="utf-8" src="__LIB__ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="__LIB__ueditor/ueditor.all.min.js"> </script>
+	<script type="text/javascript" charset="utf-8" src="__LIB__ueditor/lang/zh-cn/zh-cn.js"></script>
+</head>
+<body style="background:#e7e8eb">
+	<include file="Home@default/Public/header_inner" />
+	<include file="Public:header" />
+	
+	<div class="padding border-bottom">
+		<div class="step ">
+			<div class="step-bar  complete" style="width:20%;"><span class="step-point icon-check"></span><span class="step-text">基本资料</span></span></div>
+			<div class="step-bar complete" style="width:20%;"><span class="step-point ">2</span><span class="step-text">股权设置</span></div>
+			<div class="step-bar complete" style="width:20%;"><span class="step-point">3</span><span class="step-text">项目详情</span></div>
+			<div class="step-bar active" style="width:20%;"><span class="step-point">4</span><span class="step-text">发起人信息</span></div>
+			<div class="step-bar" style="width:20%;"><span class="step-point">5</span><span class="step-text">审核</span></div>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+	<div class="padding  x12">
+		<div class="border x12">
+			<div class=" padding border-bottom  border-dashed x12">
+				<span class="x12">
+					<h1>项目方须知：</h1>
+					<span class="x12 text-small text-red margin-big-top">后台调用须知就可以了</span>
+				</span>
+			</div>
+		</div>
+		<div class="x10 padding text-center">
+			<a href="__MODULE__/item/item_add/itemid/{$itemid}/set/3.html" class="button button-big bg-red" >上一步</a>
+			<a href="javascript:void(0)" class="button button-big bg-red" onclick="save(this)">提交审核</a>
+		</div>
+		<div class="x12" id="the_box"></div>
+	</div>
+</div>
+</div>
+</div>
+	<include file="Home@default/Public/foot" />
+</body>
+</html>

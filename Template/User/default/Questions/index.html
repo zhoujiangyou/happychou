@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>问题回答 --
+		<Zml:title/>
+	</title>
+	<!--引入头部资源 -->
+	<include file="Public:script"/>
+</head>
+<body style="background:#e7e8eb">
+<include file="Home@default/Public/header_inner"/>
+<include file="Public/header"/>
+<div class="x12 padding-top padding border-bottom">
+	<h3 class="x3">用户问题管理</h3>
+	<button class="float-right bg-sub button icon-plus" type="button" onclick="question_add()"> 创建问题</button>
+</div>
+<div class="x12 padding">
+	<div class="collapse">
+		<volist name="list" id="vo">
+			<div class="panel">
+				<div class="panel-head bg"><span class="float-right"><a href="javascript:void(0)" onclick="editquestion({$vo.id},this)" class="text-blue">编辑</a> <a href="javascript:void(0)" onclick="del_question({$vo.id},this)" class="text-blue">删除</a> <a href="javascript:void(0)" onclick="add_answers({$vo.id},this)" class="text-blue">添加回复</a></span>{$key+1}.{$vo.title} --- {$vo.content}</div>
+				<div class="panel-body">
+					<ul class="list-group">
+						<volist name="vo.answers" id="v">
+							<li><span class="float-right"><a href="javascript:void(0)" onclick="edit_answers({$v.id},this)" class="text-blue">编辑</a> <a href="javascript:void(0)" onclick="del_answers({$v.id},this)" class="text-blue">删除</a></span>{$v.content}</li>
+						</volist>
+					</ul>
+				</div>
+			</div>
+		</volist>
+	</div>
+</div>
+<div class="margin-big-top  padding">
+	<ul class="pagination">
+		{$page}
+	</ul>
+</div>
+</div>
+<script type="text/javascript">
+function question_add(){
+	layer.open({
+		type: 2,
+		area: ['1200px', '600px'],
+		fix: true, //不固定
+		maxmin: true,
+		title:'添加问题',
+		content: '__MODULE__/questions/add'
+	});
+}
+//编辑问题
+function editquestion(id){
+	layer.open({
+		type: 2,
+		area: ['800px', '600px'],
+		fix: true, //不固定
+		maxmin: true,
+		title:'修改问题',
+		content: '__MODULE__/questions/edit/id/'+id
+	});
+}
+
+//添加问题回复
+function add_answers(id){
+	layer.open({
+		type: 2,
+		area: ['1200px', '500px'],
+		fix: true, //不固定
+		maxmin: true,
+		title:'添加问题回复',
+		content: '__MODULE__/questions/add_answers/qid/'+id
+	});
+}
+
+//修改问题回复
+function edit_answers(id){
+	layer.open({
+		type: 2,
+		area: ['700px', '360px'],
+		fix: true, //不固定
+		maxmin: true,
+		title:'添加问题回复',
+		content: '__MODULE__/questions/edit_answers/id/'+id
+	});
+}
+//删除问题
+function del_question(id){
+	layer.confirm('确定要删除数据吗？', {
+		btn: ['确定','取消'] //按钮
+	}, function(){
+		$.post("{:U('admin/questions/del_question')}",{id:id},function(data){
+			if(data.status==1) {
+				parent.layer.msg(data.info, {
+					offset: 200,
+					shift: 2
+				});
+				parent.window.location.reload();
+			}else{
+				parent.layer.msg(data.info, {
+					offset: 200,
+					shift: 2
+				});
+			}
+		});
+	}, function(){
+		layer.msg('你选择了取消', {shift: 6});
+	});
+}
+
+//删除答案
+function del_answers(id){
+
+	layer.confirm('确定要删除数据吗？', {
+		btn: ['确定','取消'] //按钮
+	}, function(){
+		$.post("{:U('admin/questions/del_answers')}",{id:id},function(data){
+			if(data.status==1) {
+				parent.layer.msg(data.info, {
+					offset: 200,
+					shift: 2
+				});
+				parent.window.location.reload();
+			}else{
+				parent.layer.msg(data.info, {
+					offset: 200,
+					shift: 2
+				});
+			}
+		});
+	}, function(){
+		layer.msg('你选择了取消', {shift: 6});
+	});
+}
+</script>
+
+<!-- 底部 -->
+<include file="foot" />
+</div>
+</body>
+</html>

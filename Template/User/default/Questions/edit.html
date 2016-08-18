@@ -1,0 +1,94 @@
+<link rel="stylesheet" href="__PUBLIC__/css/pintuer.css">
+<script src="__PUBLIC__/js/jquery-1.8.3.min.js"></script>
+<script src="__PUBLIC__/lib/layer/layer.js"></script>
+<div class="x12 padding-large">
+	<form method="post" class="form-x">
+		<div class="form-group x12">
+			<div class="label padding-right">问题标题: </div>
+			<div class="field">
+				<input type="text" class="input input-auto box-shadow-none radius-none"  name="title" size="30" placeholder="问题标题" value="{$info.title}"/>
+			</div>
+		</div>
+		<div class="form-group x12">
+			<div class="label padding-right">问题内容: </div>
+			<div class="field">
+				<textarea class="input box-shadow-none radius-none"  name="content">{$info.content}</textarea>
+			</div>
+		</div>
+		<div class="form-group x12">
+			<div class="label padding-right">*用户UIN: </div>
+			<div class="field">
+				<input type="text" name="uin"  class="input input-auto box-shadow-none radius-none" value="{$info.uin}"/>
+				<button class="button bg-sub radius-none" type="button" onclick="getuser()">获取用户列表</button>
+				<div class="input-note">帮用户发布项目请填写用户的UIN，平台方自己发布可以普通用户的方式注册一个账号获得UIN</div>
+			</div>
+		</div>
+		<div class="form-group x12">
+			<div class="label padding-right">项目id: </div>
+			<div class="field">
+				<input type="number" class="input input-auto box-shadow-none radius-none"  name="itemid" size="30" placeholder="请输入问题将显示的项目id" value="{$info.itemid}"/>
+				<div class="input-note">项目id可以通过前台预览后缀地址获取</div>
+			</div>
+		</div>
+		<div class="form-button x12 text-center margin-top"><button class="button bg-blue icon-plus" onclick="edit_question(this)" type="button">修改问题</button></div>
+	</form>
+</div>
+<script>
+
+	//创建节点
+	function edit_question(d){
+		var title=$("input[name='title']");
+		var content=$("textarea[name='content']");
+		var uin = $("input[name='uin']");
+		var itemid = $("input[name='itemid']");
+		if(title.val()==''){
+			layer.tips('问题标题不能为空', title);
+			title.focus();
+			return false
+		}
+
+		if(itemid.val()==''){
+			layer.tips('问题标题不能为空', itemid);
+			itemid.focus();
+			return false
+		}
+		if(uin.val()==''){
+			layer.tips('用户id不能为空', uin);
+			uin.focus();
+			return false
+		}
+
+		$.post("__MODULE__/questions/edit",{
+			id:{$info.id},
+			title:title.val(),
+			content:content.val(),
+			uin:uin.val(),
+			itemid:itemid.val(),
+		},function(ret){
+			if(ret.status==1){
+				parent.layer.msg(ret.info, {
+					offset: 200,
+					shift: 2
+				});
+				parent.window.location.reload();
+			}else{
+				parent.layer.msg(ret.info, {
+					offset: 200,
+					shift: 2
+				});
+			}
+		});
+	}
+
+	function getuser(){
+		layer.open({
+			type: 2,
+			title: '选择用户',
+			shadeClose: true,
+			shade: 0.8,
+			area: ['1000px', '500px'],
+			content: '{:U('/Admin/User/index/getuser/ok')}'
+
+		});
+	}
+</script>

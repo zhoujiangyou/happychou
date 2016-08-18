@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>项目列表 -
+		<Zml:title/>
+	</title>
+	<!--引入头部资源 -->
+	<include file="Public:script"/>
+	<style type="text/css">
+		.zl-404 {
+			font-size: 7em;
+			color: #fff;
+			background-color: #ffcc66;
+			line-height: 1.4em;
+		}
+
+		.text-largex {
+			font-size: 4em;
+		}
+
+		.text-bigx {
+			font-size: 2em;
+		}
+
+		.body404 {
+			height: 750px;
+		}
+	</style>
+</head>
+<body class="bg">
+<!-- 导航 -->
+<include file="Public/header_inner"/>
+
+<div class="container text-center body404">
+	<div class="margin-large-top x4 x4-move ">
+		<div class="zl-404 margin-large-top" style="margin-top: 45px">404</div>
+		<div class="text-largex padding-big margin-big-top text-gray margin-large-bottom">出错啦</div>
+		<div class="text-bigx margin-large-top text-gray" style="margin-top: 2em;">抱歉，您访问的页面不存在</div>
+		<div class="text-large margin-big-top text-gray">Page has been not found</div>
+		<div class="text-center text-bigx margin-large-top" style="margin-top:1.5em;">
+			<a href="/" class="text-gray">
+				<i class="icon icon-home text-gray"></i>
+				返回首页
+			</a>
+		</div>
+	</div>
+</div>
+<!-- 底部 -->
+<include file="Public/foot"/>
+</body>
+</html>

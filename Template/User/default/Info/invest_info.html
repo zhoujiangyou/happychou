@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>投资计划 --
+		<Zml:title/>
+	</title>
+	<!--引入头部资源 -->
+	<include file="Public:script"/>
+</head>
+<body>
+
+
+<div class="margin-top bg-white padding">
+	<p class="text-large x12">请写下您的投资理念与心得吧！</p>
+	<br>
+		<div class="x12">
+			<span class="padding-right">投资理念：</span>
+			<textarea cols="50" rows="6" name="invest_ideas" class="border radius-rounded input" ></textarea>
+		</div>
+		<div class="x12">
+			<span class="padding-right">擅长投资领域：</span>
+			<input type="text" placeholder="擅长投资领域" name="invest_area" class="border radius-rounded input input-big"  size="20"/>
+		</div>
+
+		<div class="x12">
+			<span class="padding-right">提供的附加值:</span>
+			<input type="text" placeholder="提供的附加值" name="extravalue"  class="border radius-rounded input input-big" size="20"/>
+		</div>
+</div>
+
+
+<div class="x12 padding text-center">
+	<a href="javascript:void(0)" class="button button-big bg-yellow" onclick="add_invest_info()"  name="add_invest_info">保存</a>
+</div>
+
+
+<script type="text/javascript">
+
+	//创建节点
+	function add_invest_info(){
+
+		var content=$("textarea[name='invest_ideas']");
+		var siklled_in = $("input[name='invest_area']");
+		var addes_value =$("input[name='extravalue']");
+		$.post("/user/info/edit_investment_ideas.html",{
+			content:content.val(),
+			siklled_in:siklled_in.val(),
+			added_value:addes_value.val(),
+			id:'{$id}'
+		},function(ret){
+			if(ret.s_ok==1){
+				parent.layer.msg(ret.msg, {
+					offset: 200,
+					shift: 2
+				});
+				parent.window.location.reload();
+			}else{
+				parent.layer.msg(ret.msg, {
+					offset: 200,
+					shift: 2
+				});
+			}
+		});
+	}
+
+
+</script>
+</body>
+</html>

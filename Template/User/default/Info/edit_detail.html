@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<title>会员中心-编辑个人信息详情 -
+		<Zml:title/>
+	</title>
+	<!--引入头部资源 -->
+	<include file="Public:script"/>
+</head>
+<body style="background:#e7e8eb">
+<include file="Home@default/Public/header_inner"/>
+<include file="Public:header"/>
+<div class="padding-big">
+	<h2>编辑个人信息</h2>
+	<a class="button margin-big-top bg-main " href="{:U('user/info/index')}"><span class="icon-mail-reply"></span>
+		返回账号设置</a>
+	<hr/>
+	<div class="margin-top bg-white padding">
+		<h3 class="text-large">个人经历</h3>
+
+		<p class="text-gray">添加个人经历，包括创办过、任职过的项目或公司</p>
+		<ul id="person_info_list">
+            <!-- 个人经历 -->
+            <volist name="experience" id="vo">
+                <li class="line padding-small text-small text-gray" data-id="{$vo.id}">
+                    <div class="x3"><span class="padding-right">公司名称:</span><span>{$vo.company}</span></div>
+                    <div class="x3"><span class="padding-right">职位:</span><span>{$vo.title}</span></div>
+                    <div class="x4"><span class="padding-right">任职期:</span><span
+                            class="padding-right">{$vo.start_time|date="Y-m-d",###}</span><span>{$vo.end_time|date="Y-m-d",###}</span></div>
+                    <div class="x2">
+                        <button class="del_person_info button bg-red button-small margin-right" data-id="{$vo.id}" >删除</button>
+                        <button class="edit_person_info button button-small" onclick="">编辑</button>
+                    </div>
+                </li>
+            </volist>
+            <!-- 个人经历结束 -->
+		</ul>
+		<button class="button margin-big-top bg-main" id="add_personal_info">添加个人经历</button>
+        <hr/>
+	</div>
+	<div class="margin-top bg-white padding">
+		<h3 class="text-large">教育经历</h3>
+		<p class="text-gray">根据您的教育经历认识正在悦筹创业或投资的校友</p>
+        <ul id="edu_info_list">
+            <volist name="education" id="vo" data-id="{$vo.id}">
+                <li class="line-middle padding-small text-small text-gray" data-id="{$vo.id}">
+                    <div class="x2">
+                        <span class="padding-right">学历:</span>
+                        <span class="xueli">{$vo.degree}</span>
+                    </div>
+                    <div class="x3">
+                        <span class="padding-right">学校:</span>
+                        <span class="eduName">{$vo.school}</span>
+                    </div>
+                    <div class="x3">
+                        <span class="padding-right">学院:</span>
+                        <span class="padding-right xueyuan">{$vo.major}</span>
+                    </div>
+                    <div class="x2">
+                        <span class="padding-right">毕业年份:</span>
+                        <span class="padding-right beginDate">{$vo.year}</span>
+                    </div>
+                    <div class="x2">
+                        <button class="del_edu_info button bg-red button-small margin-right" data-id="{$vo.id}">删除</button>
+                        <button class="edit_edu_info button button-small">编辑</button>
+                    </div>
+                </li>
+            </volist>
+        </ul>
+		<button class="button margin-big-top bg-main" id="add_edu_info">添加教育经历</button>
+        <hr/>
+	</div>
+
+
+<div class="margin-top bg-white padding">
+    <h3 class="text-large">投资理念</h3>
+    <p class="text-gray">请写下您的投资理念与心得吧！</p>
+    <div id="chuangye_info">
+        <p id="chuangye_info_detail">
+            {$investment_ideas.content}
+        </p>
+        <div class="x12">
+            <span class="padding-right">擅长投资领域</span>
+            <span class="eduName">{$investment_ideas.siklled_in}</span>
+        </div>
+
+        <div class="x12">
+            <span class="padding-right">提供的附加值:</span>
+            <span class="padding-right beginDate">{$investment_ideas.added_value}</span>
+        </div>
+   </div>
+    <button class="button margin-big-top bg-main" id="add_touzi_info" data-id="{$investment_ideas.id}" >编辑投资理念</button>
+    <hr/>
+</div>
+
+
+<div class="margin-top bg-white padding">
+    <h3 class="text-large">投资计划</h3>
+    <p class="text-gray">请写下您的投资计划吧！</p>
+        <div class="x12">
+            <span class="padding-right">擅长投资领域</span>
+            <volist name="investment_plan.concern_area" id="vo">
+                <span class="padding-right">{$vo.name}</span>
+            </volist>
+        </div>
+        <div class="x12">
+            <span class="padding-right">关注的城市:</span>
+            <volist name="investment_plan.concern_city" id="vo">
+                <span class="padding-right">{$vo.city}</span>
+            </volist>
+
+        </div>
+    <div class="x3">
+        <span class="padding-right">计划投资项目的数量:</span>
+        <span class="eduName">{$investment_plan.num}</span>
+    </div>
+    <div class="x3">
+        <span class="padding-right">单个项目投资下限:</span>
+        <span class="padding-right beginDate">{$investment_plan.min_limit}</span>
+    </div>
+    <div class="x3">
+        <span class="padding-right">单个项目投资上限:</span>
+        <span class="padding-right beginDate">{$investment_plan.max_limit}</span>
+    </div>
+    <div class="x6"><button class="button margin-big-top bg-main " id="add_touzi_plan" data-id="{$investment_plan.id}" >编辑投资计划</button></div>
+</div>
+
+
+</div>
+</div>
+</div>
+</div>
+
+<div id="personal_info_temp" class="hidden">
+	<li id="temp_person_info" class="line-middle padding-small text-small text-gray">
+		<div class="x3"><span class="padding-right  padding-top">公司名称:</span><input type="text" class="input companyName"/></div>
+		<div class="x3"><span class="padding-right  padding-top">职位:</span><input type="text" class="input title"/></div>
+		<div class="x4"><span class="padding-right  padding-top">任职期:</span>
+			<div class="line-middle">
+				<div class="x6">
+				    <input type="text" class="input beginDate inline-input " name="start_time" placeholder="请选择" value="" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" class="text-small input input-auto box-shadow-none radius-none" size="20" />
+				</div>
+				<div class="x6">
+				    <input type="text" class="input endDate inline-input x6" name="end_time" placeholder="请选择" value="" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" class="text-small input input-auto box-shadow-none radius-none" size="20" />
+				</div>
+			</div>
+		</div>
+        <div class="x2">
+            <button class="savePersonInfo button button-small bg-main margin-big-top">保存</button>
+            <button class="savePersonInfo-cancel button button-small bg-main margin-big-top">取消</button>
+        </div>
+	</li>
+</div>
+
+<div id="edu_info_temp" class="hidden">
+    <li id="temp_edu_info" class="line-middle padding-small text-small text-gray">
+        <div class="x3"><span class="padding-right  padding-top">学历:</span><input type="text" class="input xueli"/></div>
+        <div class="x2"><span class="padding-right  padding-top">学校:</span><input type="text" class="input eduName"/>
+        </div>
+        <div class="x2"><span class="padding-right  padding-top">学院:</span><input type="text" class="input xueyuan"/></div>
+        <div class="x3">
+            毕业年份: <input type="text" class="input beginDate inline-input x6" name="beginDate" placeholder="请选择" value="" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" class="text-small input input-auto box-shadow-none radius-none" size="20" />
+        </div>
+        <div class="x2">
+            <button class="saveEduInfo button button-small bg-main margin-big-top">保存</button>
+            <button class="saveEduInfo-cancel button button-small bg-main margin-big-top">取消</button>
+        </div>
+    </li>
+</div>
+
+<div id="chuangye_info_temp" class="hidden">
+    <textarea class="big-textarea"></textarea>
+</div>
+<div class="clearfix"></div>
+
+<include file="Home@default/Public/foot"/>
+<script type="text/javascript">
+	$(function () {
+        var chuangyeinfo = "";
+        var isChuangyeEdit = false;
+		$('#add_personal_info').on('click', function () {
+            var item = $('#personal_info_temp').html();
+            $('#person_info_list').append(item);
+            disablePersonInfo();
+		});
+        $('#add_edu_info').on('click', function () {
+            var item = $('#edu_info_temp').html();
+            $('#edu_info_list').append(item);
+            disableEduInfo();
+        });
+
+        $('#add_chuangyelin_info').on('click', function () {
+            var context = $(this).parent();
+            if(!isChuangyeEdit){
+                chuangyeinfo =context.find('.detail_info_list').html();
+                var item = $('#chuangye_info_temp').html();
+                $('#chuangye_info').html('');
+                var old = $('#chuangye_info').find('')
+
+                $('#chuangye_info').append(item);
+
+                $('#add_chuangyelin_info').html('保存');
+                $('#cancel_chuangyelin_info').removeClass('hidden');
+
+                isChuangyeEdit = true;
+            }else{
+                var newChuangye = context.find('.big-textarea').val();
+                saveChuangye(newChuangye)
+            }
+        });
+
+		// 删除个人经历
+		$('.del_person_info').on('click',function(){
+			var id = parseInt($(this).attr('data-id'));
+			$.ajax({
+				url: "/User/info/del_experience.html",
+				method: "POST",
+				data: { id : id },
+				success:function(data){
+
+                    location.reload();
+				},
+				error:function(){
+					console.log("删除个人经历信息 失败");
+				},
+				complete:function(){
+				}
+			});
+		});
+        // 删除教育经历
+        $('.del_edu_info').on('click',function(){
+            var id = parseInt($(this).attr('data-id'));
+
+            $.ajax({
+                url: "/user/info/del_education.html",
+                method: "POST",
+                data: { id : id },
+                success:function(){
+                    location.reload();
+                },
+                error:function(){
+                    console.log("删除个人经历信息 失败");
+                },
+                complete:function(){
+                    //console.log("删除个人经历信息 失败");
+                }
+            });
+        });
+		// 编辑个人经历
+		$('.edit_person_info').on('click',function(){
+			var id = parseInt($(this).attr('data-id'));
+			var item =$(this).parent().parent();
+
+			var companyName = item.find('.companyName').html();
+			var title = item.find('.title').html();
+			var beginDate = item.find('.beginDate').html();
+			var endDate = item.find('.endDate').html();
+
+			var editHtml = $('#temp_person_info').html();
+
+			item.html(editHtml);
+            item.find('.companyName').val(companyName);
+            item.find('.title').val(title);
+            item.find('.beginDate').val(beginDate);
+            item.find('.endDate').val(endDate);
+
+            disablePersonInfo();
+		});
+        // 编辑教育经历
+        $('.edit_edu_info').on('click',function(){
+            var id = parseInt($(this).attr('data-id'));
+            var item =$(this).parent().parent();
+
+
+            var xueli = item.find('.xueli').html();
+            var eduName = item.find('.eduName').html();
+            var xueyuan = item.find('.xueyuan').html();
+            var beginDate = item.find('.beginDate').html();
+
+            var editHtml = $('#temp_edu_info').html();
+
+            item.html(editHtml);
+            item.find('.xueli').val(xueli);
+            item.find('.eduName').val(eduName);
+            item.find('.xueyuan').val(xueyuan);
+            item.find('.beginDate').val(beginDate);
+
+            disableEduInfo();
+        });
+        // 保存经历按钮
+        $('#person_info_list').on('click','.savePersonInfo',function(){
+            var item =$(this).parent().parent();
+            var id =item.attr('data-id')||'';
+            var companyName = item.find('.companyName').val();
+            var title = item.find('.title').val();
+            var beginDate = item.find('.beginDate').val();
+            var endDate = item.find('.endDate').val();
+
+            savePersonInfo(id,companyName,title,beginDate,endDate);
+        });
+        // 取消保存经历
+        $('#person_info_list').on('click','.savePersonInfo-cancel',function(){
+            location.reload();
+        });
+        // 保存教育经历按钮
+        $('#edu_info_list').on('click','.saveEduInfo',function(){
+            var item =$(this).parent().parent();
+            var id =item.attr('data-id')||'';
+           var xueli =item.find('.xueli').val();
+           var eduname= item.find('.eduName').val();
+           var xueyuan = item.find('.xueyuan').val();
+            var beginDate= item.find('.beginDate').val();
+
+            saveEduInfo(id,xueli,eduname,xueyuan,beginDate);
+        });
+        // 取消保存教育经历
+        $('#edu_info_list').on('click','.saveEduInfo-cancel',function(){
+            location.reload();
+        });
+
+        // 功能性按钮
+        function disablePersonInfo(){
+            $('.del_person_info').attr('disabled','disabled');
+            $('.edit_person_info').attr('disabled','disabled');
+            $('#add_personal_info').attr('disabled','disabled');
+        }
+        function disableEduInfo(){
+            $('.del_edu_info').attr('disabled','disabled');
+            $('.edit_edu_info').attr('disabled','disabled');
+            $('#add_edu_info').attr('disabled','disabled');
+        }
+
+        // 保存个人经历信息
+        function savePersonInfo(id,company, title,begdate,enddate){
+            $.ajax({
+				url: "/user/info/add_experience.html",
+				method: "GET",
+				data: { id : id ,company:company,title:title,begdate:begdate,enddate:enddate},
+				success:function(data){
+					location.reload();
+				},
+				error:function(){
+					//console.log("删除个人经历信息 失败");
+				},
+				complete:function(){
+					//console.log("删除个人经历信息 失败");
+				}
+			});
+        }
+
+        $('#cancel_chuangyelin_info').on('click',function(){
+            location.reload();
+        });
+        // 保存教育经历
+        function saveEduInfo(id,xueli,eduname,xueyuan,beginDate){
+            $.ajax({
+                url: "/user/info/add_education.html",
+                method: "GET",
+                data: { id : id ,degree:xueli,school:eduname,major:xueyuan,year:beginDate},
+                success:function(){
+                    location.reload();
+                },
+                error:function(){
+                    //console.log("删除个人经历信息 失败");
+                },
+                complete:function(){
+                    //console.log("删除个人经历信息 失败");
+                }
+            });
+        }
+
+        function saveChuangye(content){
+            console.log(content)
+            location.reload();
+            $.ajax({
+                url: "http://www.baidu.com",
+                method: "GET",
+                data: { id : id },
+                success:function(){
+                    location.reload();
+                },
+                error:function(){
+                    //console.log("删除个人经历信息 失败");
+                },
+                complete:function(){
+                    //console.log("删除个人经历信息 失败");
+                }
+            });
+        }
+
+         $('#add_touzi_plan').on('click',function(){
+          var id= $('#add_touzi_plan').attr('data-id');
+             layer.open({
+                 type: 2,
+                 area: ['800px', '500px'],
+                 fix: true, //不固定
+                 maxmin: true,
+                 title:'编辑投资计划',
+                 content: '__MODULE__/info/invest_plan/id/'+id
+             });
+         })
+
+
+        $('#add_touzi_info').on('click',function(){
+            var id= $('#add_touzi_info').attr('data-id');
+            layer.open({
+                type: 2,
+                area: ['800px', '450px'],
+                fix: true, //不固定
+                maxmin: true,
+                title:'编辑投资计划',
+                content: '__MODULE__/info/invest_info/id/'+id
+            });
+        })
+
+
+
+    })
+</script>
+</body>
+</html>
